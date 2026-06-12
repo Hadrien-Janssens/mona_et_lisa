@@ -41,6 +41,7 @@ Permet d'associer plusieurs photos d'illustration et de gérer leur ordre d'affi
 - `path` (string) - _Le chemin du fichier stocké (ex: "workshops/images/photo1.jpg")_
 - `sort_order` (integer, default: 0) - _Pour trier et réordonner les images (0, 1, 2...)_
 - `is_cover` (boolean, default: false) - _True si c'est la photo principale de l'aperçu_
+- `tags` (json, nullable) - _Tags de l'image pour le filtrage (ex: ["ambiance", "poterie"])_
 - `timestamps`
 
 ## Table: workshop_sessions (Les Créneaux / Dates)

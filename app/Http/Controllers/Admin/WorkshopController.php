@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Workshop;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -75,6 +76,10 @@ class WorkshopController extends Controller
      */
     public function edit(Workshop $workshop): Response
     {
+        $workshop->load(['images' => function ($query) {
+            $query->orderBy('sort_order');
+        }]);
+
         return Inertia::render('admin/workshops/edit', [
             'workshop' => [
                 'id' => $workshop->id,
@@ -84,6 +89,16 @@ class WorkshopController extends Controller
                 'price' => $workshop->price / 100,
                 'duration_minutes' => $workshop->duration_minutes,
                 'is_active' => $workshop->is_active,
+                'images' => $workshop->images->map(function ($image) {
+                    return [
+                        'id' => $image->id,
+                        'path' => $image->path,
+                        'url' => Storage::url($image->path),
+                        'sort_order' => $image->sort_order,
+                        'is_cover' => $image->is_cover,
+                        'tags' => $image->tags ?? [],
+                    ];
+                }),
             ],
         ]);
     }

@@ -26,9 +26,9 @@ class WorkshopSeeder extends Seeder
                 'price' => 4500, // 45.00€
                 'duration_minutes' => 120,
                 'images' => [
-                    ['path' => 'images/workshops/poterie-1.jpg', 'is_cover' => true],
-                    ['path' => 'images/workshops/poterie-2.jpg', 'is_cover' => false],
-                    ['path' => 'images/workshops/poterie-3.jpg', 'is_cover' => false],
+                    ['path' => 'workshops/images/poterie-1.jpg', 'is_cover' => true, 'tags' => ['tournage', 'argile']],
+                    ['path' => 'workshops/images/poterie-2.jpg', 'is_cover' => false, 'tags' => ['ambiance']],
+                    ['path' => 'workshops/images/poterie-3.jpg', 'is_cover' => false, 'tags' => ['modelage']],
                 ],
             ],
             [
@@ -39,8 +39,8 @@ class WorkshopSeeder extends Seeder
                 'price' => 3500, // 35.00€
                 'duration_minutes' => 90,
                 'images' => [
-                    ['path' => 'images/workshops/aquarelle-1.jpg', 'is_cover' => true],
-                    ['path' => 'images/workshops/aquarelle-2.jpg', 'is_cover' => false],
+                    ['path' => 'workshops/images/aquarelle-1.jpg', 'is_cover' => true, 'tags' => ['peinture', 'fleurs']],
+                    ['path' => 'workshops/images/aquarelle-2.jpg', 'is_cover' => false, 'tags' => ['ambiance']],
                 ],
             ],
             [
@@ -51,8 +51,8 @@ class WorkshopSeeder extends Seeder
                 'price' => 5500, // 55.00€
                 'duration_minutes' => 120,
                 'images' => [
-                    ['path' => 'images/workshops/bijoux-1.jpg', 'is_cover' => true],
-                    ['path' => 'images/workshops/bijoux-2.jpg', 'is_cover' => false],
+                    ['path' => 'workshops/images/bijoux-1.jpg', 'is_cover' => true, 'tags' => ['bijoux', 'resine']],
+                    ['path' => 'workshops/images/bijoux-2.jpg', 'is_cover' => false, 'tags' => ['ambiance']],
                 ],
             ],
             [
@@ -63,8 +63,8 @@ class WorkshopSeeder extends Seeder
                 'price' => 3000, // 30.00€
                 'duration_minutes' => 90,
                 'images' => [
-                    ['path' => 'images/workshops/ceramique-1.jpg', 'is_cover' => true],
-                    ['path' => 'images/workshops/ceramique-2.jpg', 'is_cover' => false],
+                    ['path' => 'workshops/images/ceramique-1.jpg', 'is_cover' => true, 'tags' => ['ceramique', 'peinture']],
+                    ['path' => 'workshops/images/ceramique-2.jpg', 'is_cover' => false, 'tags' => ['decoration']],
                 ],
             ],
         ];
@@ -78,11 +78,14 @@ class WorkshopSeeder extends Seeder
 
             // Insérer les images
             foreach ($images as $index => $img) {
+                $this->ensureImageExists($img['path'], strtolower($workshop->title));
+
                 WorkshopImage::create([
                     'workshop_id' => $workshop->id,
                     'path' => $img['path'],
                     'is_cover' => $img['is_cover'],
                     'sort_order' => $index,
+                    'tags' => $img['tags'],
                 ]);
             }
 
@@ -99,6 +102,50 @@ class WorkshopSeeder extends Seeder
                 'start_at' => now()->addDays(rand(14, 20))->setHour(16)->setMinute(30)->setSecond(0),
                 'max_participants' => 8,
             ]);
+        }
+    }
+
+    /**
+     * Ensure a placeholder image exists at the given path.
+     */
+    private function ensureImageExists(string $path, string $term): void
+    {
+        $fullPath = storage_path('app/public/'.$path);
+
+        if (file_exists($fullPath)) {
+            return;
+        }
+
+        $dir = dirname($fullPath);
+        if (! is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
+
+        try {
+            $url = 'https://loremflickr.com/800/600/'.urlencode($term);
+            $content = file_get_contents($url, false, stream_context_create([
+                'http' => ['timeout' => 5],
+            ]));
+            if ($content !== false) {
+                file_put_contents($fullPath, $content);
+
+                return;
+            }
+        } catch (\Throwable $e) {
+            // Silence exceptions and fall back
+        }
+
+        // Fallback: Create placeholder using GD
+        if (function_exists('imagecreatetruecolor')) {
+            $image = imagecreatetruecolor(800, 600);
+            $bgColor = imagecolorallocate($image, 230, 230, 230);
+            $textColor = imagecolorallocate($image, 100, 100, 100);
+            imagefill($image, 0, 0, $bgColor);
+            imagestring($image, 5, 300, 280, 'Placeholder: '.$term, $textColor);
+            imagejpeg($image, $fullPath);
+            imagedestroy($image);
+        } else {
+            file_put_contents($fullPath, '');
         }
     }
 }

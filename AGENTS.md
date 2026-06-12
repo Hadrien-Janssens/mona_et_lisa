@@ -219,6 +219,6 @@ Tu es un expert Full-stack Laravel (PHP 8.3+) et React / Inertia.js / TypeScript
 ## Gestion des Plans
 
 - `plan.md` contient la feuille de route globale du projet. Ne modifie les grandes étapes que lorsqu'elles sont validées à 100%.
-- `task.md` contient les micro-étapes techniques de la fonctionnalité sur laquelle nous travaillons activement aujourd'hui. C'est ton guide de développement quotidien. il faut absolument que tu commences pas rédiger le task.md avant de commencer les features ou que tu commences pas le lire pour savoir ou nous en étions.
+- `task.md` contient les micro-étapes techniques de la fonctionnalité sur laquelle nous travaillons activement aujourd'hui. C'est ton guide de développement quotidien. il faut absolument que tu commences toujours par rédiger le task.md avant de commencer les features ou que tu commences pas le lire pour savoir ou nous en étions. C'est la premiere chose que tu dois faire quand tu vas commencer a coder dans l'application => checker et/ou modofier le fichier task.md
 
 </laravel-boost-guidelines>

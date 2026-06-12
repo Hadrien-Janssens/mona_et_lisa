@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
+use Database\Factories\WorkshopImageFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['workshop_id', 'path', 'sort_order', 'is_cover'])]
+#[Fillable(['workshop_id', 'path', 'sort_order', 'is_cover', 'tags'])]
 class WorkshopImage extends Model
 {
-    /** @use HasFactory<\Database\Factories\WorkshopImageFactory> */
+    /** @use HasFactory<WorkshopImageFactory> */
     use HasFactory;
 
     /**
@@ -24,6 +24,7 @@ class WorkshopImage extends Model
         return [
             'sort_order' => 'integer',
             'is_cover' => 'boolean',
+            'tags' => 'array',
         ];
     }
 
