@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             'last_name' => 'User',
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'is_admin' => true,
         ]);
 
         // Créer d'autres utilisateurs pour les réservations fictives

@@ -14,11 +14,47 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { index } from '@/routes/admin/workshops';
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
+        href: dashboard(),
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Atelier',
+        href: index(),
+        icon: LayoutGrid,
+    },
+    {
+        title: 'SEO',
+        href: dashboard(),
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Google analytics',
+        href: dashboard(),
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Evènement',
+        href: dashboard(),
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Contenu',
+        href: dashboard(),
+        icon: LayoutGrid,
+    },
+    {
+        title: 'SiteWeb',
+        href: dashboard(),
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Stripe',
         href: dashboard(),
         icon: LayoutGrid,
     },

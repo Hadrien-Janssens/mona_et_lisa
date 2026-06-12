@@ -1,10 +1,11 @@
-# Tâche en cours : Étape 3 - Panel Administration (Back-Office)
+# Tâche en cours : Sécurisation de l'administration (Middleware & Rôle Admin)
 
 ## Micro-étapes
-- [ ] Mettre à jour `schema.md` pour ajouter le champ `is_admin` dans la table `users`
-- [ ] Modifier la migration `users` pour inclure `is_admin` (boolean, par défaut `false`)
-- [ ] Ajouter `is_admin` dans les attributs fillable/casts de `User.php`
-- [ ] Configurer `UserSeeder.php` pour que l'utilisateur de test (`test@example.com`) soit administrateur (`is_admin => true`)
-- [ ] Créer un middleware de sécurité `AdminMiddleware`
-- [ ] Déclarer le middleware dans `bootstrap/app.php` et définir le groupe de routes `/admin`
-- [ ] Créer le Layout d'administration avec React + Shadcn/ui
+- [x] Modifier la migration `users` pour inclure `is_admin` (boolean, par défaut `false`)
+- [x] Ajouter `is_admin` dans les attributs fillable/casts de `User.php`
+- [x] Définir l'état `admin` dans `UserFactory.php`
+- [x] Configurer `UserSeeder.php` pour que l'utilisateur de test (`test@example.com`) soit administrateur
+- [x] Créer le middleware de sécurité `AdminMiddleware`
+- [x] Déclarer le middleware `admin` dans `bootstrap/app.php`
+- [x] Protéger les routes de ressource `workshops` avec le middleware `admin` dans `routes/web.php`
+- [x] Mettre à jour et faire passer tous les tests de sécurité dans `WorkshopControllerTest.php`

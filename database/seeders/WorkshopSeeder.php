@@ -19,7 +19,7 @@ class WorkshopSeeder extends Seeder
         // 2. Définir des ateliers réalistes
         $workshopsData = [
             [
-                'title' => 'Initiation à la Poterie au Tour',
+                'title' => 'Poterie',
                 'slug' => 'initiation-a-la-poterie-au-tour',
                 'summary' => 'Découvrez les bases du tournage et repartez avec vos propres créations.',
                 'description' => "Rejoignez-nous pour un atelier immersif de 2 heures où vous apprendrez à façonner l'argile sur un tour de potier. Notre artisan vous guidera pas à pas depuis le centrage de la terre jusqu'au façonnage de vos premiers bols et tasses.",
@@ -32,7 +32,7 @@ class WorkshopSeeder extends Seeder
                 ],
             ],
             [
-                'title' => 'Atelier Aquarelle Moderne & Botanique',
+                'title' => 'Aquarelle',
                 'slug' => 'atelier-aquarelle-moderne-et-botanique',
                 'summary' => 'Explorez les techniques de l\'aquarelle à travers l\'illustration végétale.',
                 'description' => "Laissez libre cours à votre créativité lors de cet atelier d'aquarelle axé sur les motifs floraux et botaniques. Apprenez à mélanger les couleurs, à maîtriser l'eau sur le papier et à réaliser une composition harmonieuse.",
@@ -44,10 +44,10 @@ class WorkshopSeeder extends Seeder
                 ],
             ],
             [
-                'title' => 'Création de Bijoux en Résine & Fleurs Séchées',
+                'title' => 'Duo',
                 'slug' => 'creation-de-bijoux-en-resine-et-fleurs-sechees',
                 'summary' => 'Concevez vos propres boucles d\'oreilles et colliers uniques.',
-                'description' => "Dans cet atelier, vous apprendrez à manipuler la résine UV pour encapsuler de délicates fleurs séchées. Choisissez vos moules, vos fleurs et composez deux parures de bijoux personnalisées à emporter chez vous.",
+                'description' => 'Dans cet atelier, vous apprendrez à manipuler la résine UV pour encapsuler de délicates fleurs séchées. Choisissez vos moules, vos fleurs et composez deux parures de bijoux personnalisées à emporter chez vous.',
                 'price' => 5500, // 55.00€
                 'duration_minutes' => 120,
                 'images' => [
@@ -56,10 +56,10 @@ class WorkshopSeeder extends Seeder
                 ],
             ],
             [
-                'title' => 'Atelier Peinture sur Céramique',
+                'title' => 'Peinture sur Céramique',
                 'slug' => 'atelier-peinture-sur-ceramique',
                 'summary' => 'Personnalisez une tasse ou une assiette selon vos envies.',
-                'description' => "Venez décorer votre propre pièce en céramique (déjà cuite) avec des peintures et glaçures professionnelles. Laissez parler votre imagination ! Vos pièces seront ensuite cuites dans notre four à 1000°C et prêtes à être récupérées une semaine plus tard.",
+                'description' => 'Venez décorer votre propre pièce en céramique (déjà cuite) avec des peintures et glaçures professionnelles. Laissez parler votre imagination ! Vos pièces seront ensuite cuites dans notre four à 1000°C et prêtes à être récupérées une semaine plus tard.',
                 'price' => 3000, // 30.00€
                 'duration_minutes' => 90,
                 'images' => [

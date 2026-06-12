@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password')->nullable(); // Nullable pour les comptes invités (guest)
             $table->string('phone')->nullable();
             $table->date('birthdate')->nullable();
+            $table->boolean('is_admin')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });
