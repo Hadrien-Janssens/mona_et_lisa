@@ -85,7 +85,5 @@ test('an administrator can delete a workshop', function () {
         ->assertRedirect(route('admin.workshops.index'))
         ->assertSessionHas('toast');
 
-    $this->assertDatabaseMissing('workshops', [
-        'id' => $workshop->id,
-    ]);
+    $this->assertSoftDeleted($workshop);
 });

@@ -1,10 +1,9 @@
 <?php
 
+use App\Models\Booking;
 use App\Models\Workshop;
 use App\Models\WorkshopImage;
 use App\Models\WorkshopSession;
-use App\Models\Booking;
-use App\Models\User;
 
 test('a workshop can be created and has properties', function () {
     $workshop = Workshop::factory()->create([
@@ -69,4 +68,34 @@ test('a workshop has sessions and calculates spots left', function () {
     expect($session->fresh()->spots_left)->toBe(7);
     expect($session->hasPlacesLeft(8))->toBeFalse();
     expect($session->hasPlacesLeft(7))->toBeTrue();
+});
+
+test('a workshop can be soft deleted and restored', function () {
+    $workshop = Workshop::factory()->create();
+
+    $workshop->delete();
+
+    expect(Workshop::find($workshop->id))->toBeNull();
+    expect(Workshop::withTrashed()->find($workshop->id))->not->toBeNull();
+    expect($workshop->trashed())->toBeTrue();
+
+    $workshop->restore();
+
+    expect(Workshop::find($workshop->id))->not->toBeNull();
+    expect($workshop->trashed())->toBeFalse();
+});
+
+test('a workshop session can be soft deleted and restored', function () {
+    $session = WorkshopSession::factory()->create();
+
+    $session->delete();
+
+    expect(WorkshopSession::find($session->id))->toBeNull();
+    expect(WorkshopSession::withTrashed()->find($session->id))->not->toBeNull();
+    expect($session->trashed())->toBeTrue();
+
+    $session->restore();
+
+    expect(WorkshopSession::find($session->id))->not->toBeNull();
+    expect($session->trashed())->toBeFalse();
 });

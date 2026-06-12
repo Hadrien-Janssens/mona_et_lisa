@@ -2,18 +2,19 @@
 
 namespace App\Models;
 
+use Database\Factories\WorkshopFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[Fillable(['title', 'slug', 'description', 'summary', 'price', 'duration_minutes', 'is_active'])]
 class Workshop extends Model
 {
-    /** @use HasFactory<\Database\Factories\WorkshopFactory> */
-    use HasFactory;
+    /** @use HasFactory<WorkshopFactory> */
+    use HasFactory, SoftDeletes;
 
     /**
      * Get the attributes that should be cast.

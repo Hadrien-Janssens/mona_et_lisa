@@ -30,6 +30,7 @@ Contient les informations générales et descriptives de chaque atelier proposé
 - `duration_minutes` (integer) - _Durée de l'atelier (ex: 120 pour 2h)_
 - `is_active` (boolean, default: true) - _Pour masquer/afficher l'atelier sur le site_
 - `timestamps`
+- `deleted_at` (timestamp, nullable) - _Pour le soft delete_
 
 ## Table: workshop_images (La Galerie Photos)
 
@@ -51,6 +52,7 @@ Un atelier peut avoir lieu plusieurs fois (ex: le mardi à 14h, le samedi à 10h
 - `start_at` (dateTime) - _Date et heure de début_
 - `max_participants` (integer, default: 10) - _Nombre maximum de places disponibles_
 - `timestamps`
+- `deleted_at` (timestamp, nullable) - _Pour le soft delete_
 
 ## Table: bookings (Les Réservations / Inscriptions)
 

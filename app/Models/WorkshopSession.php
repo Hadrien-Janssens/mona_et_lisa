@@ -2,18 +2,19 @@
 
 namespace App\Models;
 
+use Database\Factories\WorkshopSessionFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[Fillable(['workshop_id', 'start_at', 'max_participants'])]
 class WorkshopSession extends Model
 {
-    /** @use HasFactory<\Database\Factories\WorkshopSessionFactory> */
-    use HasFactory;
+    /** @use HasFactory<WorkshopSessionFactory> */
+    use HasFactory, SoftDeletes;
 
     /**
      * Get the attributes that should be cast.
