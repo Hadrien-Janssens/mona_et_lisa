@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\WorkshopController;
 use App\Http\Controllers\Admin\WorkshopImageController;
 use App\Http\Controllers\Admin\WorkshopSessionController;
@@ -13,6 +14,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::middleware(['admin'])->group(function () {
         Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+        Route::resource('admin/events', EventController::class)->names('admin.events')->except(['show']);
         Route::resource('admin/workshops', WorkshopController::class)->names('admin.workshops');
         Route::post('admin/workshops/{workshop}/images', [WorkshopImageController::class, 'store'])->name('admin.workshops.images.store');
         Route::post('admin/workshops/{workshop}/images/reorder', [WorkshopImageController::class, 'reorder'])->name('admin.workshops.images.reorder');

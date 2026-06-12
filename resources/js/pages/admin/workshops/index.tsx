@@ -93,7 +93,14 @@ export default function Index({ workshops }: IndexProps) {
                                                     {workshop.price.toFixed(2)} €
                                                 </td>
                                                 <td className="px-6 py-4 text-muted-foreground">
-                                                    {workshop.duration_minutes} min ({workshop.duration_minutes / 60}h)
+                                                    {(() => {
+                                                        const h = Math.floor(workshop.duration_minutes / 60);
+                                                        const m = workshop.duration_minutes % 60;
+                                                        if (h > 0) {
+                                                            return `${h}h${m > 0 ? m.toString().padStart(2, '0') : ''}`;
+                                                        }
+                                                        return `${m} min`;
+                                                    })()}
                                                 </td>
                                                 <td className="px-6 py-4">
                                                     {workshop.is_active ? (

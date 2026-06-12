@@ -65,10 +65,7 @@ class WorkshopController extends Controller
         Workshop::create($validated);
 
         return redirect()->route('admin.workshops.index')
-            ->with('toast', [
-                'type' => 'success',
-                'message' => 'Atelier créé avec succès.',
-            ]);
+            ->with('success', 'Atelier créé avec succès.');
     }
 
     /**
@@ -137,10 +134,7 @@ class WorkshopController extends Controller
         $workshop->update($validated);
 
         return redirect()->route('admin.workshops.index')
-            ->with('toast', [
-                'type' => 'success',
-                'message' => 'Atelier mis à jour avec succès.',
-            ]);
+            ->with('success', 'Atelier mis à jour avec succès.');
     }
 
     /**
@@ -151,9 +145,6 @@ class WorkshopController extends Controller
         $workshop->delete();
 
         return redirect()->route('admin.workshops.index')
-            ->with('toast', [
-                'type' => 'success',
-                'message' => 'Atelier supprimé avec succès.',
-            ]);
+            ->with('success', 'Atelier supprimé avec succès.');
     }
 }

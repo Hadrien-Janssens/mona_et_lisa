@@ -17,10 +17,7 @@ class WorkshopSessionController extends Controller
     {
         $workshop->sessions()->create($request->validated());
 
-        return back()->with('toast', [
-            'type' => 'success',
-            'message' => 'Créneau ajouté avec succès.',
-        ]);
+        return back()->with('success', 'Créneau ajouté avec succès.');
     }
 
     /**
@@ -30,10 +27,7 @@ class WorkshopSessionController extends Controller
     {
         $session->update($request->validated());
 
-        return back()->with('toast', [
-            'type' => 'success',
-            'message' => 'Créneau mis à jour avec succès.',
-        ]);
+        return back()->with('success', 'Créneau mis à jour avec succès.');
     }
 
     /**
@@ -43,9 +37,6 @@ class WorkshopSessionController extends Controller
     {
         $session->delete();
 
-        return back()->with('toast', [
-            'type' => 'success',
-            'message' => 'Créneau supprimé avec succès.',
-        ]);
+        return back()->with('success', 'Créneau supprimé avec succès.');
     }
 }

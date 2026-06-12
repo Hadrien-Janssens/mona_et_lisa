@@ -51,10 +51,7 @@ class WorkshopImageController extends Controller
             'tags' => $tags,
         ]);
 
-        return redirect()->back()->with('toast', [
-            'type' => 'success',
-            'message' => 'Image ajoutée avec succès.',
-        ]);
+        return redirect()->back()->with('success', 'Image ajoutée avec succès.');
     }
 
     /**
@@ -95,10 +92,7 @@ class WorkshopImageController extends Controller
 
         $image->save();
 
-        return redirect()->back()->with('toast', [
-            'type' => 'success',
-            'message' => 'Image mise à jour avec succès.',
-        ]);
+        return redirect()->back()->with('success', 'Image mise à jour avec succès.');
     }
 
     /**
@@ -122,10 +116,7 @@ class WorkshopImageController extends Controller
             }
         }
 
-        return redirect()->back()->with('toast', [
-            'type' => 'success',
-            'message' => 'Image supprimée avec succès.',
-        ]);
+        return redirect()->back()->with('success', 'Image supprimée avec succès.');
     }
 
     /**
@@ -145,9 +136,6 @@ class WorkshopImageController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('toast', [
-            'type' => 'success',
-            'message' => 'Ordre des images mis à jour.',
-        ]);
+        return redirect()->back()->with('success', 'Ordre des images mis à jour.');
     }
 }

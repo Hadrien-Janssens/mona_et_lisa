@@ -26,6 +26,7 @@ import {
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import { dashboard as adminDashboard } from '@/routes/admin';
+import { index as adminEvents } from '@/routes/admin/events';
 import { index as adminWorkshopIndex } from '@/routes/admin/workshops';
 import type { NavItem } from '@/types';
 
@@ -52,7 +53,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Evènement',
-        href: dashboard(),
+        href: adminEvents(),
         icon: CalendarClock,
     },
     {

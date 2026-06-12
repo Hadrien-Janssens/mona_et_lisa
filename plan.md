@@ -19,6 +19,7 @@ _Cette section utilisera React + Shadcn/ui._
 - [x] Intégrer le module de gestion de la galerie photos (Upload, suppression et gestion de l'ordre d'affichage `sort_order`).
 - [x] Créer l'interface de gestion des sessions (Ajouter/modifier des créneaux de dates pour un atelier).
 - [x] Créer un tableau de bord récapitulatif des réservations passées.
+- [x] Créer la gestion globale des Événements (Workshop Sessions) : Interface dédiée, liste (passés/à venir), filtres, CRUD avec soft delete.
 
 ## Étape 4 : Catalogue Public (Front-Office) ⏳
 
