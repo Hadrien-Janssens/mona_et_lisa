@@ -17,9 +17,9 @@ class UserSeeder extends Seeder
     {
         // 1. Créer l'utilisateur de test principal
         User::factory()->create([
-            'first_name' => 'Test',
-            'last_name' => 'User',
-            'name' => 'Test User',
+            'first_name' => 'Mona &',
+            'last_name' => 'Lisa',
+            'name' => 'Mona & Lisa',
             'email' => 'test@example.com',
             'is_admin' => true,
         ]);
