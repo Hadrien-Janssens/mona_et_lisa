@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Workshop;
 use App\Models\WorkshopSession;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,7 +19,7 @@ class WorkshopSessionFactory extends Factory
     public function definition(): array
     {
         return [
-            'workshop_id' => \App\Models\Workshop::factory(),
+            'workshop_id' => Workshop::factory(),
             'start_at' => $this->faker->dateTimeBetween('+1 week', '+2 months'),
             'max_participants' => $this->faker->randomElement([8, 10, 12, 15]),
         ];

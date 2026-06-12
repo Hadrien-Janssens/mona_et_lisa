@@ -17,8 +17,8 @@ _Cette section utilisera React + Shadcn/ui._
 - [x] Configurer un layout d'administration sécurisé (accessible uniquement aux administrateurs).
 - [x] Créer le CRUD des Ateliers (Liste, Ajout, Modification, Suppression).
 - [x] Intégrer le module de gestion de la galerie photos (Upload, suppression et gestion de l'ordre d'affichage `sort_order`).
-- [ ] Créer l'interface de gestion des sessions (Ajouter/modifier des créneaux de dates pour un atelier).
-- [ ] Créer un tableau de bord récapitulatif des réservations passées.
+- [x] Créer l'interface de gestion des sessions (Ajouter/modifier des créneaux de dates pour un atelier).
+- [x] Créer un tableau de bord récapitulatif des réservations passées.
 
 ## Étape 4 : Catalogue Public (Front-Office) ⏳
 

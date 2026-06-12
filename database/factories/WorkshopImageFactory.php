@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Workshop;
 use App\Models\WorkshopImage;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,7 +19,7 @@ class WorkshopImageFactory extends Factory
     public function definition(): array
     {
         return [
-            'workshop_id' => \App\Models\Workshop::factory(),
+            'workshop_id' => Workshop::factory(),
             'path' => 'images/workshops/placeholder.jpg',
             'sort_order' => 0,
             'is_cover' => false,

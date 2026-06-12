@@ -40,7 +40,7 @@ class BookingSeeder extends Seeder
                 'seats' => $seats1,
                 'total_price' => $workshop->price * $seats1,
                 'payment_status' => $status1,
-                'stripe_session_id' => $status1 === 'paid' ? 'cs_test_' . str()->random(24) : null,
+                'stripe_session_id' => $status1 === 'paid' ? 'cs_test_'.str()->random(24) : null,
             ]);
 
             // Ajouter occasionnellement une autre réservation
@@ -54,7 +54,7 @@ class BookingSeeder extends Seeder
                     'seats' => $seats2,
                     'total_price' => $workshop->price * $seats2,
                     'payment_status' => $status2,
-                    'stripe_session_id' => $status2 === 'paid' ? 'cs_test_' . str()->random(24) : null,
+                    'stripe_session_id' => $status2 === 'paid' ? 'cs_test_'.str()->random(24) : null,
                 ]);
             }
         }
@@ -74,6 +74,7 @@ class BookingSeeder extends Seeder
         if ($rand === 9) {
             return 'pending';
         }
+
         return 'failed';
     }
 }

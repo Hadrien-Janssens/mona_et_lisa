@@ -1,13 +1,14 @@
-# Tâche en cours : Module de gestion de la galerie photos (Upload, suppression, tri & tags)
+# Création d'un tableau de bord récapitulatif des réservations passées
+
+## Objectif
+
+Ajouter un tableau de bord dans le panel d'administration (Back-Office) pour visualiser et gérer les réservations passées (les utilisateurs, les ateliers concernés, le statut de paiement, et le nombre de places).
 
 ## Micro-étapes
-- [x] Créer la migration Laravel pour ajouter le champ `tags` à la table `workshop_images`
-- [x] Exécuter la migration (`php artisan migrate`)
-- [x] Mettre à jour le modèle `WorkshopImage.php` (attributs fillable, cast de `tags` en array)
-- [x] Créer le contrôleur `WorkshopImageController.php` (méthodes store, update, destroy)
-- [x] Déclarer les routes de gestion d'images dans `routes/web.php` (sécurisées par le middleware `admin`)
-- [x] Passer les images associées dans la méthode `edit` de `WorkshopController.php`
-- [x] Mettre à jour l'interface de modification de l'atelier (`edit.tsx`) pour inclure le gestionnaire de galerie (upload, drag & drop ou boutons de tri, tags, cover selection, suppression)
-- [x] Créer le lien symbolique de stockage (`php artisan storage:link`) si nécessaire
-- [x] Écrire les tests unitaires et d'intégration dans `WorkshopImageControllerTest.php`
-- [x] Valider avec Pint (`vendor/bin/pint --dirty --format agent`) et s'assurer que tous les tests passent
+
+- [x] Créer (ou mettre à jour) un Controller pour le Dashboard de l'administration (ex: `Admin\DashboardController`).
+- [x] Ajouter une méthode pour récupérer les statistiques des réservations (réservations récentes, total, etc.) et les passer à la vue Inertia.
+- [x] Ajouter la route `/admin/dashboard` (ou équivalent) si elle n'existe pas déjà.
+- [x] Mettre à jour le menu de navigation de l'administration pour inclure un lien vers le tableau de bord des réservations.
+- [x] Créer le composant React `resources/js/pages/admin/dashboard/index.tsx` (ou `resources/js/pages/admin/bookings/index.tsx` selon la convention).
+- [x] Afficher un tableau avec Shadcn/ui récapitulant les réservations (Utilisateur, Atelier, Session, Places, Prix total, Statut).

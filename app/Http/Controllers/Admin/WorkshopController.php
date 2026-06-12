@@ -76,9 +76,14 @@ class WorkshopController extends Controller
      */
     public function edit(Workshop $workshop): Response
     {
-        $workshop->load(['images' => function ($query) {
-            $query->orderBy('sort_order');
-        }]);
+        $workshop->load([
+            'images' => function ($query) {
+                $query->orderBy('sort_order');
+            },
+            'sessions' => function ($query) {
+                $query->orderBy('start_at');
+            },
+        ]);
 
         return Inertia::render('admin/workshops/edit', [
             'workshop' => [
@@ -97,6 +102,15 @@ class WorkshopController extends Controller
                         'sort_order' => $image->sort_order,
                         'is_cover' => $image->is_cover,
                         'tags' => $image->tags ?? [],
+                    ];
+                }),
+                'sessions' => $workshop->sessions->map(function ($session) {
+                    return [
+                        'id' => $session->id,
+                        'start_at' => $session->start_at->toIso8601String(),
+                        'max_participants' => $session->max_participants,
+                        'booked_seats_count' => $session->booked_seats_count,
+                        'spots_left' => $session->spots_left,
                     ];
                 }),
             ],

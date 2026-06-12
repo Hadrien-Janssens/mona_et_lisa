@@ -14,18 +14,19 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
-import { index } from '@/routes/admin/workshops';
+import { dashboard as adminDashboard } from '@/routes/admin';
+import { index as adminWorkshopIndex } from '@/routes/admin/workshops';
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: dashboard(),
+        href: adminDashboard(),
         icon: LayoutGrid,
     },
     {
         title: 'Atelier',
-        href: index(),
+        href: adminWorkshopIndex(),
         icon: LayoutGrid,
     },
     {
