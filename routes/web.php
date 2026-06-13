@@ -5,9 +5,11 @@ use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\WorkshopController;
 use App\Http\Controllers\Admin\WorkshopImageController;
 use App\Http\Controllers\Admin\WorkshopSessionController;
+use App\Http\Controllers\SiteController;
 use Illuminate\Support\Facades\Route;
 
-Route::inertia('/', 'site/app')->name('home');
+Route::get('/', [SiteController::class, 'index'])->name('home');
+Route::get('/ateliers/{workshop:slug}', [SiteController::class, 'show'])->name('workshops.show');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
@@ -27,4 +29,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 });
 
-require __DIR__ . '/settings.php';
+require __DIR__.'/settings.php';

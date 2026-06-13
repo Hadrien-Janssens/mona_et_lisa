@@ -25,8 +25,8 @@ _Cette section utilisera React + Shadcn/ui._
 
 _Cette section utilisera React + Tailwind CSS classique._
 
-- [ ] Créer la page d'accueil et la liste des ateliers actifs (cartes avec image de couverture, résumé, prix).
-- [ ] Créer la page de détail d'un atelier (affichage de la description, de la galerie d'images ordonnée et de la liste des sessions disponibles).
+- [x] Créer la page d'accueil et la liste des ateliers actifs (cartes avec image de couverture, résumé, prix).
+- [x] Créer la page de détail d'un atelier (affichage de la description, de la galerie d'images ordonnée et de la liste des sessions disponibles).
 
 ## Étape 5 : Système de Réservation & Tunnel d'Achat ⏳
 

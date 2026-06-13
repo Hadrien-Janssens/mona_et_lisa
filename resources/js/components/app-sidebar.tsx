@@ -5,6 +5,7 @@ import {
     ChartSpline,
     ChevronsLeftRightEllipsis,
     CreditCard,
+    Image,
     // FolderGit2,
     LayoutGrid,
     Palette,
@@ -60,6 +61,11 @@ const mainNavItems: NavItem[] = [
         title: 'Contenu',
         href: dashboard(),
         icon: SquarePen,
+    },
+    {
+        title: 'Média',
+        href: dashboard(),
+        icon: Image,
     },
     {
         title: 'SiteWeb',

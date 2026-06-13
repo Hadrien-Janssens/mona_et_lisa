@@ -6,13 +6,13 @@ import Header from './partials/Header';
 import ScheduleAndPlan from './partials/ScheduleAndPlan';
 import Workshop from './partials/Workshop';
 
-const app = () => {
+const app = ({ workshops }: { workshops: any[] }) => {
     return (
         <div>
             <Nav />
             <Header />
             <About />
-            <Workshop />
+            <Workshop workshops={workshops} />
             <ScheduleAndPlan />
             <Contact />
             <Footer />
