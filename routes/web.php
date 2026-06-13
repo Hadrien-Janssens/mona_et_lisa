@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\WorkshopImageController;
 use App\Http\Controllers\Admin\WorkshopSessionController;
 use Illuminate\Support\Facades\Route;
 
-Route::inertia('/', 'welcome')->name('home');
+Route::inertia('/', 'site/app')->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
@@ -27,4 +27,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 });
 
-require __DIR__.'/settings.php';
+require __DIR__ . '/settings.php';

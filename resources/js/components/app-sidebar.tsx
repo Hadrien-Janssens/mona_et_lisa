@@ -1,11 +1,11 @@
 import { Link } from '@inertiajs/react';
 import {
-    BookOpen,
+    // BookOpen,
     CalendarClock,
     ChartSpline,
     ChevronsLeftRightEllipsis,
     CreditCard,
-    FolderGit2,
+    // FolderGit2,
     LayoutGrid,
     Palette,
     SearchCode,
