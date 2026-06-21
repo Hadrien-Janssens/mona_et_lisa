@@ -30,9 +30,9 @@ _Cette section utilisera React + Tailwind CSS classique._
 
 ## Étape 5 : Système de Réservation & Tunnel d'Achat ⏳
 
-- [ ] Créer le formulaire de réservation recueillant les coordonnées de l'acheteur (Prénom, Nom, Email, Téléphone, Date de naissance) sans forcer la connexion/inscription.
-- [ ] Mettre en place le contrôleur Laravel pour initier une session Stripe Checkout en associant les informations saisies.
-- [ ] Rediriger l'utilisateur vers Stripe pour le paiement sécurisé.
+- [x] Créer le formulaire de réservation recueillant les coordonnées de l'acheteur (Prénom, Nom, Email, Téléphone, Date de naissance) sans forcer la connexion/inscription.
+- [x] Mettre en place le contrôleur Laravel pour initier une session Stripe Checkout en associant les informations saisies.
+- [x] Rediriger l'utilisateur vers Stripe pour le paiement sécurisé.
 
 ## Étape 6 : Webhook Stripe & Finalisation de la Commande ⏳
 

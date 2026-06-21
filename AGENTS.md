@@ -96,7 +96,7 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 
 - Execute PHP in app context for debugging and testing code. Do not create models without user approval, prefer tests with factories instead. Prefer existing Artisan commands over custom tinker code.
 - Always use single quotes to prevent shell expansion: `php artisan tinker --execute 'Your::code();'`
-    - Double quotes for PHP strings inside: `php artisan tinker --execute 'User::where("active", true)->count();'`
+  - Double quotes for PHP strings inside: `php artisan tinker --execute 'User::where("active", true)->count();'`
 
 === php rules ===
 
@@ -202,23 +202,5 @@ Use Wayfinder to generate TypeScript functions for Laravel routes. Import from `
 # Inertia + React
 
 - IMPORTANT: Activate `inertia-react-development` when working with Inertia React client-side patterns.
-
-# Instructions de l'Agent Antigravity
-
-Tu es un expert Full-stack Laravel (PHP 8.3+) et React / Inertia.js / TypeScript.
-
-## Règles de développement
-
-1. **Consulte toujours `plan.md` et `schema.md`** à la racine du projet avant de commencer une tâche ou d'écrire du code.
-2. Tu dois suivre scrupuleusement l'ordre des étapes définies dans `plan.md`.
-3. Dès qu'une tâche est validée et fonctionnelle, **mets à jour le fichier `plan.md`** en cochant la case correspondante (`- [x]`).
-4. Si tu dois modifier la structure de la base de données, mets d'abord à jour le fichier `schema.md` avant de générer la migration Laravel.
-5. Utilise des composants React modernes et propres, stylisés avec Tailwind CSS.
-6. la partie administration du site sera avec shadcn pour une consistance dans les différents composants
-
-## Gestion des Plans
-
-- `plan.md` contient la feuille de route globale du projet. Ne modifie les grandes étapes que lorsqu'elles sont validées à 100%.
-- `task.md` contient les micro-étapes techniques de la fonctionnalité sur laquelle nous travaillons activement aujourd'hui. C'est ton guide de développement quotidien. il faut absolument que tu commences toujours par rédiger le task.md avant de commencer les features ou que tu commences pas le lire pour savoir ou nous en étions. C'est la premiere chose que tu dois faire quand tu vas commencer a coder dans l'application => checker et/ou modofier le fichier task.md
 
 </laravel-boost-guidelines>

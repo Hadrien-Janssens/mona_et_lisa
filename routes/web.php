@@ -5,11 +5,16 @@ use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\WorkshopController;
 use App\Http\Controllers\Admin\WorkshopImageController;
 use App\Http\Controllers\Admin\WorkshopSessionController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\SiteController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [SiteController::class, 'index'])->name('home');
 Route::get('/ateliers/{workshop:slug}', [SiteController::class, 'show'])->name('workshops.show');
+
+Route::get('/reserver/{session}', [CheckoutController::class, 'show'])->name('checkout.show');
+Route::post('/reserver/{session}', [CheckoutController::class, 'store'])->name('checkout.store');
+Route::get('/paiement-valide', [CheckoutController::class, 'success'])->name('checkout.success');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');

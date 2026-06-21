@@ -53,7 +53,7 @@ const Atelier = ({ workshop }: { workshop: any }) => {
                                         })}</p>
                                         <p className="text-sm text-gray-600">Places max: {session.max_participants}</p>
                                     </div>
-                                    <button className="bg-black text-white px-4 py-2 rounded-xl hover:bg-gray-800 transition-colors">Réserver</button>
+                                    <Link href={`/reserver/${session.id}`} className="bg-black text-white px-4 py-2 rounded-xl hover:bg-gray-800 transition-colors text-center">Réserver</Link>
                                 </div>
                             ))}
                         </div>
