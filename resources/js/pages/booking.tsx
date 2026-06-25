@@ -1,6 +1,4 @@
 import { Head } from '@inertiajs/react';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
-import { dashboard } from '@/routes';
 
 export default function Booking({ bookings }: { bookings: any[] }) {
     const handleCancel = (bookingId: number) => {
@@ -71,7 +69,7 @@ export default function Booking({ bookings }: { bookings: any[] }) {
                                             </span>
                                         </p>
                                     </div>
-                                    <div className="flex-shrink-0">
+                                    <div className="shrink-0">
                                         {isCancelable && (
                                             <button
                                                 onClick={() =>
