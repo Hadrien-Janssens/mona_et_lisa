@@ -29,6 +29,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
         Route::resource('admin/events', EventController::class)->names('admin.events')->except(['show']);
         Route::resource('admin/workshops', WorkshopController::class)->names('admin.workshops');
+        
+        // Content Management
+        Route::get('admin/content', [\App\Http\Controllers\Admin\ContentController::class, 'index'])->name('admin.content.index');
+        Route::post('admin/content/{section}', [\App\Http\Controllers\Admin\ContentController::class, 'update'])->name('admin.content.update');
+
         Route::post('admin/workshops/{workshop}/images', [WorkshopImageController::class, 'store'])->name('admin.workshops.images.store');
         Route::post('admin/workshops/{workshop}/images/reorder', [WorkshopImageController::class, 'reorder'])->name('admin.workshops.images.reorder');
         Route::patch('admin/workshop-images/{image}', [WorkshopImageController::class, 'update'])->name('admin.workshop-images.update');
