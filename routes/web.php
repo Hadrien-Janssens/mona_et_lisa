@@ -5,14 +5,25 @@ use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\WorkshopController;
 use App\Http\Controllers\Admin\WorkshopImageController;
 use App\Http\Controllers\Admin\WorkshopSessionController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\SiteController;
+use App\Http\Controllers\StripeWebhookController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [SiteController::class, 'index'])->name('home');
 Route::get('/ateliers/{workshop:slug}', [SiteController::class, 'show'])->name('workshops.show');
 
+Route::get('/reserver/{session}', [CheckoutController::class, 'show'])->name('checkout.show');
+Route::post('/reserver/{session}', [CheckoutController::class, 'store'])->name('checkout.store');
+Route::get('/paiement-valide', [CheckoutController::class, 'success'])->name('checkout.success');
+Route::post('/paiement-valide/activer', [CheckoutController::class, 'activateAccount'])->name('checkout.activate');
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])->name('stripe.webhook');
+
+use App\Http\Controllers\UserBookingController;
+
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::inertia('dashboard', 'dashboard')->name('dashboard');
+    Route::get('booking', [UserBookingController::class, 'index'])->name('booking');
+    Route::post('/bookings/{booking}/cancel', [CheckoutController::class, 'cancel'])->name('bookings.cancel');
 
     Route::middleware(['admin'])->group(function () {
         Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
@@ -29,4 +40,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 });
 
-require __DIR__.'/settings.php';
+require __DIR__ . '/settings.php';

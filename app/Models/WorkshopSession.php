@@ -55,7 +55,13 @@ class WorkshopSession extends Model
     public function getBookedSeatsCountAttribute(): int
     {
         return (int) $this->bookings()
-            ->where('payment_status', 'paid')
+            ->where(function ($query) {
+                $query->where('payment_status', 'paid')
+                    ->orWhere(function ($q) {
+                        $q->where('payment_status', 'pending')
+                            ->where('expires_at', '>', now());
+                    });
+            })
             ->sum('seats');
     }
 

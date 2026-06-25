@@ -30,14 +30,14 @@ _Cette section utilisera React + Tailwind CSS classique._
 
 ## Étape 5 : Système de Réservation & Tunnel d'Achat ⏳
 
-- [ ] Créer le formulaire de réservation recueillant les coordonnées de l'acheteur (Prénom, Nom, Email, Téléphone, Date de naissance) sans forcer la connexion/inscription.
-- [ ] Mettre en place le contrôleur Laravel pour initier une session Stripe Checkout en associant les informations saisies.
-- [ ] Rediriger l'utilisateur vers Stripe pour le paiement sécurisé.
+- [x] Créer le formulaire de réservation recueillant les coordonnées de l'acheteur (Prénom, Nom, Email, Téléphone, Date de naissance) sans forcer la connexion/inscription.
+- [x] Mettre en place le contrôleur Laravel pour initier une session Stripe Checkout en associant les informations saisies.
+- [x] Rediriger l'utilisateur vers Stripe pour le paiement sécurisé.
 
-## Étape 6 : Webhook Stripe & Finalisation de la Commande ⏳
+## Étape 6 : Webhook Stripe & Finalisation de la Commande ✅
 
-- [ ] Configurer et sécuriser la route du Webhook Stripe dans Laravel.
-- [ ] Traiter l'événement `checkout.session.completed` : créer ou retrouver l'utilisateur (compte invité avec mot de passe null) et enregistrer le `Booking` au statut `'paid'`.
-- [ ] Envoyer un e-mail de confirmation avec un lien sécurisé d'accès à la réservation.
-- [ ] Créer la page de succès du paiement avec un bouton pour "Activer mon compte" en définissant simplement un mot de passe.
-- [ ] Créer l'espace "Mes Réservations" accessible une fois le compte activé et connecté.
+- [x] Configurer et sécuriser la route du Webhook Stripe dans Laravel.
+- [x] Traiter l'événement `checkout.session.completed` : créer ou retrouver l'utilisateur (compte invité avec mot de passe null) et enregistrer le `Booking` au statut `'paid'`.
+- [x] Envoyer un e-mail de confirmation avec un lien sécurisé d'accès à la réservation.
+- [x] Créer la page de succès du paiement avec un bouton pour "Activer mon compte" en définissant simplement un mot de passe.
+- [x] Créer l'espace "Mes Réservations" accessible une fois le compte activé et connecté.
