@@ -22,7 +22,7 @@ Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])->name
 use App\Http\Controllers\UserBookingController;
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', [UserBookingController::class, 'index'])->name('dashboard');
+    Route::get('booking', [UserBookingController::class, 'index'])->name('booking');
     Route::post('/bookings/{booking}/cancel', [CheckoutController::class, 'cancel'])->name('bookings.cancel');
 
     Route::middleware(['admin'])->group(function () {
@@ -40,4 +40,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 });
 
-require __DIR__.'/settings.php';
+require __DIR__ . '/settings.php';

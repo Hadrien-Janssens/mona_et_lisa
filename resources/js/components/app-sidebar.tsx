@@ -25,7 +25,8 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
+import { booking, home } from '@/routes';
+// import { app } from '@/routes';
 import { dashboard as adminDashboard } from '@/routes/admin';
 import { index as adminEvents } from '@/routes/admin/events';
 import { index as adminWorkshopIndex } from '@/routes/admin/workshops';
@@ -44,12 +45,12 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'SEO',
-        href: dashboard(),
+        href: '#',
         icon: SearchCode,
     },
     {
         title: 'Google analytics',
-        href: dashboard(),
+        href: '#',
         icon: ChartSpline,
     },
     {
@@ -59,22 +60,27 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Contenu',
-        href: dashboard(),
+        href: '#',
         icon: SquarePen,
     },
     {
         title: 'Média',
-        href: dashboard(),
+        href: '#',
         icon: Image,
     },
     {
         title: 'SiteWeb',
-        href: dashboard(),
+        href: home(),
         icon: ChevronsLeftRightEllipsis,
     },
     {
         title: 'Stripe',
-        href: dashboard(),
+        href: '#',
+        icon: CreditCard,
+    },
+    {
+        title: 'Réservation',
+        href: booking(),
         icon: CreditCard,
     },
 ];

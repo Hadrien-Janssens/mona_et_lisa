@@ -14,7 +14,7 @@ class UserBookingController extends Controller
             ->orderByDesc('created_at')
             ->get();
 
-        return Inertia::render('dashboard', [
+        return Inertia::render('booking', [
             'bookings' => $bookings,
         ]);
     }

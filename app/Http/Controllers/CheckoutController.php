@@ -145,7 +145,7 @@ class CheckoutController extends Controller
         $user = User::where('email', $validated['email'])->firstOrFail();
 
         if ($user->password !== null) {
-            return redirect()->route('dashboard');
+            return redirect()->route('booking');
         }
 
         $user->update([
@@ -154,7 +154,7 @@ class CheckoutController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('booking');
     }
 
     /**
