@@ -6,9 +6,15 @@ import Header from './partials/Header';
 import ScheduleAndPlan from './partials/ScheduleAndPlan';
 import Workshop from './partials/Workshop';
 
-const app = ({ workshops, siteContents }: { workshops: any[], siteContents: any }) => {
+const app = ({
+    workshops,
+    siteContents,
+}: {
+    workshops: any[];
+    siteContents: any;
+}) => {
     return (
-        <div>
+        <>
             <Nav />
             <Header content={siteContents?.header} />
             <About content={siteContents?.about} />
@@ -16,7 +22,7 @@ const app = ({ workshops, siteContents }: { workshops: any[], siteContents: any 
             <ScheduleAndPlan content={siteContents?.schedule} />
             <Contact content={siteContents?.contact} />
             <Footer content={siteContents?.footer} />
-        </div>
+        </>
     );
 };
 

@@ -1,4 +1,5 @@
 import { Link } from '@inertiajs/react';
+import Button from './Button';
 
 const Nav = () => {
     return (
@@ -10,7 +11,9 @@ const Nav = () => {
                 <Link href={''}>Atelier</Link>
                 <Link href={''}>Galerie</Link>
                 <Link href={''}>Contact</Link>
-                <Link href={''}>Réserver !</Link>
+                <Link href={''}>
+                    <Button>Réserver !</Button>
+                </Link>
             </div>
         </nav>
     );
