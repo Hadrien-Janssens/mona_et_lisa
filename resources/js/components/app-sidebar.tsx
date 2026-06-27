@@ -30,6 +30,7 @@ import { booking, home } from '@/routes';
 import { dashboard as adminDashboard } from '@/routes/admin';
 import { index as adminEvents } from '@/routes/admin/events';
 import { index as adminWorkshopIndex } from '@/routes/admin/workshops';
+import { index as adminContentIndex } from '@/routes/admin/content';
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
@@ -60,7 +61,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Contenu',
-        href: '#',
+        href: adminContentIndex(),
         icon: SquarePen,
     },
     {

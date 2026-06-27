@@ -1,17 +1,17 @@
-import React from 'react';
 import WorkshopCard from '../components/WorkshopCard';
 
-const Workshop = ({ workshops = [] }: { workshops?: any[] }) => {
+export default function Workshop({ workshops, content }: { workshops: any[], content: any }) {
     return (
-        <div className="h-screen bg-amber-50">
-            Atelier
-            <div className="grid grid-cols-3 gap-10">
+        <div>
+            <h2>{content?.title || 'Workshop Title'}</h2>
+            
+            <div style={{ display: 'flex', gap: '10px' }}>
                 {workshops.map((workshop) => (
                     <WorkshopCard key={workshop.id} workshop={workshop} />
                 ))}
             </div>
+
+            {content?.button_label && <button>{content.button_label}</button>}
         </div>
     );
-};
-
-export default Workshop;
+}

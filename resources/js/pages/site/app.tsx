@@ -6,16 +6,16 @@ import Header from './partials/Header';
 import ScheduleAndPlan from './partials/ScheduleAndPlan';
 import Workshop from './partials/Workshop';
 
-const app = ({ workshops }: { workshops: any[] }) => {
+const app = ({ workshops, siteContents }: { workshops: any[], siteContents: any }) => {
     return (
         <div>
             <Nav />
-            <Header />
-            <About />
-            <Workshop workshops={workshops} />
-            <ScheduleAndPlan />
-            <Contact />
-            <Footer />
+            <Header content={siteContents?.header} />
+            <About content={siteContents?.about} />
+            <Workshop workshops={workshops} content={siteContents?.workshop} />
+            <ScheduleAndPlan content={siteContents?.schedule} />
+            <Contact content={siteContents?.contact} />
+            <Footer content={siteContents?.footer} />
         </div>
     );
 };
