@@ -29,7 +29,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
         Route::resource('admin/events', EventController::class)->names('admin.events')->except(['show']);
         Route::resource('admin/workshops', WorkshopController::class)->names('admin.workshops');
-        
+
         // Content Management
         Route::get('admin/content', [\App\Http\Controllers\Admin\ContentController::class, 'index'])->name('admin.content.index');
         Route::post('admin/content/{section}', [\App\Http\Controllers\Admin\ContentController::class, 'update'])->name('admin.content.update');
