@@ -17,13 +17,13 @@
 }
 @font-face {
     font-family: 'lemon';
-    src: url('/public/fonts/lemon.otf') format('truetype');
+    src: url('/public/fonts/lemon.otf') format('opentype');
 }
 
 @theme {
     --font-sans:
-        'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
-        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+        'poppins-regular', 'Instrument Sans', ui-sans-serif, system-ui,
+        sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
     /* police perso  */
     --font-titre-regular: 'poppins-regular', sans-serif;
@@ -50,6 +50,9 @@
 
     --color-secondary: var(--secondary);
     --color-secondary-foreground: var(--secondary-foreground);
+
+    --color-ternary: var(--ternary);
+    --color-ternary-foreground: var(--ternary-foreground);
 
     --color-muted: var(--muted);
     --color-muted-foreground: var(--muted-foreground);
@@ -81,8 +84,8 @@
 }
 
 [data-theme='public'] {
-    --background: #f6f4e7;
-    --color-background: #f6f4e7;
+    --background: #fafaf2;
+    --color-background: #fafaf2;
     --foreground: #2d48a2;
     --color-foreground: #2d48a2;
     --card: oklch(1 0 0);
@@ -95,12 +98,15 @@
     --color-popover-foreground: oklch(0.145 0 0);
     --primary: #2d48a2;
     --color-primary: #2d48a2;
-    --primary-foreground: #f6f4e7;
-    --color-primary-foreground: #f6f4e7;
+    --primary-foreground: #fafaf2;
+    --color-primary-foreground: #fafaf2;
     --secondary: #f0b1d0;
     --color-secondary: #f0b1d0;
-    --secondary-foreground: #f6f4e7;
-    --color-secondary-foreground: #f6f4e7;
+    --secondary-foreground: #fafaf2;
+    --color-secondary-foreground: #fafaf2;
+    --ternary: #c36292;
+    --color-ternary: #c36292;
+    --color-ternary-foreground: #fafaf2;
     --muted: oklch(0.97 0 0);
     --color-muted: oklch(0.97 0 0);
     --muted-foreground: oklch(0.556 0 0);
