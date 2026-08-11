@@ -15,7 +15,7 @@ const WorkshopCard = ({ workshop, idx }: { workshop: any; idx: number }) => {
                     <img
                         src={`/storage/${workshop.cover_image.path}`}
                         alt={workshop.title}
-                        className="mb-4 h-15 w-15 rounded-xl object-cover"
+                        className="mb-4 h-15 w-15 rounded-xl border border-primary object-cover"
                     />
                 )}
                 <div>
