@@ -1,5 +1,6 @@
 import Button from '../components/Button';
 import Subtitle from '../components/Subtitle';
+import Tache from '../components/Tache';
 import WorkshopCard from '../components/WorkshopCard';
 
 export default function Workshop({
@@ -10,7 +11,10 @@ export default function Workshop({
     content: any;
 }) {
     return (
-        <div className="relative overflow-hidden border-b border-dashed border-primary">
+        <div
+            id="workshop"
+            className="relative overflow-hidden border-b border-dashed border-primary"
+        >
             <div className="mx-auto w-full max-w-250 pt-20 pb-30">
                 <div className="flex items-center justify-between">
                     <Subtitle>{content?.title || 'Workshop Title'}</Subtitle>
@@ -19,7 +23,8 @@ export default function Workshop({
                     )}
                 </div>
 
-                <div className="z-10 flex flex-wrap justify-center gap-10 py-10">
+                <div className="relative z-10 flex flex-wrap justify-center gap-10 py-10">
+                    <Tache className="text-forground absolute -top-3 left-80 z-10 w-28 rotate-80" />
                     {workshops.map((workshop, idx) => (
                         <WorkshopCard
                             key={workshop.id}

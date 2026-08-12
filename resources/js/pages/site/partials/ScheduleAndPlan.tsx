@@ -1,11 +1,16 @@
+import { Paperclip, Scissors } from 'lucide-react';
 import Button from '../components/Button';
 import CardPhoto from '../components/CardPhoto';
 import Subtitle from '../components/Subtitle';
 import Subtitle2 from '../components/Subtitle2';
+import Tache from '../components/Tache';
 
 export default function ScheduleAndPlan({ content }: { content: any }) {
     return (
-        <div className="relative overflow-hidden border-b border-dashed border-primary">
+        <div
+            id="horaire"
+            className="relative border-b border-dashed border-primary"
+        >
             <div className="mx-auto flex w-full max-w-250 items-center justify-between py-20">
                 {/* LEFTSIDE  */}
                 <div>
@@ -46,9 +51,10 @@ export default function ScheduleAndPlan({ content }: { content: any }) {
                 </div>
 
                 {/* RIGHTSIDE  */}
-                <div>
+                <div className="relative">
+                    <Tache className="absolute -bottom-20 -left-40 z-10 w-60 text-secondary" />
                     <div
-                        className={`h-90 w-64 shrink-0 -translate-x-20 rotate-4 transform rounded-sm border border-primary bg-white p-3 shadow-md transition-all duration-300 hover:scale-105 hover:rotate-0 hover:shadow-xl md:w-100`}
+                        className={`relative z-30 h-90 w-64 shrink-0 -translate-x-20 rotate-4 transform rounded-sm border border-primary bg-white p-3 shadow-md transition-all duration-300 hover:scale-105 hover:rotate-0 hover:shadow-xl md:w-100`}
                     >
                         <figure className="h-[80%] w-full overflow-hidden rounded-xs border border-primary bg-muted">
                             <img
@@ -61,6 +67,8 @@ export default function ScheduleAndPlan({ content }: { content: any }) {
                     </div>
                 </div>
             </div>
+            <Paperclip className="absolute right-0 bottom-0 translate-y-1/2" />
+            <Scissors className="absolute top-0 left-0 -translate-y-1/2" />
         </div>
     );
 }

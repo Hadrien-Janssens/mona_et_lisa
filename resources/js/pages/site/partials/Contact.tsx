@@ -2,10 +2,12 @@ import Button from '../components/Button';
 import Card from '../components/Card';
 import Subtitle from '../components/Subtitle';
 import Subtitle2 from '../components/Subtitle2';
+import Tache from '../components/Tache';
 
 export default function Contact({ content }: { content: any }) {
     return (
-        <div className="relative overflow-hidden">
+        <div id="contact" className="relative overflow-hidden">
+            <Tache className="text-forground absolute top-[50%] left-[50%] z-10 w-120 translate-x-[-30%] translate-y-[-50%] rotate-70" />
             <div className="mx-auto w-full max-w-250 py-20">
                 <Subtitle>{content?.title || 'Contact Title'}</Subtitle>
                 <Subtitle2>{content?.subtitle}</Subtitle2>

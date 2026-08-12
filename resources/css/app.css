@@ -7,6 +7,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
+html {
+    scroll-behavior: smooth;
+}
+
 @font-face {
     font-family: 'poppins-regular';
     src: url('/public/fonts/Poppins/Poppins-Regular.ttf') format('truetype');
