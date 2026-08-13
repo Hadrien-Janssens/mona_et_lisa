@@ -78,3 +78,10 @@ attention, l'interface d'admnistration est deja partiellement crée, il faut uni
 - **Wayfinder** : Utiliser l'intégration Wayfinder pour générer les URLs des routes Laravel côté React de manière typée.
 - **Tests** : Écrire les tests avec **Pest** (vérifier la persistance des contenus JSON et le bon upload des images).
 - Utiliser les composants UI existants (Boutons, Inputs, Cards) de l'application pour maintenir la cohérence visuelle.
+
+## Tâche: Carousel shadcn pour Atelier
+- [x] Installation des composants shadcn (carousel, dialog) via pnpm dlx
+- [x] Mise à jour du controller pour orderBy('sort_order')
+- [x] Mise en place de embla-carousel pour relier les miniatures
+- [x] Ajout de Dialog pour la vue modal
+
