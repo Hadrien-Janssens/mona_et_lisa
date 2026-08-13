@@ -1,12 +1,14 @@
 import { Head, Link } from '@inertiajs/react';
 import SiteLayout from '@/layouts/site-layout';
+import CardPhoto from './components/CardPhoto';
+import Subtitle from './components/Subtitle';
 
 const Atelier = ({ workshop }: { workshop: any }) => {
     return (
         <>
             <Head title={workshop.title} />
 
-            <div className="mx-auto mt-24 w-full max-w-5xl px-4 py-12">
+            <div className="">
                 <div className="mb-8">
                     <Link href="/" className="text-blue-600 hover:underline">
                         &larr; Retour aux ateliers
@@ -14,24 +16,24 @@ const Atelier = ({ workshop }: { workshop: any }) => {
                 </div>
 
                 <div className="mb-8 flex items-start justify-between">
-                    <h1 className="text-4xl font-bold">{workshop.title}</h1>
                     <p className="rounded-xl bg-amber-100 px-4 py-2 text-3xl font-semibold">
                         {workshop.price / 100}€
                     </p>
                 </div>
 
-                <div className="mb-12 grid grid-cols-1 gap-12 md:grid-cols-2">
+                <div className="mx-auto mt-24 mb-12 grid w-full max-w-250 grid-cols-1 gap-12 px-4 py-12 md:grid-cols-2">
                     <div>
-                        <h2 className="mb-4 text-2xl font-bold">Galerie</h2>
                         <div className="grid grid-cols-2 gap-4">
                             {workshop.images && workshop.images.length > 0 ? (
                                 workshop.images.map((img: any) => (
-                                    <img
-                                        key={img.id}
-                                        src={`/storage/${img.path}`}
-                                        alt="Galerie"
-                                        className="h-48 w-full rounded-xl object-cover"
-                                    />
+                                    <CardPhoto>
+                                        <img
+                                            key={img.id}
+                                            src={`/storage/${img.path}`}
+                                            alt="Galerie"
+                                            className="h-48 w-full rounded-xl object-cover"
+                                        />
+                                    </CardPhoto>
                                 ))
                             ) : (
                                 <p className="text-gray-500 italic">
@@ -42,12 +44,13 @@ const Atelier = ({ workshop }: { workshop: any }) => {
                     </div>
 
                     <div>
-                        <h2 className="mb-4 text-2xl font-bold">Description</h2>
+                        <Subtitle>{workshop.title}</Subtitle>
                         <div className="prose whitespace-pre-wrap text-gray-700">
                             {workshop.description}
                         </div>
                     </div>
                 </div>
+                <div className="border-b border-dashed border-primary"></div>
 
                 <div className="rounded-3xl bg-gray-50 p-8">
                     <h2 className="mb-6 text-2xl font-bold">
