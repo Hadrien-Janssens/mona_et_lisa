@@ -1,5 +1,7 @@
 import { Paperclip, Scissors } from 'lucide-react';
 import CardPhoto from '../components/CardPhoto';
+import StarFill from '../components/StarFill';
+import StarStroke from '../components/StarStroke';
 import Subtitle from '../components/Subtitle';
 import Tache from '../components/Tache';
 
@@ -9,8 +11,12 @@ export default function About({ content }: { content: any }) {
             id="about"
             className="relative border-b border-dashed border-primary"
         >
-            <div className="mx-auto w-full max-w-250 pt-20">
-                <Subtitle>{content?.title || 'À propos'}</Subtitle>
+            <div className="mx-auto w-full max-w-250 py-30">
+                <div className="relative w-fit">
+                    <Subtitle>{content?.title || 'À propos'}</Subtitle>
+                    <StarFill className="text-forground absolute -top-9 -left-10 w-7 -rotate-40" />
+                    <StarStroke className="absolute -right-13 -bottom-4 w-7 text-secondary" />
+                </div>
 
                 <div className="my-16 flex flex-col items-center justify-center gap-12 px-4 pb-10 md:flex-row">
                     <div className="relative">

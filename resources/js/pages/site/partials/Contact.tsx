@@ -1,12 +1,14 @@
 import Button from '../components/Button';
 import Card from '../components/Card';
+import StarFill from '../components/StarFill';
+import StarStroke from '../components/StarStroke';
 import Subtitle from '../components/Subtitle';
 import Subtitle2 from '../components/Subtitle2';
 import Tache from '../components/Tache';
 
 export default function Contact({ content }: { content: any }) {
     return (
-        <div id="contact" className="relative overflow-hidden">
+        <div id="contact" className="relative overflow-hidden py-20">
             <Tache className="text-forground absolute top-[50%] left-[50%] z-10 w-120 translate-x-[-30%] translate-y-[-50%] rotate-70" />
             <div className="mx-auto w-full max-w-250 py-20">
                 <Subtitle>{content?.title || 'Contact Title'}</Subtitle>
@@ -14,7 +16,10 @@ export default function Contact({ content }: { content: any }) {
 
                 <div className="flex w-full justify-between">
                     {/* LEFT SIDE  */}
-                    <div className="mt-10 space-y-8">
+                    <div className="relative mt-10 space-y-8">
+                        <StarStroke className="absolute -top-35 right-0 w-7 text-secondary" />
+                        <StarFill className="text-forground absolute -bottom-25 left-0 w-7 rotate-50" />
+                        <StarStroke className="text-forground absolute -bottom-30 left-15 w-7" />
                         <Card idx={0}>
                             <p>
                                 <strong>Email :</strong> {content?.email}
@@ -40,7 +45,8 @@ export default function Contact({ content }: { content: any }) {
                         </Card>
                     </div>
                     {/* RIGHT SIDE  */}
-                    <div className="flex basis-1/2 justify-end">
+                    <div className="relative flex basis-1/2 justify-end">
+                        <StarStroke className="text-forground absolute -top-30 right-15 w-7 rotate-12" />
                         <Card>
                             <form className="space-y-5">
                                 <div className="flex gap-5">

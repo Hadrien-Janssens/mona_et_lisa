@@ -1,6 +1,7 @@
 import { Paperclip, Scissors } from 'lucide-react';
 import Button from '../components/Button';
-import CardPhoto from '../components/CardPhoto';
+import StarFill from '../components/StarFill';
+import StarStroke from '../components/StarStroke';
 import Subtitle from '../components/Subtitle';
 import Subtitle2 from '../components/Subtitle2';
 import Tache from '../components/Tache';
@@ -11,7 +12,7 @@ export default function ScheduleAndPlan({ content }: { content: any }) {
             id="horaire"
             className="relative border-b border-dashed border-primary"
         >
-            <div className="mx-auto flex w-full max-w-250 items-center justify-between py-20">
+            <div className="mx-auto flex w-full max-w-250 items-center justify-between py-40">
                 {/* LEFTSIDE  */}
                 <div>
                     <div className="max-w-50">
@@ -52,6 +53,9 @@ export default function ScheduleAndPlan({ content }: { content: any }) {
 
                 {/* RIGHTSIDE  */}
                 <div className="relative">
+                    <StarStroke className="text-forground absolute -top-20 right-0 w-7 rotate-12" />
+                    <StarFill className="absolute -top-10 -left-50 w-7 rotate-12 text-secondary" />
+                    <StarFill className="text-forground absolute right-30 -bottom-20 w-7" />
                     <Tache className="absolute -bottom-20 -left-40 z-10 w-60 text-secondary" />
                     <div
                         className={`relative z-30 h-90 w-64 shrink-0 -translate-x-20 rotate-4 transform rounded-sm border border-primary bg-white p-3 shadow-md transition-all duration-300 hover:scale-105 hover:rotate-0 hover:shadow-xl md:w-100`}

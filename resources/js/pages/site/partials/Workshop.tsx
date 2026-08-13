@@ -1,4 +1,5 @@
 import Button from '../components/Button';
+import StarStroke from '../components/StarStroke';
 import Subtitle from '../components/Subtitle';
 import Tache from '../components/Tache';
 import WorkshopCard from '../components/WorkshopCard';
@@ -15,9 +16,14 @@ export default function Workshop({
             id="workshop"
             className="relative overflow-hidden border-b border-dashed border-primary"
         >
-            <div className="mx-auto w-full max-w-250 pt-20 pb-30">
+            <div className="mx-auto w-full max-w-250 pt-40 pb-30">
                 <div className="flex items-center justify-between">
-                    <Subtitle>{content?.title || 'Workshop Title'}</Subtitle>
+                    <div className="relative">
+                        <StarStroke className="text-forground absolute -top-9 -left-10 w-7 -rotate-12" />
+                        <Subtitle>
+                            {content?.title || 'Workshop Title'}
+                        </Subtitle>
+                    </div>
                     {content?.button_label && (
                         <Button>{content.button_label}</Button>
                     )}

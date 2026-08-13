@@ -35,6 +35,9 @@ html {
     --font-titre-lemon: 'lemon', sans-serif;
     /* shadow perso  */
     --shadow: 3px 3px 0px var(--color-primary);
+    /* stiker  */
+    --sticker-primary: var(--sticker-primary);
+    --color-sticker-primary: var(--sticker-primary);
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -102,6 +105,10 @@ html {
     --color-popover-foreground: oklch(0.145 0 0);
     --primary: #2d48a2;
     --color-primary: #2d48a2;
+
+    --sticker-primary: #b5c6fc;
+    --color-sticker-primary: #b5c6fc;
+
     --primary-foreground: #fafaf2;
     --color-primary-foreground: #fafaf2;
     --secondary: #f0b1d0;

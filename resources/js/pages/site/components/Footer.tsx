@@ -1,5 +1,7 @@
 import { MoveRight } from 'lucide-react';
 import Button from './Button';
+import StarStroke from './StarStroke';
+import Tache from './Tache';
 
 export default function Footer({ content }: { content: any }) {
     return (
@@ -9,9 +11,12 @@ export default function Footer({ content }: { content: any }) {
                 {/* Colonne 1 : Mona & Lisa */}
                 <div className="w-full max-w-xs">
                     <p className="text-xl">Mona & Lisa</p>
-                    <p className="py-1.5 font-titre-lemon text-lg text-secondary">
-                        {content?.subtitle}
-                    </p>
+                    <div className="relative w-fit">
+                        <p className="w-fit py-1.5 font-titre-lemon text-lg text-secondary">
+                            {content?.subtitle}
+                        </p>
+                        <StarStroke className="absolute top-2 -right-8 w-4 text-secondary" />
+                    </div>
                     <p className="max-w-54 text-justify">
                         {content?.catchphrase}
                     </p>
@@ -67,11 +72,13 @@ export default function Footer({ content }: { content: any }) {
             <div className="my-5 w-full border border-dashed border-secondary"></div>
 
             <div className="flex justify-between font-titre-lemon text-lg text-secondary">
-                <div>
-                    <p>© 2026 Mona & Lisa</p>
+                <div className="relative w-fit">
+                    <Tache className="absolute top-1.5 -right-6 w-4 text-secondary" />
+                    <p className="w-fit">© 2026 Mona & Lisa</p>
                 </div>
-                <div>
-                    <p>Made with love by hadrien janssens</p>
+                <div className="relative w-fit">
+                    <StarStroke className="absolute top-1 -left-8 w-4 text-secondary" />
+                    <p className="w-fit">Made with love by hadrien janssens</p>
                 </div>
             </div>
         </footer>

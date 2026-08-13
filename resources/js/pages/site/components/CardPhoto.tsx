@@ -13,7 +13,7 @@ export default function CardPhoto({
 }: CardPhotoProps) {
     return (
         <div
-            className={`relative transform rounded-sm border border-primary bg-white p-3 shadow-md transition-all duration-300 hover:shadow-xl ${rotation} z-30 w-64 shrink-0 hover:scale-105 hover:rotate-0 md:w-50 ${className}`}
+            className={`relative transform rounded-sm border border-primary bg-white p-3 shadow-md transition-all duration-300 hover:shadow-xl ${rotation} z-30 w-64 shrink-0 group-hover:scale-105 group-hover:rotate-0 md:w-50 ${className}`}
         >
             <figure className="aspect-square w-full overflow-hidden rounded-xs border border-primary bg-muted">
                 {children}

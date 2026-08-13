@@ -1,5 +1,8 @@
 import Button from '../components/Button';
 import CardPhoto from '../components/CardPhoto';
+import StarFill from '../components/StarFill';
+import StarStroke from '../components/StarStroke';
+import Sticker from '../components/Sticker';
 import Tache from '../components/Tache';
 
 export default function Header({ content }: { content: any }) {
@@ -35,7 +38,10 @@ export default function Header({ content }: { content: any }) {
 
                 {/* RIGHT  */}
                 <div className="relative z-10 basis-1/2">
-                    <div className="absolute -rotate-2">
+                    <StarFill className="absolute -top-9 right-0 w-7 text-secondary" />
+                    <StarStroke className="text-forground absolute -top-7 right-15 w-7" />
+                    <div className="group absolute -rotate-2">
+                        <Sticker className="absolute -top-4 left-13 z-50 w-20 -rotate-10 text-sticker-primary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8" />
                         <CardPhoto>
                             <img
                                 src={content?.images[0]}
@@ -57,7 +63,7 @@ export default function Header({ content }: { content: any }) {
                         </CardPhoto>
                     </div>
 
-                    <div className="absolute right-10 rotate-5">
+                    <div className="absolute top-7 right-10 rotate-5">
                         <CardPhoto>
                             <img
                                 src={content?.images[2]}
