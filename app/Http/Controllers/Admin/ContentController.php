@@ -11,7 +11,7 @@ class ContentController extends Controller
 {
     public function index()
     {
-        $contents = SiteContent::all()->keyBy('section')->map(fn ($content) => $content->content);
+        $contents = SiteContent::all()->keyBy('section')->map(fn($content) => $content->content);
 
         // Ensure default structure if empty
         return Inertia::render('admin/content/index', [
@@ -41,19 +41,23 @@ class ContentController extends Controller
             'content' => $validated['content'],
         ]);
 
-        // Handle image uploads if they exist in the request
-        // This is a basic implementation. It can be enhanced to save image paths.
-        if ($request->hasFile('images')) {
-            $images = [];
-            foreach ($request->file('images') as $key => $file) {
-                $path = $file->store('content', 'public');
-                $images[$key] = '/storage/' . $path;
+        $contentData = $siteContent->content;
+
+        foreach ($request->allFiles() as $fileKey => $files) {
+            if (is_array($files)) {
+                $uploadedFiles = [];
+                foreach ($files as $key => $file) {
+                    $path = $file->store('content', 'public');
+                    $uploadedFiles[$key] = '/storage/' . $path;
+                }
+                $contentData[$fileKey] = array_merge($contentData[$fileKey] ?? [], $uploadedFiles);
+            } else {
+                $path = $files->store('content', 'public');
+                $contentData[$fileKey] = '/storage/' . $path;
             }
-            
-            $contentData = $siteContent->content;
-            $contentData['images'] = array_merge($contentData['images'] ?? [], $images);
-            $siteContent->update(['content' => $contentData]);
         }
+
+        $siteContent->update(['content' => $contentData]);
 
         return redirect()->back()->with('success', 'Contenu mis à jour avec succès.');
     }

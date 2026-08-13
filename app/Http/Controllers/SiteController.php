@@ -15,18 +15,8 @@ class SiteController extends Controller
             ->with(['coverImage'])
             ->get();
 
-        $contents = \App\Models\SiteContent::all()->keyBy('section')->map(fn ($content) => $content->content);
-
-        return Inertia::render('site/app', [
+        return Inertia::render('site/App', [
             'workshops' => $workshops,
-            'siteContents' => [
-                'header' => $contents->get('header', []),
-                'about' => $contents->get('about', []),
-                'workshop' => $contents->get('workshop', []),
-                'schedule' => $contents->get('schedule', []),
-                'contact' => $contents->get('contact', []),
-                'footer' => $contents->get('footer', []),
-            ],
         ]);
     }
 

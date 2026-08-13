@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\SiteContent;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -46,6 +47,18 @@ class HandleInertiaRequests extends Middleware
                 'success' => fn () => $request->session()->get('success'),
                 'error' => fn () => $request->session()->get('error'),
             ],
+            'siteContents' => fn () => ! $request->is('admin*') ? (function () {
+                $contents = SiteContent::all()->keyBy('section')->map(fn ($content) => $content->content);
+
+                return [
+                    'header' => $contents->get('header', []),
+                    'about' => $contents->get('about', []),
+                    'workshop' => $contents->get('workshop', []),
+                    'schedule' => $contents->get('schedule', []),
+                    'contact' => $contents->get('contact', []),
+                    'footer' => $contents->get('footer', []),
+                ];
+            })() : null,
         ];
     }
 }

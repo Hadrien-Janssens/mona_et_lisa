@@ -1,23 +1,25 @@
-import Footer from './components/Footer';
-import Nav from './components/Nav';
+import { usePage } from '@inertiajs/react';
+import SiteLayout from '@/layouts/site-layout';
 import About from './partials/About';
 import Contact from './partials/Contact';
 import Header from './partials/Header';
 import ScheduleAndPlan from './partials/ScheduleAndPlan';
 import Workshop from './partials/Workshop';
 
-const app = ({ workshops, siteContents }: { workshops: any[], siteContents: any }) => {
+const App = ({ workshops }: { workshops: any[] }) => {
+    const { siteContents } = usePage<any>().props;
+
     return (
-        <div>
-            <Nav />
+        <>
             <Header content={siteContents?.header} />
             <About content={siteContents?.about} />
             <Workshop workshops={workshops} content={siteContents?.workshop} />
             <ScheduleAndPlan content={siteContents?.schedule} />
             <Contact content={siteContents?.contact} />
-            <Footer content={siteContents?.footer} />
-        </div>
+        </>
     );
 };
 
-export default app;
+App.layout = (page: React.ReactNode) => <SiteLayout>{page}</SiteLayout>;
+
+export default App;
