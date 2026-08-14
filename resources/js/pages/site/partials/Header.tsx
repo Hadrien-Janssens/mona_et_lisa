@@ -26,12 +26,16 @@ export default function Header({ content }: { content: any }) {
 
                     <div className="flex gap-5">
                         {content?.button1_label && (
-                            <Button>{content.button1_label}</Button>
+                            <a href="/#contact">
+                                <Button>{content.button1_label}</Button>
+                            </a>
                         )}
                         {content?.button2_label && (
-                            <Button variant={'primary'}>
-                                {content.button2_label}
-                            </Button>
+                            <a href="/#workshop">
+                                <Button variant={'primary'}>
+                                    {content.button2_label}
+                                </Button>
+                            </a>
                         )}
                     </div>
                 </div>

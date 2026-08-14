@@ -9,14 +9,37 @@ import {
     type CarouselApi,
 } from '@/components/ui/carousel';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+// import { Badge } from '@/components/ui/badge';
 import SiteLayout from '@/layouts/site-layout';
 import CardPhoto from './components/CardPhoto';
 import Subtitle from './components/Subtitle';
 import CardSession from './components/CardSession';
+import Badge from './components/Badge';
 
 const Atelier = ({ workshop, sessions }: { workshop: any; sessions: any }) => {
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState(0);
+    const [activeFilter, setActiveFilter] = useState<number | 'tous'>(
+        workshop.id,
+    );
+
+    // Compute unique workshops for the filter
+    const uniqueWorkshops = Array.from(
+        [workshop, ...sessions.map((s: any) => s.workshop)]
+            .filter((w) => w != null)
+            .reduce((map, w) => map.set(w.id, w), new Map())
+            .values(),
+    ) as any[];
+
+    // Filter sessions
+    const filteredSessions =
+        activeFilter === 'tous'
+            ? sessions
+            : sessions.filter(
+                  (s: any) =>
+                      s.workshop_id === activeFilter ||
+                      (s.workshop && s.workshop.id === activeFilter),
+              );
 
     useEffect(() => {
         if (!api) {
@@ -34,7 +57,6 @@ const Atelier = ({ workshop, sessions }: { workshop: any; sessions: any }) => {
         <>
             <Head title={workshop.title} />
 
-            {/* <div className=""> */}
             <div className="mb-8">
                 <Link href="/" className="text-blue-600 hover:underline">
                     &larr; Retour aux ateliers
@@ -42,7 +64,8 @@ const Atelier = ({ workshop, sessions }: { workshop: any; sessions: any }) => {
             </div>
 
             <div className="mx-auto mt-24 mb-12 grid w-full max-w-250 grid-cols-1 gap-12 px-4 py-12 md:grid-cols-2">
-                <div className="flex flex-col gap-4">
+                {/* CAROUSEL  */}
+                <div className="flex flex-col">
                     {workshop.images && workshop.images.length > 0 ? (
                         <>
                             <Carousel
@@ -87,7 +110,7 @@ const Atelier = ({ workshop, sessions }: { workshop: any; sessions: any }) => {
                             </Carousel>
 
                             {/* Miniatures */}
-                            <div className="mt-6 flex gap-4 overflow-x-auto px-4 py-6">
+                            <div className="flex gap-4 overflow-x-auto px-4 py-6">
                                 {workshop.images.map(
                                     (img: any, index: number) => (
                                         <button
@@ -120,10 +143,13 @@ const Atelier = ({ workshop, sessions }: { workshop: any; sessions: any }) => {
                         </p>
                     )}
                 </div>
+                {/* DESCRIPTION  */}
+                <div className="py-5">
+                    <div className="flex items-start gap-5">
+                        <Subtitle>{workshop.title}</Subtitle>
+                        <Badge size="lg"> {workshop.price / 100}€</Badge>
+                    </div>
 
-                <div>
-                    <Subtitle>{workshop.title}</Subtitle>
-                    {workshop.price / 100}€
                     <div className="prose pt-5 whitespace-pre-wrap">
                         {workshop.description}
                     </div>
@@ -132,11 +158,38 @@ const Atelier = ({ workshop, sessions }: { workshop: any; sessions: any }) => {
             <div className="border-b border-dashed border-primary"></div>
 
             <div className="rounded-3xl p-8">
-                <Subtitle>Prochaines dates</Subtitle>
-                {workshop.sessions && workshop.sessions.length > 0 ? (
+                <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-start md:justify-between md:gap-10">
+                    <div>
+                        <Subtitle>Prochaines dates</Subtitle>
+                    </div>
+                    <div className="flex flex-wrap gap-2 md:pt-3">
+                        {uniqueWorkshops.map((w) => (
+                            <div key={w.id}>
+                                <Badge
+                                    size="lg"
+                                    isActive={activeFilter === w.id}
+                                    onClick={() => setActiveFilter(w.id)}
+                                    isClickable
+                                >
+                                    {w.title}{' '}
+                                </Badge>
+                            </div>
+                        ))}
+
+                        <Badge
+                            size="lg"
+                            isActive={activeFilter === 'tous'}
+                            onClick={() => setActiveFilter('tous')}
+                            isClickable
+                        >
+                            tous
+                        </Badge>
+                    </div>
+                </div>
+                {filteredSessions && filteredSessions.length > 0 ? (
                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                        {sessions.map((session: any) => (
-                            <CardSession session={session} />
+                        {filteredSessions.map((session: any) => (
+                            <CardSession key={session.id} session={session} />
                         ))}
                     </div>
                 ) : (

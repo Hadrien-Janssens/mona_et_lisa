@@ -9,7 +9,7 @@ const WorkshopCard = ({ workshop, idx }: { workshop: any; idx: number }) => {
         <div
             className={`relative z-10 flex w-70 flex-col justify-between rounded-3xl border-2 border-primary bg-background px-5 py-8 pb-5 shadow transition-all duration-300 ease-in-out hover:scale-105 hover:rotate-0 ${rotateClass}`}
         >
-            <Badge>Duo</Badge>
+            <Badge className="absolute top-3 right-3">Duo</Badge>
             <div className="flex gap-5">
                 {workshop.cover_image && (
                     <img

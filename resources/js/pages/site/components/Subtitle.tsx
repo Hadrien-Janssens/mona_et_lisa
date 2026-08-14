@@ -1,6 +1,9 @@
 type SubtitleProps = {
     children: string;
+    className?: string;
 };
-export default function Subtitle({ children }: SubtitleProps) {
-    return <h2 className="font-titre-lemon text-5xl">{children}</h2>;
+export default function Subtitle({ children, className }: SubtitleProps) {
+    return (
+        <h2 className={`font-titre-lemon text-5xl ${className}`}>{children}</h2>
+    );
 }

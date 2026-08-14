@@ -37,21 +37,26 @@ export default function Index({ contents }: IndexProps) {
     return (
         <>
             <Head title="Gestion du Contenu" />
-            <div className="flex flex-col gap-6 p-6 h-full flex-1">
+            <div className="flex h-full flex-1 flex-col gap-6 p-6">
                 <div>
-                    <h1 className="text-2xl font-bold tracking-tight">Gestion du Contenu</h1>
+                    <h1 className="text-2xl font-bold tracking-tight">
+                        Gestion du Contenu
+                    </h1>
                     <p className="text-sm text-muted-foreground">
-                        Modifiez les textes et images des différentes sections de votre site.
+                        Modifiez les textes et images des différentes sections
+                        de votre site.
                     </p>
                 </div>
 
-                <div className="flex flex-col md:flex-row gap-6">
+                <div className="flex flex-col gap-6 md:flex-row">
                     {/* Vertical Tabs Navigation */}
-                    <Card className="w-full md:w-64 shrink-0 h-fit border-sidebar-border/70 shadow-sm p-2 flex flex-col gap-1">
+                    <Card className="flex h-fit w-full shrink-0 flex-col gap-1 border-sidebar-border/70 p-2 shadow-sm md:w-64">
                         {TABS.map((tab) => (
                             <Button
                                 key={tab.id}
-                                variant={activeTab === tab.id ? 'secondary' : 'ghost'}
+                                variant={
+                                    activeTab === tab.id ? 'secondary' : 'ghost'
+                                }
                                 className={`w-full justify-start ${activeTab === tab.id ? 'bg-secondary font-medium' : 'font-normal'}`}
                                 onClick={() => setActiveTab(tab.id)}
                             >
@@ -63,12 +68,24 @@ export default function Index({ contents }: IndexProps) {
 
                     {/* Tab Content Area */}
                     <div className="flex-1">
-                        {activeTab === 'header' && <HeaderSettings initialData={contents.header} />}
-                        {activeTab === 'about' && <AboutSettings initialData={contents.about} />}
-                        {activeTab === 'workshop' && <WorkshopSettings initialData={contents.workshop} />}
-                        {activeTab === 'schedule' && <ScheduleSettings initialData={contents.schedule} />}
-                        {activeTab === 'contact' && <ContactSettings initialData={contents.contact} />}
-                        {activeTab === 'footer' && <FooterSettings initialData={contents.footer} />}
+                        {activeTab === 'header' && (
+                            <HeaderSettings initialData={contents.header} />
+                        )}
+                        {activeTab === 'about' && (
+                            <AboutSettings initialData={contents.about} />
+                        )}
+                        {activeTab === 'workshop' && (
+                            <WorkshopSettings initialData={contents.workshop} />
+                        )}
+                        {activeTab === 'schedule' && (
+                            <ScheduleSettings initialData={contents.schedule} />
+                        )}
+                        {activeTab === 'contact' && (
+                            <ContactSettings initialData={contents.contact} />
+                        )}
+                        {activeTab === 'footer' && (
+                            <FooterSettings initialData={contents.footer} />
+                        )}
                     </div>
                 </div>
             </div>

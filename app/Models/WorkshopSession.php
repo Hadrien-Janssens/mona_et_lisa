@@ -17,6 +17,13 @@ class WorkshopSession extends Model
     use HasFactory, SoftDeletes;
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['booked_seats_count', 'spots_left'];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

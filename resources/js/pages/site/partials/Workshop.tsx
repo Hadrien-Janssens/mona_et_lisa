@@ -1,3 +1,4 @@
+import CheckoutModalGlobal from '../components/CheckoutModalGlobal';
 import Button from '../components/Button';
 import StarStroke from '../components/StarStroke';
 import Subtitle from '../components/Subtitle';
@@ -25,7 +26,9 @@ export default function Workshop({
                         </Subtitle>
                     </div>
                     {content?.button_label && (
-                        <Button>{content.button_label}</Button>
+                        <CheckoutModalGlobal>
+                            <Button>{content.button_label}</Button>
+                        </CheckoutModalGlobal>
                     )}
                 </div>
 

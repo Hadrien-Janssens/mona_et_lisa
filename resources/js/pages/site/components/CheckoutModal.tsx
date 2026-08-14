@@ -1,9 +1,24 @@
 import React from 'react';
-import { Head, Link, useForm } from '@inertiajs/react';
-import Nav from './components/Nav';
-import Footer from './components/Footer';
+import { useForm } from '@inertiajs/react';
+import {
+    Dialog,
+    DialogContent,
+    DialogTrigger,
+    DialogTitle,
+    DialogDescription,
+} from '@/components/ui/dialog';
+import Subtitle from './Subtitle';
+import Button from './Button';
 
-const Checkout = ({ session }: { session: any }) => {
+type CheckoutModalProps = {
+    session: any;
+    children: React.ReactNode;
+};
+
+export default function CheckoutModal({
+    session,
+    children,
+}: CheckoutModalProps) {
     const { data, setData, post, processing, errors } = useForm({
         first_name: '',
         last_name: '',
@@ -12,6 +27,7 @@ const Checkout = ({ session }: { session: any }) => {
         birthdate: '',
         seats: 1,
     });
+    console.log(session.workshop);
 
     const workshop = session.workshop;
 
@@ -21,47 +37,62 @@ const Checkout = ({ session }: { session: any }) => {
     };
 
     return (
-        <div className="flex min-h-screen flex-col">
-            <Head title={`Réserver ${workshop?.title}`} />
-            <Nav />
+        <Dialog>
+            <DialogTrigger asChild>{children}</DialogTrigger>
+            <DialogContent
+                data-theme="public"
+                className="my-10 max-h-[90vh] w-fit overflow-y-auto rounded-sm border border-s bg-background shadow sm:max-w-xl"
+            >
+                <DialogTitle className="sr-only">
+                    Réservation pour {workshop?.title}
+                </DialogTitle>
+                <DialogDescription className="sr-only">
+                    Formulaire de réservation pour {workshop?.title}
+                </DialogDescription>
 
-            <main className="mx-auto mt-24 w-full max-w-3xl flex-1 px-4 py-12">
-                <div className="mb-8">
-                    <Link
-                        href={`/ateliers/${workshop?.slug}`}
-                        className="text-blue-600 hover:underline"
-                    >
-                        &larr; Retour à l'atelier
-                    </Link>
-                </div>
-
-                <div className="rounded-3xl border bg-white p-8 shadow-sm">
-                    <h1 className="mb-4 text-3xl font-bold">Réservation</h1>
-                    <div className="mb-8 rounded-xl bg-amber-50 p-4">
-                        <h2 className="text-lg font-bold">{workshop?.title}</h2>
-                        <p className="text-gray-700">
-                            Session du :{' '}
-                            {new Date(session.start_at).toLocaleString(
-                                'fr-FR',
-                                {
-                                    weekday: 'long',
-                                    year: 'numeric',
-                                    month: 'long',
-                                    day: 'numeric',
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                },
-                            )}
+                <div
+                    data-theme="public"
+                    className="bg-background p-2 text-foreground"
+                >
+                    <h2 className="mb-4">
+                        <Subtitle>Réservation</Subtitle>
+                    </h2>
+                    <div className="mb-6 border-t-2 border-b-2 border-dashed border-primary p-4">
+                        <h3>
+                            {' '}
+                            Atelier :{' '}
+                            <span className="text-lg font-bold">
+                                {workshop?.title}
+                            </span>
+                        </h3>
+                        <p className="">
+                            Date :{' '}
+                            <span className="text-lg font-bold">
+                                {new Date(session.start_at).toLocaleString(
+                                    'fr-FR',
+                                    {
+                                        weekday: 'long',
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric',
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                    },
+                                )}
+                            </span>
                         </p>
-                        <p className="mt-2 font-semibold">
-                            Prix par personne : {workshop?.price / 100}€
+                        <p>
+                            Prix par personne :{' '}
+                            <span className="text-lg font-bold">
+                                {workshop?.price / 100}€
+                            </span>
                         </p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                             <div>
-                                <label className="mb-1 block text-sm font-medium text-gray-700">
+                                <label className="mb-1 block text-sm font-medium">
                                     Prénom
                                 </label>
                                 <input
@@ -70,7 +101,7 @@ const Checkout = ({ session }: { session: any }) => {
                                     onChange={(e) =>
                                         setData('first_name', e.target.value)
                                     }
-                                    className="w-full rounded-xl border-gray-300 shadow-sm focus:border-black focus:ring-black"
+                                    className="w-full rounded-sm border-gray-300 shadow-sm focus:border-black focus:ring-black"
                                     required
                                 />
                                 {errors.first_name && (
@@ -80,7 +111,7 @@ const Checkout = ({ session }: { session: any }) => {
                                 )}
                             </div>
                             <div>
-                                <label className="mb-1 block text-sm font-medium text-gray-700">
+                                <label className="mb-1 block text-sm font-medium">
                                     Nom
                                 </label>
                                 <input
@@ -89,7 +120,7 @@ const Checkout = ({ session }: { session: any }) => {
                                     onChange={(e) =>
                                         setData('last_name', e.target.value)
                                     }
-                                    className="w-full rounded-xl border-gray-300 shadow-sm focus:border-black focus:ring-black"
+                                    className="w-full rounded-sm border-gray-300 shadow-sm focus:border-black focus:ring-black"
                                     required
                                 />
                                 {errors.last_name && (
@@ -101,7 +132,7 @@ const Checkout = ({ session }: { session: any }) => {
                         </div>
 
                         <div>
-                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                            <label className="mb-1 block text-sm font-medium">
                                 Email
                             </label>
                             <input
@@ -110,7 +141,7 @@ const Checkout = ({ session }: { session: any }) => {
                                 onChange={(e) =>
                                     setData('email', e.target.value)
                                 }
-                                className="w-full rounded-xl border-gray-300 shadow-sm focus:border-black focus:ring-black"
+                                className="w-full rounded-sm border-gray-300 shadow-sm focus:border-black focus:ring-black"
                                 required
                             />
                             {errors.email && (
@@ -120,9 +151,9 @@ const Checkout = ({ session }: { session: any }) => {
                             )}
                         </div>
 
-                        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                             <div>
-                                <label className="mb-1 block text-sm font-medium text-gray-700">
+                                <label className="mb-1 block text-sm font-medium">
                                     Téléphone (optionnel)
                                 </label>
                                 <input
@@ -131,7 +162,7 @@ const Checkout = ({ session }: { session: any }) => {
                                     onChange={(e) =>
                                         setData('phone', e.target.value)
                                     }
-                                    className="w-full rounded-xl border-gray-300 shadow-sm focus:border-black focus:ring-black"
+                                    className="w-full rounded-sm border-gray-300 shadow-sm focus:border-black focus:ring-black"
                                 />
                                 {errors.phone && (
                                     <p className="mt-1 text-sm text-red-500">
@@ -140,7 +171,7 @@ const Checkout = ({ session }: { session: any }) => {
                                 )}
                             </div>
                             <div>
-                                <label className="mb-1 block text-sm font-medium text-gray-700">
+                                <label className="mb-1 block text-sm font-medium">
                                     Date de naissance
                                 </label>
                                 <input
@@ -149,7 +180,7 @@ const Checkout = ({ session }: { session: any }) => {
                                     onChange={(e) =>
                                         setData('birthdate', e.target.value)
                                     }
-                                    className="w-full rounded-xl border-gray-300 shadow-sm focus:border-black focus:ring-black"
+                                    className="w-full rounded-sm border-gray-300 shadow-sm focus:border-black focus:ring-black"
                                     required
                                 />
                                 {errors.birthdate && (
@@ -161,7 +192,7 @@ const Checkout = ({ session }: { session: any }) => {
                         </div>
 
                         <div>
-                            <label className="mb-1 block text-sm font-medium text-gray-700">
+                            <label className="mb-1 block text-sm font-medium">
                                 Nombre de places
                             </label>
                             <select
@@ -169,7 +200,7 @@ const Checkout = ({ session }: { session: any }) => {
                                 onChange={(e) =>
                                     setData('seats', parseInt(e.target.value))
                                 }
-                                className="w-full rounded-xl border-gray-300 shadow-sm focus:border-black focus:ring-black"
+                                className="w-full rounded-sm border-gray-300 shadow-sm focus:border-black focus:ring-black"
                             >
                                 {[1, 2, 3, 4, 5, 6].map((num) => (
                                     <option key={num} value={num}>
@@ -184,25 +215,20 @@ const Checkout = ({ session }: { session: any }) => {
                             )}
                         </div>
 
-                        <div className="flex items-center justify-between border-t pt-4">
+                        <div className="mt-6 flex items-center justify-between border-t-2 border-dashed border-primary pt-4">
                             <span className="text-xl font-bold">
                                 Total: {(workshop?.price / 100) * data.seats}€
                             </span>
-                            <button
-                                type="submit"
-                                disabled={processing}
-                                className="rounded-xl bg-black px-8 py-3 font-bold text-white transition-colors hover:bg-gray-800 disabled:opacity-50"
-                            >
-                                {processing ? 'Redirection Stripe...' : 'Payer'}
+                            <button type="submit" disabled={processing}>
+                                <Button>
+                                    {' '}
+                                    {processing ? 'Redirection...' : 'Suivant'}
+                                </Button>
                             </button>
                         </div>
                     </form>
                 </div>
-            </main>
-
-            <Footer />
-        </div>
+            </DialogContent>
+        </Dialog>
     );
-};
-
-export default Checkout;
+}

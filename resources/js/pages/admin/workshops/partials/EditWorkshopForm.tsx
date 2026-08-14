@@ -1,10 +1,22 @@
 import { Link, useForm } from '@inertiajs/react';
 import * as routes from '@/routes/admin/workshops';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import InputError from '@/components/input-error';
 import { Loader2 } from 'lucide-react';
 import { Workshop } from '@/types';
@@ -25,7 +37,7 @@ export default function EditWorkshopForm({ workshop }: EditWorkshopFormProps) {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        
+
         transform((data) => ({
             ...data,
             is_active: data.is_active === '1',
@@ -36,11 +48,12 @@ export default function EditWorkshopForm({ workshop }: EditWorkshopFormProps) {
     };
 
     return (
-        <Card className="border-sidebar-border/70 dark:border-sidebar-border shadow-sm">
+        <Card className="border-sidebar-border/70 shadow-sm dark:border-sidebar-border">
             <CardHeader>
                 <CardTitle>Détails de l'atelier</CardTitle>
                 <CardDescription>
-                    Modifiez les informations ci-dessous pour mettre à jour l'atelier.
+                    Modifiez les informations ci-dessous pour mettre à jour
+                    l'atelier.
                 </CardDescription>
             </CardHeader>
             <CardContent>
@@ -72,19 +85,23 @@ export default function EditWorkshopForm({ workshop }: EditWorkshopFormProps) {
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="description">Description complète</Label>
+                        <Label htmlFor="description">
+                            Description complète
+                        </Label>
                         <textarea
                             id="description"
                             rows={6}
                             placeholder="Décrivez en détail le déroulement de l'atelier, ce que les participants vont apprendre et ce qu'ils vont emporter..."
                             value={data.description}
-                            onChange={(e) => setData('description', e.target.value)}
-                            className="flex w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:ring-primary"
+                            onChange={(e) =>
+                                setData('description', e.target.value)
+                            }
+                            className="flex w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-sm placeholder:text-muted-foreground focus-visible:ring-1 focus-visible:ring-primary focus-visible:ring-ring focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                         />
                         <InputError message={errors.description} />
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                         <div className="space-y-2">
                             <Label htmlFor="price">Prix (€)</Label>
                             <Input
@@ -94,21 +111,27 @@ export default function EditWorkshopForm({ workshop }: EditWorkshopFormProps) {
                                 min="0"
                                 placeholder="ex: 45.00"
                                 value={data.price}
-                                onChange={(e) => setData('price', e.target.value)}
+                                onChange={(e) =>
+                                    setData('price', e.target.value)
+                                }
                                 className="focus-visible:ring-primary"
                             />
                             <InputError message={errors.price} />
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="duration_minutes">Durée (minutes)</Label>
+                            <Label htmlFor="duration_minutes">
+                                Durée (minutes)
+                            </Label>
                             <Input
                                 id="duration_minutes"
                                 type="number"
                                 min="1"
                                 placeholder="ex: 120"
                                 value={data.duration_minutes}
-                                onChange={(e) => setData('duration_minutes', e.target.value)}
+                                onChange={(e) =>
+                                    setData('duration_minutes', e.target.value)
+                                }
                                 className="focus-visible:ring-primary"
                             />
                             <InputError message={errors.duration_minutes} />
@@ -118,7 +141,9 @@ export default function EditWorkshopForm({ workshop }: EditWorkshopFormProps) {
                             <Label htmlFor="is_active">Statut</Label>
                             <Select
                                 value={data.is_active}
-                                onValueChange={(val) => setData('is_active', val)}
+                                onValueChange={(val) =>
+                                    setData('is_active', val)
+                                }
                             >
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Choisir le statut" />
@@ -132,14 +157,18 @@ export default function EditWorkshopForm({ workshop }: EditWorkshopFormProps) {
                         </div>
                     </div>
 
-                    <div className="flex justify-end gap-4 pt-4 border-t border-sidebar-border">
+                    <div className="flex justify-end gap-4 border-t border-sidebar-border pt-4">
                         <Button asChild variant="outline" type="button">
                             <Link href={routes.index.url()}>Annuler</Link>
                         </Button>
-                        <Button type="submit" disabled={processing} className="shadow-sm">
+                        <Button
+                            type="submit"
+                            disabled={processing}
+                            className="shadow-sm"
+                        >
                             {processing ? (
                                 <>
-                                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                     Enregistrement...
                                 </>
                             ) : (

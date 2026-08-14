@@ -31,7 +31,7 @@ class SiteController extends Controller
             $query->where('start_at', '>=', now())->orderBy('start_at');
         }]);
 
-        $sessions = WorkshopSession::with('workshop:id,title')
+        $sessions = WorkshopSession::with('workshop')
             ->where('start_at', '>', now())
             ->orderBy('date', 'asc')
             ->get();
