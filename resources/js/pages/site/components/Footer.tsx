@@ -2,6 +2,7 @@ import { MoveRight } from 'lucide-react';
 import Button from './Button';
 import StarStroke from './StarStroke';
 import Tache from './Tache';
+import { Link } from '@inertiajs/react';
 
 export default function Footer({ content }: { content: any }) {
     return (
@@ -28,24 +29,35 @@ export default function Footer({ content }: { content: any }) {
                         Navigation
                     </p>
                     <ul className="flex flex-col items-start justify-start space-y-2">
-                        <li className="flex cursor-pointer items-center justify-center gap-1">
-                            <MoveRight className="w-3" />
-                            Accueil
+                        <li>
+                            <Link href="/#accueil" className="flex cursor-pointer items-center justify-center gap-1 hover:opacity-75 transition-opacity">
+                                <MoveRight className="w-3" />
+                                Accueil
+                            </Link>
                         </li>
-                        <li className="flex cursor-pointer items-center justify-center gap-1">
-                            <MoveRight className="w-3" />A propos
+                        <li>
+                            <Link href="/#about" className="flex cursor-pointer items-center justify-center gap-1 hover:opacity-75 transition-opacity">
+                                <MoveRight className="w-3" />
+                                A propos
+                            </Link>
                         </li>
-                        <li className="flex cursor-pointer items-center justify-center gap-1">
-                            <MoveRight className="w-3" />
-                            Ateliers
+                        <li>
+                            <Link href="/#workshop" className="flex cursor-pointer items-center justify-center gap-1 hover:opacity-75 transition-opacity">
+                                <MoveRight className="w-3" />
+                                Ateliers
+                            </Link>
                         </li>
-                        <li className="flex cursor-pointer items-center justify-center gap-1">
-                            <MoveRight className="w-3" />
-                            Horaire
+                        <li>
+                            <Link href="/#horaire" className="flex cursor-pointer items-center justify-center gap-1 hover:opacity-75 transition-opacity">
+                                <MoveRight className="w-3" />
+                                Horaire
+                            </Link>
                         </li>
-                        <li className="flex cursor-pointer items-center justify-center gap-1">
-                            <MoveRight className="w-3" />
-                            Contact
+                        <li>
+                            <Link href="/#contact" className="flex cursor-pointer items-center justify-center gap-1 hover:opacity-75 transition-opacity">
+                                <MoveRight className="w-3" />
+                                Contact
+                            </Link>
                         </li>
                     </ul>
                 </div>
@@ -56,14 +68,29 @@ export default function Footer({ content }: { content: any }) {
                         Contact
                     </p>
                     <div className="space-y-2">
-                        <p>monaetlisa@hotmail.com</p>
-                        <p>0478 74 41 48</p>
-                        <p>
+                        <a href="mailto:monaetlisa@hotmail.com" className="block hover:opacity-75 transition-opacity">monaetlisa@hotmail.com</a>
+                        <a href="tel:+32478744148" className="block hover:opacity-75 transition-opacity">0478 74 41 48</a>
+                        <a 
+                            href="https://www.google.com/maps/search/?api=1&query=rue+d'Enghien+45,+7000+Mons,+Belgique" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="block hover:opacity-75 transition-opacity"
+                        >
                             rue d'Enghien 45 <br /> 7000 Mons, Belgique
-                        </p>
+                        </a>
                         <div className="flex gap-1.5 pt-2">
-                            <Button size={'sm'}>Facebook</Button>
-                            <Button size={'sm'}>Instagram</Button>
+                            <a
+                                target="_blank"
+                                href="https://www.facebook.com/profile.php?id=61573072010378"
+                            >
+                                <Button size={'sm'}>Facebook</Button>
+                            </a>
+                            <a
+                                href="https://www.instagram.com/mona.lisa.atelier/"
+                                target="_blank"
+                            >
+                                <Button size={'sm'}>Instagram</Button>
+                            </a>
                         </div>
                     </div>
                 </div>

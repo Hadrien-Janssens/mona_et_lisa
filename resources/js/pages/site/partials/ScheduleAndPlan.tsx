@@ -5,6 +5,8 @@ import StarStroke from '../components/StarStroke';
 import Subtitle from '../components/Subtitle';
 import Subtitle2 from '../components/Subtitle2';
 import Tache from '../components/Tache';
+import Sticker from '../components/Sticker';
+import StickerRayure from '../components/StickerRayure';
 
 export default function ScheduleAndPlan({ content }: { content: any }) {
     return (
@@ -26,7 +28,8 @@ export default function ScheduleAndPlan({ content }: { content: any }) {
                     {content?.image && (
                         <img src={content.image} alt="Schedule" width="200" />
                     )}
-                    <ul className="my-10 w-fit rounded-sm border border-primary shadow">
+                    <ul className="relative my-10 w-fit rounded-sm border border-primary shadow">
+                        <Sticker className="absolute -top-4 left-30 z-50 w-20 -rotate-10 text-sticker-secondary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8" />
                         <li className="-rotate-2 p-3.5 px-7 font-titre-lemon text-xl">
                             Horaire
                         </li>
@@ -52,7 +55,10 @@ export default function ScheduleAndPlan({ content }: { content: any }) {
                 </div>
 
                 {/* RIGHTSIDE  */}
-                <div className="relative">
+                <div className="group relative">
+                    <Sticker className="absolute -top-6 -left-5 z-50 w-20 -rotate-4 text-sticker-secondary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8" />
+                    <Sticker className="absolute -top-4 left-25 z-50 w-20 -rotate-2 text-sticker-primary transition-transform duration-300 group-hover:-translate-y-2 group-hover:scale-105 group-hover:-rotate-8" />
+                    <StickerRayure className="absolute -top-2 left-56 z-50 w-20 -rotate-1 text-sticker-primary transition-transform duration-300 group-hover:-translate-y-4 group-hover:scale-105 group-hover:-rotate-8" />
                     <StarStroke className="text-forground absolute -top-20 right-0 w-7 rotate-12" />
                     <StarFill className="absolute -top-10 -left-50 w-7 rotate-12 text-secondary" />
                     <StarFill className="text-forground absolute right-30 -bottom-20 w-7" />

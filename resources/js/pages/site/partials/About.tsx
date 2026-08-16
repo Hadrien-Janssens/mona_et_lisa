@@ -4,6 +4,8 @@ import StarFill from '../components/StarFill';
 import StarStroke from '../components/StarStroke';
 import Subtitle from '../components/Subtitle';
 import Tache from '../components/Tache';
+import Sticker from '../components/Sticker';
+import StickerRayure from '../components/StickerRayure';
 
 export default function About({ content }: { content: any }) {
     return (
@@ -20,6 +22,7 @@ export default function About({ content }: { content: any }) {
 
                 <div className="my-16 flex flex-col items-center justify-center gap-12 px-4 pb-10 md:flex-row">
                     <div className="relative">
+                        <Sticker className="absolute -top-4 left-13 z-50 w-20 -rotate-10 text-sticker-primary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8" />
                         {content?.default_images?.[0] && (
                             <CardPhoto rotation="-rotate-3 ">
                                 <img
@@ -48,6 +51,7 @@ export default function About({ content }: { content: any }) {
                     </div>
 
                     <div className="relative">
+                        <StickerRayure className="absolute -top-4 left-13 z-50 w-20 -rotate-6 text-sticker-primary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8" />
                         {content?.default_images?.[1] && (
                             <CardPhoto rotation="rotate-2">
                                 <img

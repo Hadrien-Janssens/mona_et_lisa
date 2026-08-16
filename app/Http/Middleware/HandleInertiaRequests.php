@@ -3,6 +3,8 @@
 namespace App\Http\Middleware;
 
 use App\Models\SiteContent;
+use App\Models\Workshop;
+use App\Models\WorkshopSession;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -59,6 +61,15 @@ class HandleInertiaRequests extends Middleware
                     'footer' => $contents->get('footer', []),
                 ];
             })() : null,
+            'globalWorkshops' => fn () => ! $request->is('admin*')
+                ? Workshop::where('is_active', true)->select('id', 'title', 'slug')->get()
+                : null,
+            'globalSessions' => fn () => ! $request->is('admin*')
+                ? WorkshopSession::with('workshop')
+                    ->where('start_at', '>=', now())
+                    ->orderBy('start_at')
+                    ->get()
+                : null,
         ];
     }
 }

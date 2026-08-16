@@ -38,6 +38,10 @@ html {
     /* stiker  */
     --sticker-primary: var(--sticker-primary);
     --color-sticker-primary: var(--sticker-primary);
+    --sticker-secondary: var(--sticker-secondary);
+    --color-sticker-secondary: var(--sticker-secondary);
+    --sticker-ternary: var(--sticker-ternary);
+    --color-sticker-ternary: var(--sticker-ternary);
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -108,6 +112,8 @@ html {
 
     --sticker-primary: #b5c6fc;
     --color-sticker-primary: #b5c6fc;
+    --sticker-secondary: #fadceb;
+    --color-sticker-secondary: #fadceb;
 
     --primary-foreground: #fafaf2;
     --color-primary-foreground: #fafaf2;

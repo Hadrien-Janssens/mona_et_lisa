@@ -5,8 +5,17 @@ import Footer from './components/Footer';
 
 import { useForm } from '@inertiajs/react';
 import { activate } from '@/routes/checkout';
+import Button from './components/Button';
 
-const CheckoutSuccess = ({ session_id, needs_password, email }: { session_id?: string, needs_password?: boolean, email?: string }) => {
+const CheckoutSuccess = ({
+    session_id,
+    needs_password,
+    email,
+}: {
+    session_id?: string;
+    needs_password?: boolean;
+    email?: string;
+}) => {
     const { data, setData, post, processing, errors } = useForm({
         email: email || '',
         password: '',
@@ -19,69 +28,101 @@ const CheckoutSuccess = ({ session_id, needs_password, email }: { session_id?: s
     };
 
     return (
-        <div className="min-h-screen flex flex-col">
+        <div className="flex flex-col">
             <Head title="Paiement validé" />
             <Nav />
-            
-            <main className="flex-1 max-w-2xl mx-auto py-24 px-4 w-full mt-12 text-center">
-                <div className="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-8">
-                    <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                </div>
-                <h1 className="text-4xl font-bold mb-4">Merci pour votre réservation !</h1>
-                <p className="text-xl text-gray-600 mb-8">Votre paiement a été traité avec succès. Vous allez recevoir un email de confirmation d'ici quelques minutes.</p>
+
+            <main className="mx-auto mt-12 w-full max-w-2xl flex-1 px-4 pt-24 pb-10 text-center">
+                <h1 className="mb-4 text-4xl font-bold">
+                    Merci pour votre réservation !
+                </h1>
+                <p className="mb-8">
+                    Votre paiement a été traité avec succès. Vous allez recevoir
+                    un email de confirmation d'ici quelques minutes.
+                </p>
 
                 {needs_password && (
-                    <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8 mb-8 text-left">
-                        <h2 className="text-2xl font-bold mb-4">Dernière étape : Créez votre mot de passe</h2>
-                        <p className="text-gray-600 mb-6">Pour pouvoir annuler votre réservation ou voir vos prochains ateliers, veuillez définir un mot de passe pour votre compte.</p>
-                        
+                    <div className="my-10 mb-8 w-fit rounded-sm border border-primary p-8 text-left shadow">
+                        <h2 className="mb-4 text-2xl font-bold">
+                            Dernière étape{' '}
+                            <span className="text-sm">
+                                (optionnel) : Créez votre mot de passe
+                            </span>
+                        </h2>
+                        <p className="mb-6">
+                            Pour pouvoir annuler votre réservation ou voir vos
+                            prochains ateliers, veuillez définir un mot de passe
+                            pour votre compte.
+                        </p>
                         <form onSubmit={submit} className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                                <input type="email" value={data.email} disabled className="w-full border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed" />
+                                <label className="mb-1 block text-sm font-medium">
+                                    Email
+                                </label>
+                                <input
+                                    type="email"
+                                    value={data.email}
+                                    disabled
+                                    className="w-full cursor-not-allowed rounded-sm border border-primary p-1"
+                                />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Mot de passe</label>
-                                <input 
-                                    type="password" 
-                                    value={data.password} 
-                                    onChange={e => setData('password', e.target.value)}
-                                    className="w-full border-gray-300 rounded-lg focus:ring-black focus:border-black"
+                                <label className="mb-1 block text-sm font-medium">
+                                    Mot de passe
+                                </label>
+                                <input
+                                    type="password"
+                                    value={data.password}
+                                    onChange={(e) =>
+                                        setData('password', e.target.value)
+                                    }
+                                    className="w-full rounded-sm border border-primary p-1 focus:border-black focus:ring-black"
                                     required
                                     minLength={8}
                                 />
-                                {errors.password && <div className="text-red-500 text-sm mt-1">{errors.password}</div>}
+                                {errors.password && (
+                                    <div className="mt-1 text-sm text-red-500">
+                                        {errors.password}
+                                    </div>
+                                )}
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Confirmez le mot de passe</label>
-                                <input 
-                                    type="password" 
-                                    value={data.password_confirmation} 
-                                    onChange={e => setData('password_confirmation', e.target.value)}
-                                    className="w-full border-gray-300 rounded-lg focus:ring-black focus:border-black"
+                                <label className="mb-1 block text-sm font-medium">
+                                    Confirmez le mot de passe
+                                </label>
+                                <input
+                                    type="password"
+                                    value={data.password_confirmation}
+                                    onChange={(e) =>
+                                        setData(
+                                            'password_confirmation',
+                                            e.target.value,
+                                        )
+                                    }
+                                    className="w-full rounded-sm border border-primary p-1 focus:border-black focus:ring-black"
                                     required
                                     minLength={8}
                                 />
                             </div>
-                            <button 
-                                type="submit" 
-                                disabled={processing}
-                                className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition-colors font-bold disabled:opacity-50"
-                            >
-                                {processing ? 'Activation...' : 'Activer mon compte'}
-                            </button>
+                            <div className="flex justify-end gap-4">
+                                <button type="submit" disabled={processing}>
+                                    <Button>
+                                        {' '}
+                                        {processing
+                                            ? 'Activation...'
+                                            : 'Activer mon compte'}
+                                    </Button>
+                                </button>
+                                <Link href="/">
+                                    <Button variant="primary">
+                                        <Link href="/">Retour à l'accueil</Link>
+                                    </Button>
+                                </Link>
+                            </div>
                         </form>
                     </div>
                 )}
-                
-                <Link href="/" className="bg-white text-black border-2 border-black px-8 py-3 rounded-xl hover:bg-gray-100 transition-colors font-bold inline-block">
-                    Retour à l'accueil
-                </Link>
             </main>
-
-            <Footer />
         </div>
     );
 };

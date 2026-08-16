@@ -13,8 +13,8 @@ const buttonVariants = cva(
                     'bg-primary text-primary-foreground hover:bg-primary/90',
             },
             size: {
-                default: 'px-6 py-2 text-base',
-                sm: 'px-3 py-1 text-sm',
+                default: 'xs:px-6 xs:py-2 px-2 py-1 text-base',
+                sm: 'xs:px-3 px-2 py-1 text-sm',
             },
         },
         defaultVariants: {

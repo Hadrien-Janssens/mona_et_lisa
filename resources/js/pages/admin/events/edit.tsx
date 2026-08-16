@@ -3,8 +3,20 @@ import * as routes from '@/routes/admin/events';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import { ArrowLeft, Save } from 'lucide-react';
 import { FormEventHandler } from 'react';
 
@@ -27,7 +39,9 @@ interface EditProps {
 
 export default function Edit({ event, workshops }: EditProps) {
     // Convert DB datetime format to local input format (YYYY-MM-DDThh:mm)
-    const formattedDate = event.start_at ? new Date(event.start_at).toISOString().slice(0, 16) : '';
+    const formattedDate = event.start_at
+        ? new Date(event.start_at).toISOString().slice(0, 16)
+        : '';
 
     const { data, setData, patch, processing, errors } = useForm({
         workshop_id: event.workshop_id.toString(),
@@ -51,7 +65,9 @@ export default function Edit({ event, workshops }: EditProps) {
                         </Link>
                     </Button>
                     <div>
-                        <h1 className="text-2xl font-bold tracking-tight">Modifier l'Événement</h1>
+                        <h1 className="text-2xl font-bold tracking-tight">
+                            Modifier l'Événement
+                        </h1>
                         <p className="text-sm text-muted-foreground">
                             Mettez à jour les informations de cette session.
                         </p>
@@ -70,60 +86,107 @@ export default function Edit({ event, workshops }: EditProps) {
                             <form onSubmit={submit} className="space-y-6">
                                 <div className="space-y-2">
                                     <Label htmlFor="workshop_id">Atelier</Label>
-                                    <Select 
-                                        value={data.workshop_id} 
-                                        onValueChange={(val) => setData('workshop_id', val)}
+                                    <Select
+                                        value={data.workshop_id}
+                                        onValueChange={(val) =>
+                                            setData('workshop_id', val)
+                                        }
                                     >
-                                        <SelectTrigger id="workshop_id" className={errors.workshop_id ? 'border-destructive' : ''}>
+                                        <SelectTrigger
+                                            id="workshop_id"
+                                            className={
+                                                errors.workshop_id
+                                                    ? 'border-destructive'
+                                                    : ''
+                                            }
+                                        >
                                             <SelectValue placeholder="Sélectionnez un atelier" />
                                         </SelectTrigger>
                                         <SelectContent>
                                             {workshops.map((w) => (
-                                                <SelectItem key={w.id} value={w.id.toString()}>
+                                                <SelectItem
+                                                    key={w.id}
+                                                    value={w.id.toString()}
+                                                >
                                                     {w.title}
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>
                                     </Select>
                                     {errors.workshop_id && (
-                                        <p className="text-sm text-destructive">{errors.workshop_id}</p>
+                                        <p className="text-sm text-destructive">
+                                            {errors.workshop_id}
+                                        </p>
                                     )}
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label htmlFor="start_at">Date et heure de début</Label>
+                                    <Label htmlFor="start_at">
+                                        Date et heure de début
+                                    </Label>
                                     <Input
                                         id="start_at"
                                         type="datetime-local"
                                         value={data.start_at}
-                                        onChange={(e) => setData('start_at', e.target.value)}
-                                        className={errors.start_at ? 'border-destructive' : ''}
+                                        onChange={(e) =>
+                                            setData('start_at', e.target.value)
+                                        }
+                                        className={
+                                            errors.start_at
+                                                ? 'border-destructive'
+                                                : ''
+                                        }
                                     />
                                     {errors.start_at && (
-                                        <p className="text-sm text-destructive">{errors.start_at}</p>
+                                        <p className="text-sm text-destructive">
+                                            {errors.start_at}
+                                        </p>
                                     )}
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label htmlFor="max_participants">Nombre maximum de participants</Label>
+                                    <Label htmlFor="max_participants">
+                                        Nombre maximum de participants
+                                    </Label>
                                     <Input
                                         id="max_participants"
                                         type="number"
                                         min="1"
                                         value={data.max_participants}
-                                        onChange={(e) => setData('max_participants', parseInt(e.target.value))}
-                                        className={errors.max_participants ? 'border-destructive' : ''}
+                                        onChange={(e) =>
+                                            setData(
+                                                'max_participants',
+                                                parseInt(e.target.value),
+                                            )
+                                        }
+                                        className={
+                                            errors.max_participants
+                                                ? 'border-destructive'
+                                                : ''
+                                        }
                                     />
                                     {errors.max_participants && (
-                                        <p className="text-sm text-destructive">{errors.max_participants}</p>
+                                        <p className="text-sm text-destructive">
+                                            {errors.max_participants}
+                                        </p>
                                     )}
                                 </div>
 
                                 <div className="flex justify-end gap-4 pt-4">
-                                    <Button variant="outline" asChild disabled={processing}>
-                                        <Link href={routes.index.url()}>Annuler</Link>
+                                    <Button
+                                        variant="outline"
+                                        asChild
+                                        disabled={processing}
+                                    >
+                                        <Link href={routes.index.url()}>
+                                            Annuler
+                                        </Link>
                                     </Button>
-                                    <Button type="submit" disabled={processing} className="gap-2">
+                                    <Button
+                                        type="submit"
+                                        disabled={processing}
+                                        className="gap-2"
+                                    >
                                         <Save className="h-4 w-4" />
                                         Mettre à jour l'événement
                                     </Button>

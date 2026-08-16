@@ -2,9 +2,12 @@ import Button from '../components/Button';
 import Card from '../components/Card';
 import StarFill from '../components/StarFill';
 import StarStroke from '../components/StarStroke';
+import Sticker from '../components/Sticker';
+import StickerRayure from '../components/StickerRayure';
 import Subtitle from '../components/Subtitle';
 import Subtitle2 from '../components/Subtitle2';
 import Tache from '../components/Tache';
+import { Mail, Phone, SignpostBig } from 'lucide-react';
 
 export default function Contact({ content }: { content: any }) {
     return (
@@ -20,32 +23,65 @@ export default function Contact({ content }: { content: any }) {
                         <StarStroke className="absolute -top-35 right-0 w-7 text-secondary" />
                         <StarFill className="text-forground absolute -bottom-25 left-0 w-7 rotate-50" />
                         <StarStroke className="text-forground absolute -bottom-30 left-15 w-7" />
-                        <Card idx={0}>
-                            <p>
-                                <strong>Email :</strong> {content?.email}
-                            </p>
-                        </Card>
-                        <Card idx={1}>
-                            <p style={{ whiteSpace: 'pre-wrap' }}>
-                                <strong>Adresse :</strong> {content?.address}
-                            </p>
-                        </Card>
+                        <div className="relative">
+                            <Sticker className="absolute -top-4 left-40 z-50 w-20 -rotate-10 text-sticker-primary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8" />
+                            <Card idx={0}>
+                                <p className="flex gap-2 font-titre-lemon text-ternary">
+                                    <Mail />
+                                    <strong className="text-xl font-light">
+                                        {' '}
+                                        Email
+                                    </strong>
+                                </p>
+                                <a href="mailto:monaetlisa@hotmail.com">
+                                    {content?.email}
+                                </a>
+                            </Card>
+                        </div>
+                        <div className="relative">
+                            <Sticker className="absolute -top-4 left-40 z-50 w-20 -rotate-6 text-sticker-secondary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8" />
+                            <Card idx={1}>
+                                <p className="flex gap-2 font-titre-lemon text-ternary">
+                                    <SignpostBig />
+                                    <strong className="text-xl font-light">
+                                        {' '}
+                                        adresse
+                                    </strong>
+                                </p>
+                                <p>{content?.address}</p>
+                            </Card>
+                        </div>
 
-                        <Card idx={2}>
-                            <div>
-                                <strong>Téléphones :</strong>
-                                <ul>
-                                    {content?.phones?.map(
-                                        (phone: string, idx: number) => (
-                                            <li key={idx}>{phone}</li>
-                                        ),
-                                    )}
-                                </ul>
-                            </div>
-                        </Card>
+                        <div className="relative">
+                            <StickerRayure className="absolute -top-4 left-40 z-50 w-20 -rotate-6 text-sticker-secondary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8" />
+                            <Card idx={2}>
+                                <div>
+                                    <p className="flex gap-2 font-titre-lemon text-ternary">
+                                        <Phone />
+                                        <strong className="text-xl font-light">
+                                            {' '}
+                                            Téléphone
+                                        </strong>
+                                    </p>
+                                    <ul>
+                                        <a href="tel:+32478744148">
+                                            {content?.phones?.map(
+                                                (
+                                                    phone: string,
+                                                    idx: number,
+                                                ) => (
+                                                    <li key={idx}>{phone}</li>
+                                                ),
+                                            )}
+                                        </a>
+                                    </ul>
+                                </div>
+                            </Card>
+                        </div>
                     </div>
                     {/* RIGHT SIDE  */}
                     <div className="relative flex basis-1/2 justify-end">
+                        <StickerRayure className="absolute -top-4 left-65 z-50 w-20 -rotate-10 text-sticker-secondary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8" />
                         <StarStroke className="text-forground absolute -top-30 right-15 w-7 rotate-12" />
                         <Card>
                             <form className="space-y-5">

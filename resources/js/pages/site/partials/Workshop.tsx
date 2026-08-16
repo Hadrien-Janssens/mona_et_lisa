@@ -1,4 +1,5 @@
 import Button from '../components/Button';
+import CheckoutModalGlobal from '../components/CheckoutModalGlobal';
 import StarStroke from '../components/StarStroke';
 import Subtitle from '../components/Subtitle';
 import Tache from '../components/Tache';
@@ -25,18 +26,19 @@ export default function Workshop({
                         </Subtitle>
                     </div>
                     {content?.button_label && (
-                        <Button>{content.button_label}</Button>
+                        <CheckoutModalGlobal>
+                            <Button>{content.button_label}</Button>
+                        </CheckoutModalGlobal>
                     )}
                 </div>
 
                 <div className="relative z-10 flex flex-wrap justify-center gap-10 py-10">
                     <Tache className="text-forground absolute -top-3 left-80 z-10 w-28 rotate-80" />
+
                     {workshops.map((workshop, idx) => (
-                        <WorkshopCard
-                            key={workshop.id}
-                            workshop={workshop}
-                            idx={idx}
-                        />
+                        <div key={workshop.id} className="relative flex">
+                            <WorkshopCard workshop={workshop} idx={idx} />
+                        </div>
                     ))}
                 </div>
                 <img
