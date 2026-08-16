@@ -15,6 +15,10 @@ import CardPhoto from './components/CardPhoto';
 import Subtitle from './components/Subtitle';
 import CardSession from './components/CardSession';
 import Badge from './components/Badge';
+import StickerRayure from './components/StickerRayure';
+import Tache from './components/Tache';
+import StarStroke from './components/StarStroke';
+import StarFill from './components/StarFill';
 
 const Atelier = ({ workshop, sessions }: { workshop: any; sessions: any }) => {
     const [api, setApi] = useState<CarouselApi>();
@@ -65,49 +69,55 @@ const Atelier = ({ workshop, sessions }: { workshop: any; sessions: any }) => {
 
             <div className="mx-auto mt-24 mb-12 grid w-full max-w-250 grid-cols-1 gap-12 px-4 py-12 md:grid-cols-2">
                 {/* CAROUSEL  */}
-                <div className="flex flex-col">
+                <div className="relative flex flex-col">
+                    <StickerRayure className="absolute top-3 left-45 z-80 w-20 -rotate-10 text-sticker-primary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8" />
                     {workshop.images && workshop.images.length > 0 ? (
                         <>
-                            <Carousel
-                                setApi={setApi}
-                                opts={{ loop: true }}
-                                className="mx-auto w-4/5"
-                            >
-                                <CarouselContent>
-                                    {workshop.images.map((img: any) => (
-                                        <CarouselItem
-                                            key={img.id}
-                                            className="py-2 pl-4"
-                                        >
-                                            <Dialog>
-                                                <DialogTrigger asChild>
-                                                    <div className="group cursor-pointer p-5">
-                                                        <CardPhoto
-                                                            rotation="-rotate-2"
-                                                            className="!w-full !p-3"
-                                                        >
+                            <div className="relative">
+                                <div className="relative z-50">
+                                    <Carousel
+                                        setApi={setApi}
+                                        opts={{ loop: true }}
+                                        className="mx-auto w-4/5"
+                                    >
+                                        <CarouselContent className="">
+                                            {workshop.images.map((img: any) => (
+                                                <CarouselItem
+                                                    key={img.id}
+                                                    className="py-2 pl-4"
+                                                >
+                                                    <Dialog>
+                                                        <DialogTrigger asChild>
+                                                            <div className="group cursor-pointer p-5">
+                                                                <CardPhoto
+                                                                    rotation="-rotate-2"
+                                                                    className="!w-full !p-3"
+                                                                >
+                                                                    <img
+                                                                        src={`/storage/${img.path}`}
+                                                                        alt="Galerie"
+                                                                        className="aspect-square w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                                                    />
+                                                                </CardPhoto>
+                                                            </div>
+                                                        </DialogTrigger>
+                                                        <DialogContent className="max-w-4xl border-none bg-transparent p-0 shadow-none">
                                                             <img
                                                                 src={`/storage/${img.path}`}
-                                                                alt="Galerie"
-                                                                className="aspect-square w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                                                alt="Galerie agrandie"
+                                                                className="h-auto w-full rounded-xl object-contain"
                                                             />
-                                                        </CardPhoto>
-                                                    </div>
-                                                </DialogTrigger>
-                                                <DialogContent className="max-w-4xl border-none bg-transparent p-0 shadow-none">
-                                                    <img
-                                                        src={`/storage/${img.path}`}
-                                                        alt="Galerie agrandie"
-                                                        className="h-auto w-full rounded-xl object-contain"
-                                                    />
-                                                </DialogContent>
-                                            </Dialog>
-                                        </CarouselItem>
-                                    ))}
-                                </CarouselContent>
-                                <CarouselPrevious className="left-2" />
-                                <CarouselNext className="right-2" />
-                            </Carousel>
+                                                        </DialogContent>
+                                                    </Dialog>
+                                                </CarouselItem>
+                                            ))}
+                                        </CarouselContent>
+                                        <CarouselPrevious className="left-2" />
+                                        <CarouselNext className="right-2" />
+                                    </Carousel>
+                                </div>
+                                <Tache className="absolute right-8 -bottom-2 z-10 w-30 text-foreground" />
+                            </div>
 
                             {/* Miniatures */}
                             <div className="flex gap-4 overflow-x-auto px-4 py-6">
@@ -144,7 +154,13 @@ const Atelier = ({ workshop, sessions }: { workshop: any; sessions: any }) => {
                     )}
                 </div>
                 {/* DESCRIPTION  */}
-                <div className="py-5">
+                <div className="relative py-5">
+                    <StarStroke className="text-forground absolute -top-7 right-15 w-7" />
+                    <StarFill className="absolute -top-9 right-0 w-7 text-secondary" />
+
+                    <StarStroke className="absolute bottom-20 -left-15 w-7 text-foreground" />
+                    <StarFill className="absolute bottom-35 -left-25 w-7 text-secondary" />
+
                     <div className="flex items-start gap-5">
                         <Subtitle>{workshop.title}</Subtitle>
                         <Badge size="lg"> {workshop.price / 100}€</Badge>
@@ -188,8 +204,12 @@ const Atelier = ({ workshop, sessions }: { workshop: any; sessions: any }) => {
                 </div>
                 {filteredSessions && filteredSessions.length > 0 ? (
                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                        {filteredSessions.map((session: any) => (
-                            <CardSession key={session.id} session={session} />
+                        {filteredSessions.map((session: any, index: number) => (
+                            <CardSession
+                                key={session.id}
+                                session={session}
+                                index={index}
+                            />
                         ))}
                     </div>
                 ) : (

@@ -15,7 +15,7 @@ export default function SiteLayout({
             className="flex min-h-screen flex-col bg-background font-sans text-foreground"
         >
             <Nav />
-            <main className="flex-1">{children}</main>
+            <main className="flex-1 overflow-hidden">{children}</main>
             <Footer content={siteContents?.footer} />
         </div>
     );

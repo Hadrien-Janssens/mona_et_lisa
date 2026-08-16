@@ -11,11 +11,16 @@ const App = ({ workshops }: { workshops: any[] }) => {
 
     return (
         <>
-            <Header content={siteContents?.header} />
-            <About content={siteContents?.about} />
-            <Workshop workshops={workshops} content={siteContents?.workshop} />
-            <ScheduleAndPlan content={siteContents?.schedule} />
-            <Contact content={siteContents?.contact} />
+            <div className="text-sm sm:text-lg">
+                <Header content={siteContents?.header} />
+                <About content={siteContents?.about} />
+                <Workshop
+                    workshops={workshops}
+                    content={siteContents?.workshop}
+                />
+                <ScheduleAndPlan content={siteContents?.schedule} />
+                <Contact content={siteContents?.contact} />
+            </div>
         </>
     );
 };

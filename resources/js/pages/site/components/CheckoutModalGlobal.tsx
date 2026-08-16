@@ -52,7 +52,7 @@ export default function CheckoutModalGlobal({
             <DialogTrigger asChild>{children}</DialogTrigger>
             <DialogContent
                 data-theme="public"
-                className="my-10 max-h-[90vh] w-[95vw] overflow-x-hidden overflow-y-auto rounded-sm border border-s bg-background shadow sm:w-full sm:max-w-xl"
+                className="my-5 max-h-[90vh] w-[95vw] overflow-x-hidden overflow-y-auto rounded-sm border border-s bg-background shadow sm:w-full sm:max-w-xl"
             >
                 <DialogTitle className="sr-only">
                     Réservation d'atelier

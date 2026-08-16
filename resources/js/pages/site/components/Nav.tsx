@@ -122,7 +122,7 @@ const Nav = () => {
     return (
         <>
             <nav
-                className={`fixed top-0 z-50 flex w-full items-center justify-between border-b border-dashed border-primary bg-background p-6 font-titre-semibold text-lg transition-transform duration-300 lg:p-10 lg:pb-5 ${
+                className={`fixed top-0 z-100 flex w-full items-center justify-between border-b border-dashed border-primary bg-background p-6 font-titre-semibold text-lg transition-transform duration-300 md:p-10 md:pb-5 ${
                     isVisible ? 'translate-y-0' : '-translate-y-full'
                 }`}
             >
@@ -131,7 +131,7 @@ const Nav = () => {
                 </Link>
 
                 {/* Desktop Navigation */}
-                <div className="hidden items-center gap-12 lg:flex">
+                <div className="hidden items-center gap-4 md:flex lg:gap-12">
                     {navLinks.map((link) => (
                         <div
                             key={link.href}
@@ -175,7 +175,7 @@ const Nav = () => {
 
                 {/* Mobile Menu Toggle */}
                 <button
-                    className="z-50 p-2 text-primary focus:outline-none lg:hidden"
+                    className="z-50 p-2 text-primary focus:outline-none md:hidden"
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     aria-label="Toggle Menu"
                 >
@@ -183,7 +183,7 @@ const Nav = () => {
                 </button>
 
                 <Paperclip
-                    className={`absolute right-0 bottom-0 hidden translate-y-1/2 lg:block ${
+                    className={`absolute right-0 bottom-0 hidden translate-y-1/2 md:block ${
                         isVisible ? 'opacity-100' : 'opacity-0'
                     }`}
                 />
@@ -191,7 +191,7 @@ const Nav = () => {
 
             {/* Mobile Menu Overlay */}
             <div
-                className={`fixed inset-0 z-40 flex flex-col items-center justify-center bg-background transition-all duration-300 ${
+                className={`fixed inset-0 z-90 flex flex-col items-center justify-center bg-background transition-all duration-300 ${
                     isMobileMenuOpen
                         ? 'visible opacity-100'
                         : 'pointer-events-none invisible opacity-0'
