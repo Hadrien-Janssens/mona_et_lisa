@@ -2,10 +2,11 @@ import type { ReactNode } from 'react';
 
 type CardProps = {
     children: ReactNode;
+    className?: string;
     idx?: number;
 };
 
-export default function Card({ children, idx }: CardProps) {
+export default function Card({ children, idx, className }: CardProps) {
     let rotateClass = ' ';
 
     if (idx) {
@@ -14,7 +15,7 @@ export default function Card({ children, idx }: CardProps) {
 
     return (
         <div
-            className={`relative z-10 flex w-100 flex-col justify-between rounded-3xl border-2 border-primary bg-background px-5 py-8 pb-5 shadow transition-all duration-300 ease-in-out hover:scale-105 hover:rotate-0 ${rotateClass}`}
+            className={`relative z-10 flex w-100 flex-col justify-between rounded-3xl border-2 border-primary bg-background px-5 py-8 pb-5 shadow transition-all duration-300 ease-in-out hover:scale-105 hover:rotate-0 ${rotateClass} ${className}`}
         >
             {children}
         </div>

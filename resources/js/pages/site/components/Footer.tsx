@@ -8,9 +8,9 @@ export default function Footer({ content }: { content: any }) {
     return (
         <footer className="bg-primary px-6 py-8 text-xs text-background">
             {/* Passage en grid avec 3 colonnes égales et centrage parfait des éléments */}
-            <div className="grid grid-cols-3 items-start justify-items-center">
+            <div className="grid grid-cols-1 items-start gap-10 md:grid-cols-3 md:justify-items-center">
                 {/* Colonne 1 : Mona & Lisa */}
-                <div className="w-full max-w-xs">
+                <div className="w-full md:max-w-xs">
                     <p className="text-xl">Mona & Lisa</p>
                     <div className="relative w-fit">
                         <p className="w-fit py-1.5 font-titre-lemon text-lg text-secondary">
@@ -18,7 +18,7 @@ export default function Footer({ content }: { content: any }) {
                         </p>
                         <StarStroke className="absolute top-2 -right-8 w-4 text-secondary" />
                     </div>
-                    <p className="max-w-54 text-justify">
+                    <p className="text-justify md:max-w-54">
                         {content?.catchphrase}
                     </p>
                 </div>
@@ -28,37 +28,55 @@ export default function Footer({ content }: { content: any }) {
                     <p className="pb-1 font-titre-lemon text-lg text-secondary">
                         Navigation
                     </p>
-                    <ul className="flex flex-col items-start justify-start space-y-2">
-                        <li>
-                            <Link href="/#accueil" className="flex cursor-pointer items-center justify-center gap-1 hover:opacity-75 transition-opacity">
-                                <MoveRight className="w-3" />
-                                Accueil
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/#about" className="flex cursor-pointer items-center justify-center gap-1 hover:opacity-75 transition-opacity">
-                                <MoveRight className="w-3" />
-                                A propos
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/#workshop" className="flex cursor-pointer items-center justify-center gap-1 hover:opacity-75 transition-opacity">
-                                <MoveRight className="w-3" />
-                                Ateliers
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/#horaire" className="flex cursor-pointer items-center justify-center gap-1 hover:opacity-75 transition-opacity">
-                                <MoveRight className="w-3" />
-                                Horaire
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="/#contact" className="flex cursor-pointer items-center justify-center gap-1 hover:opacity-75 transition-opacity">
-                                <MoveRight className="w-3" />
-                                Contact
-                            </Link>
-                        </li>
+                    <ul className="flex gap-5 space-y-2 md:flex-col md:gap-0">
+                        <div className="space-y-2">
+                            <li>
+                                <Link
+                                    href="/#accueil"
+                                    className="flex cursor-pointer items-center justify-center gap-1 transition-opacity hover:opacity-75"
+                                >
+                                    <MoveRight className="w-3" />
+                                    Accueil
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href="/#about"
+                                    className="flex cursor-pointer items-center justify-center gap-1 transition-opacity hover:opacity-75"
+                                >
+                                    <MoveRight className="w-3" />A propos
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href="/#workshop"
+                                    className="flex cursor-pointer items-center justify-center gap-1 transition-opacity hover:opacity-75"
+                                >
+                                    <MoveRight className="w-3" />
+                                    Ateliers
+                                </Link>
+                            </li>
+                        </div>
+                        <div className="space-y-2">
+                            <li>
+                                <Link
+                                    href="/#horaire"
+                                    className="flex cursor-pointer items-center justify-center gap-1 transition-opacity hover:opacity-75"
+                                >
+                                    <MoveRight className="w-3" />
+                                    Horaire
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href="/#contact"
+                                    className="flex cursor-pointer items-center justify-center gap-1 transition-opacity hover:opacity-75"
+                                >
+                                    <MoveRight className="w-3" />
+                                    Contact
+                                </Link>
+                            </li>
+                        </div>
                     </ul>
                 </div>
 
@@ -68,13 +86,23 @@ export default function Footer({ content }: { content: any }) {
                         Contact
                     </p>
                     <div className="space-y-2">
-                        <a href="mailto:monaetlisa@hotmail.com" className="block hover:opacity-75 transition-opacity">monaetlisa@hotmail.com</a>
-                        <a href="tel:+32478744148" className="block hover:opacity-75 transition-opacity">0478 74 41 48</a>
-                        <a 
-                            href="https://www.google.com/maps/search/?api=1&query=rue+d'Enghien+45,+7000+Mons,+Belgique" 
-                            target="_blank" 
+                        <a
+                            href="mailto:monaetlisa@hotmail.com"
+                            className="block transition-opacity hover:opacity-75"
+                        >
+                            monaetlisa@hotmail.com
+                        </a>
+                        <a
+                            href="tel:+32478744148"
+                            className="block transition-opacity hover:opacity-75"
+                        >
+                            0478 74 41 48
+                        </a>
+                        <a
+                            href="https://www.google.com/maps/search/?api=1&query=rue+d'Enghien+45,+7000+Mons,+Belgique"
+                            target="_blank"
                             rel="noopener noreferrer"
-                            className="block hover:opacity-75 transition-opacity"
+                            className="block transition-opacity hover:opacity-75"
                         >
                             rue d'Enghien 45 <br /> 7000 Mons, Belgique
                         </a>
@@ -98,7 +126,7 @@ export default function Footer({ content }: { content: any }) {
 
             <div className="my-5 w-full border border-dashed border-secondary"></div>
 
-            <div className="flex justify-between font-titre-lemon text-lg text-secondary">
+            <div className="flex flex-col justify-center font-titre-lemon text-lg text-secondary md:flex-row md:justify-between">
                 <div className="relative w-fit">
                     <Tache className="absolute top-1.5 -right-6 w-4 text-secondary" />
                     <p className="w-fit">© 2026 Mona & Lisa</p>
