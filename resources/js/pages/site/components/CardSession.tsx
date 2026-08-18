@@ -17,9 +17,15 @@ export default function CardSession({ session, index = 0 }: CardSessionProps) {
             key={session.id}
             className="group relative z-10 flex w-70 flex-col justify-between rounded-3xl border-2 border-primary bg-background px-5 py-8 pb-5 shadow transition-all duration-300 ease-in-out hover:scale-105 hover:rotate-0"
         >
-            {stickerVariant === 0 && <Sticker className="absolute -top-4 left-25 z-50 w-20 -rotate-10 text-sticker-primary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8" />}
-            {stickerVariant === 1 && <Sticker className="absolute -top-4 left-25 z-50 w-20 -rotate-10 text-sticker-secondary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8" />}
-            {stickerVariant === 2 && <StickerRayure className="absolute -top-4 left-25 z-50 w-20 -rotate-10 text-sticker-secondary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8" />}
+            {stickerVariant === 0 && (
+                <Sticker className="absolute -top-4 left-25 z-50 w-20 -rotate-10 text-sticker-primary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8" />
+            )}
+            {stickerVariant === 1 && (
+                <Sticker className="absolute -top-4 left-25 z-50 w-20 -rotate-10 text-sticker-secondary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8" />
+            )}
+            {stickerVariant === 2 && (
+                <StickerRayure className="absolute -top-4 left-25 z-50 w-20 -rotate-10 text-sticker-secondary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8" />
+            )}
 
             <div className="mb-4 flex flex-col">
                 <p> {session.workshop.title}</p>

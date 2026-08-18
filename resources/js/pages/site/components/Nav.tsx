@@ -71,7 +71,6 @@ const Nav = () => {
     const lastScrollY = useRef(0);
     // On récupère les ateliers partagés depuis HandleInertiaRequests
     const { globalWorkshops } = usePage().props as any;
-    console.log(globalWorkshops);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -122,7 +121,7 @@ const Nav = () => {
     return (
         <>
             <nav
-                className={`fixed top-0 z-100 flex w-full items-center justify-between border-b border-dashed border-primary bg-background p-6 font-titre-semibold text-lg transition-transform duration-300 md:p-10 md:pb-5 ${
+                className={`fixed top-0 z-100 flex w-full items-center justify-between border-b border-dashed border-primary bg-background p-2 font-titre-semibold text-lg transition-transform duration-300 md:p-10 md:pb-5 ${
                     isVisible ? 'translate-y-0' : '-translate-y-full'
                 }`}
             >
@@ -157,7 +156,7 @@ const Nav = () => {
                                                     <Link
                                                         key={workshop.id}
                                                         href={`/ateliers/${workshop.slug}`}
-                                                        className="relative z-10 rounded-lg px-4 py-2 whitespace-nowrap text-primary transition-colors hover:bg-primary/10 hover:text-primary"
+                                                        className="relative z-10 rounded-lg px-4 py-2 whitespace-nowrap transition-colors hover:bg-primary/10 hover:text-primary"
                                                     >
                                                         {workshop.title}
                                                     </Link>
@@ -214,20 +213,20 @@ const Nav = () => {
                             {link.hasDropdown &&
                                 globalWorkshops &&
                                 globalWorkshops.length > 0 && (
-                                    <div className="mt-4 mb-2 flex w-full flex-col items-center gap-4 border-l-2 border-primary/20 pl-4">
+                                    <div className="mt-4 mb-2 flex w-full flex-col items-center border-l-2 border-primary/20 pl-4">
                                         {globalWorkshops.map(
                                             (workshop: any) => (
                                                 <Link
                                                     key={workshop.id}
                                                     href={`/ateliers/${workshop.slug}`}
-                                                    className="w-full py-2 text-center text-lg opacity-70 transition-opacity hover:opacity-100"
+                                                    className="w-full text-center text-lg opacity-70 transition-opacity hover:opacity-100"
                                                     onClick={() =>
                                                         setIsMobileMenuOpen(
                                                             false,
                                                         )
                                                     }
                                                 >
-                                                    {workshop.name}
+                                                    {workshop.title}
                                                 </Link>
                                             ),
                                         )}

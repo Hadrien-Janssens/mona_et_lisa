@@ -61,16 +61,14 @@ const Atelier = ({ workshop, sessions }: { workshop: any; sessions: any }) => {
         <>
             <Head title={workshop.title} />
 
-            <div className="mb-8">
-                <Link href="/" className="text-blue-600 hover:underline">
-                    &larr; Retour aux ateliers
-                </Link>
-            </div>
-
             <div className="mx-auto mt-24 mb-12 grid w-full max-w-250 grid-cols-1 gap-12 px-4 py-12 md:grid-cols-2">
+                <div className="flex items-start gap-5 md:hidden">
+                    <Subtitle>{workshop.title}</Subtitle>
+                    <Badge size="lg"> {workshop.price / 100}€</Badge>
+                </div>
                 {/* CAROUSEL  */}
                 <div className="relative flex flex-col">
-                    <StickerRayure className="absolute top-3 left-45 z-80 w-20 -rotate-10 text-sticker-primary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8" />
+                    <StickerRayure className="absolute top-3 left-1/2 z-80 w-20 -translate-x-1/2 -rotate-10 text-sticker-primary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8" />
                     {workshop.images && workshop.images.length > 0 ? (
                         <>
                             <div className="relative">
@@ -161,7 +159,7 @@ const Atelier = ({ workshop, sessions }: { workshop: any; sessions: any }) => {
                     <StarStroke className="absolute bottom-20 -left-15 w-7 text-foreground" />
                     <StarFill className="absolute bottom-35 -left-25 w-7 text-secondary" />
 
-                    <div className="flex items-start gap-5">
+                    <div className="hidden items-start gap-5 md:flex">
                         <Subtitle>{workshop.title}</Subtitle>
                         <Badge size="lg"> {workshop.price / 100}€</Badge>
                     </div>
@@ -203,7 +201,7 @@ const Atelier = ({ workshop, sessions }: { workshop: any; sessions: any }) => {
                     </div>
                 </div>
                 {filteredSessions && filteredSessions.length > 0 ? (
-                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    <div className="flex w-full flex-wrap gap-5">
                         {filteredSessions.map((session: any, index: number) => (
                             <CardSession
                                 key={session.id}

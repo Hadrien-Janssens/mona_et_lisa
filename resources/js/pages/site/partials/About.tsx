@@ -2,10 +2,10 @@ import { Paperclip, Scissors } from 'lucide-react';
 import CardPhoto from '../components/CardPhoto';
 import StarFill from '../components/StarFill';
 import StarStroke from '../components/StarStroke';
-import Subtitle from '../components/Subtitle';
-import Tache from '../components/Tache';
 import Sticker from '../components/Sticker';
 import StickerRayure from '../components/StickerRayure';
+import Subtitle from '../components/Subtitle';
+import Tache from '../components/Tache';
 
 export default function About({ content }: { content: any }) {
     return (
@@ -13,16 +13,17 @@ export default function About({ content }: { content: any }) {
             id="about"
             className="relative border-b border-dashed border-primary"
         >
-            <div className="mx-auto w-full max-w-250 py-30">
+            <div className="mx-auto w-full px-5 pt-30 pb-10 md:pt-30 md:pb-30 lg:max-w-250 lg:px-10">
                 <div className="relative w-fit">
                     <Subtitle>{content?.title || 'À propos'}</Subtitle>
-                    <StarFill className="text-forground absolute -top-9 -left-10 w-7 -rotate-40" />
+                    <StarFill className="text-forground absolute -top-12 -left-2 w-7 -rotate-40 lg:-top-9 lg:-left-10" />
                     <StarStroke className="absolute -right-13 -bottom-4 w-7 text-secondary" />
                 </div>
 
-                <div className="my-16 flex flex-col items-center justify-center gap-12 px-4 pb-10 md:flex-row">
-                    <div className="relative">
-                        <Sticker className="absolute -top-4 left-13 z-50 w-20 -rotate-10 text-sticker-primary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8" />
+                <div className="my-12 flex flex-col items-center justify-center gap-12 pb-10 md:my-16 md:flex-row">
+                    {/* LISA */}
+                    <div className="relative hidden md:block">
+                        <Sticker className="absolute -top-4 left-8 z-50 w-20 -rotate-10 text-sticker-primary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8 sm:left-13 md:left-8 lg:left-13" />
                         {content?.default_images?.[0] && (
                             <CardPhoto rotation="-rotate-3 ">
                                 <img
@@ -34,11 +35,11 @@ export default function About({ content }: { content: any }) {
                         )}
                         <Tache className="absolute -bottom-10 -left-10 z-10 w-30 text-foreground" />
                     </div>
-
-                    <div>
+                    {/* TEXT */}
+                    <div className="-order-1 md:order-0">
                         {' '}
                         <p
-                            className="max-w-xl text-justify leading-relaxed text-foreground/80"
+                            className="w-full text-justify leading-relaxed text-foreground/80 md:max-w-xl"
                             style={{ whiteSpace: 'pre-wrap' }}
                         >
                             {content?.description}
@@ -46,22 +47,37 @@ export default function About({ content }: { content: any }) {
                         <img
                             src="/img/big_ligne.svg"
                             alt=""
-                            className="mx-auto mt-3"
+                            className="mx-auto mt-3 mb-5"
                         />
                     </div>
-
-                    <div className="relative">
-                        <StickerRayure className="absolute -top-4 left-13 z-50 w-20 -rotate-6 text-sticker-primary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8" />
-                        {content?.default_images?.[1] && (
-                            <CardPhoto rotation="rotate-2">
-                                <img
-                                    src={content.default_images[1]}
-                                    alt="Lisa"
-                                    className="h-full w-full object-cover"
-                                />
-                            </CardPhoto>
-                        )}
-                        <Tache className="absolute -top-10 -right-10 z-10 w-30 text-secondary" />
+                    {/* Mona Mobile */}
+                    <div className="flex justify-between gap-10">
+                        <div className="relative md:hidden">
+                            <Sticker className="absolute -top-4 left-8 z-50 w-20 -rotate-10 text-sticker-primary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8 sm:left-13 md:left-8 lg:left-13" />
+                            {content?.default_images?.[0] && (
+                                <CardPhoto rotation="-rotate-3 ">
+                                    <img
+                                        src={content.default_images[0]}
+                                        alt="Mona"
+                                        className="h-full w-full object-cover"
+                                    />
+                                </CardPhoto>
+                            )}
+                            <Tache className="absolute -bottom-10 -left-10 z-10 w-30 text-foreground" />
+                        </div>
+                        <div className="relative">
+                            <StickerRayure className="absolute -top-4 left-8 z-50 w-20 -rotate-6 text-sticker-primary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8 sm:left-13 md:left-8 lg:left-13" />
+                            {content?.default_images?.[1] && (
+                                <CardPhoto rotation="rotate-2">
+                                    <img
+                                        src={content.default_images[1]}
+                                        alt="Lisa"
+                                        className="h-full w-full object-cover"
+                                    />
+                                </CardPhoto>
+                            )}
+                            <Tache className="absolute -top-10 -right-10 z-10 w-30 text-secondary" />
+                        </div>
                     </div>
                 </div>
             </div>

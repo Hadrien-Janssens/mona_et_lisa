@@ -17,19 +17,21 @@ export default function Workshop({
             id="workshop"
             className="relative overflow-hidden border-b border-dashed border-primary"
         >
-            <div className="mx-auto w-full max-w-250 pt-40 pb-30">
-                <div className="flex items-center justify-between">
+            <div className="mx-auto w-full max-w-250 pt-24 pb-18 md:pt-40 md:pb-30">
+                <div className="flex flex-col items-start justify-between gap-2 px-5 md:flex-row md:items-center lg:px-10">
                     <div className="relative">
-                        <StarStroke className="text-forground absolute -top-9 -left-10 w-7 -rotate-12" />
+                        <StarStroke className="text-forground absolute -top-12 -left-4 w-7 -rotate-12 lg:-left-10" />
                         <Subtitle>
                             {content?.title || 'Workshop Title'}
                         </Subtitle>
                     </div>
-                    {content?.button_label && (
-                        <CheckoutModalGlobal>
-                            <Button>{content.button_label}</Button>
-                        </CheckoutModalGlobal>
-                    )}
+                    <div className="z-30">
+                        {content?.button_label && (
+                            <CheckoutModalGlobal>
+                                <Button>{content.button_label}</Button>
+                            </CheckoutModalGlobal>
+                        )}
+                    </div>
                 </div>
 
                 <div className="relative z-10 flex flex-wrap justify-center gap-10 py-10">
