@@ -1,12 +1,11 @@
 <?php
 
-use App\Models\User;
 use App\Models\SiteContent;
+use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+
 use function Pest\Laravel\actingAs;
-use function Pest\Laravel\get;
-use function Pest\Laravel\post;
 
 beforeEach(function () {
     $this->admin = User::factory()->create(['is_admin' => true]);
@@ -28,7 +27,7 @@ it('can update json content for a section', function () {
         'content' => [
             'title' => 'Nouveau Titre',
             'subtitle' => 'Nouveau sous-titre',
-        ]
+        ],
     ];
 
     actingAs($this->admin)
@@ -60,9 +59,9 @@ it('can upload images when updating content', function () {
         ->assertRedirect();
 
     $siteContent = SiteContent::where('section', 'header')->first();
-    
+
     expect($siteContent->content['images'])->toHaveCount(1);
-    
+
     $imagePath = str_replace('/storage/', '', $siteContent->content['images'][0]);
     Storage::disk('public')->assertExists($imagePath);
 });

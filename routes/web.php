@@ -10,6 +10,49 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\StripeWebhookController;
 use Illuminate\Support\Facades\Route;
 
+
+// ROUTE CONFIG
+// lien symbolique
+// Route::get('/creer-lien-relatif', function () {
+//     $link = public_path('storage');
+//     $target = '../storage/app/public';
+//     if (file_exists($link)) {
+//         unlink($link);
+//     }
+//     symlink($target, $link);
+
+//     return 'Lien relatif créé avec succès !';
+// });
+
+Route::get('/fresh-db', function () {
+    try {
+        // Le paramètre --force est OBLIGATOIRE en production,
+        // sinon Laravel bloque la commande par sécurité.
+        \Illuminate\Support\Facades\Artisan::call('migrate:fresh', [
+            '--force' => true
+        ]);
+
+        $output = \Illuminate\Support\Facades\Artisan::output();
+        return 'Base de données réinitialisée avec succès !<br><br><pre>' . $output . '</pre>';
+    } catch (\Exception $e) {
+        return 'Une erreur est survenue : ' . $e->getMessage();
+    }
+});
+
+Route::get('/optimize', function () {
+    // 1. On vide tous les anciens caches
+    \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+
+    // 2. On recrée le cache avec le nouveau .env
+    \Illuminate\Support\Facades\Artisan::call('optimize');
+
+    $output = \Illuminate\Support\Facades\Artisan::output();
+    return 'Le cache est à jour !<br><br><pre>' . $output . '</pre>';
+});
+
+
+// FIN DES ROUTES DE CONFIG
+
 Route::get('/', [SiteController::class, 'index'])->name('home');
 Route::get('/ateliers/{workshop:slug}', [SiteController::class, 'show'])->name('workshops.show');
 
@@ -19,6 +62,8 @@ Route::get('/paiement-valide', [CheckoutController::class, 'success'])->name('ch
 Route::post('/paiement-valide/activer', [CheckoutController::class, 'activateAccount'])->name('checkout.activate');
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])->name('stripe.webhook');
 
+use App\Http\Controllers\Admin\ContentController;
+use App\Http\Controllers\Admin\StripeSettingsController;
 use App\Http\Controllers\UserBookingController;
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -27,12 +72,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::middleware(['admin'])->group(function () {
         Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+        // STRIPE
+        Route::get('admin/stripe', [StripeSettingsController::class, 'edit'])->name('admin.stripe.edit');
+        Route::put('admin/stripe', [StripeSettingsController::class, 'update'])->name('admin.stripe.update');
+        // ---------------
         Route::resource('admin/events', EventController::class)->names('admin.events')->except(['show']);
         Route::resource('admin/workshops', WorkshopController::class)->names('admin.workshops');
 
         // Content Management
-        Route::get('admin/content', [\App\Http\Controllers\Admin\ContentController::class, 'index'])->name('admin.content.index');
-        Route::post('admin/content/{section}', [\App\Http\Controllers\Admin\ContentController::class, 'update'])->name('admin.content.update');
+        Route::get('admin/content', [ContentController::class, 'index'])->name('admin.content.index');
+        Route::post('admin/content/{section}', [ContentController::class, 'update'])->name('admin.content.update');
 
         Route::post('admin/workshops/{workshop}/images', [WorkshopImageController::class, 'store'])->name('admin.workshops.images.store');
         Route::post('admin/workshops/{workshop}/images/reorder', [WorkshopImageController::class, 'reorder'])->name('admin.workshops.images.reorder');

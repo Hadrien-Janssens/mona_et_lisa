@@ -28,7 +28,9 @@ export default function Workshop({
                     <div className="z-30">
                         {content?.button_label && (
                             <CheckoutModalGlobal>
-                                <Button>{content.button_label}</Button>
+                                <Button>
+                                    {content?.button_label || 'Bouton'}
+                                </Button>
                             </CheckoutModalGlobal>
                         )}
                     </div>

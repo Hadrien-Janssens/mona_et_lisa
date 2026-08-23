@@ -11,7 +11,7 @@ class ContentController extends Controller
 {
     public function index()
     {
-        $contents = SiteContent::all()->keyBy('section')->map(fn($content) => $content->content);
+        $contents = SiteContent::all()->keyBy('section')->map(fn ($content) => $content->content);
 
         // Ensure default structure if empty
         return Inertia::render('admin/content/index', [
@@ -48,12 +48,12 @@ class ContentController extends Controller
                 $uploadedFiles = [];
                 foreach ($files as $key => $file) {
                     $path = $file->store('content', 'public');
-                    $uploadedFiles[$key] = '/storage/' . $path;
+                    $uploadedFiles[$key] = '/storage/'.$path;
                 }
                 $contentData[$fileKey] = array_merge($contentData[$fileKey] ?? [], $uploadedFiles);
             } else {
                 $path = $files->store('content', 'public');
-                $contentData[$fileKey] = '/storage/' . $path;
+                $contentData[$fileKey] = '/storage/'.$path;
             }
         }
 

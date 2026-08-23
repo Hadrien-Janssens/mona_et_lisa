@@ -24,15 +24,18 @@ export default function About({ content }: { content: any }) {
                     {/* LISA */}
                     <div className="relative hidden md:block">
                         <Sticker className="absolute -top-4 left-8 z-50 w-20 -rotate-10 text-sticker-primary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8 sm:left-13 md:left-8 lg:left-13" />
-                        {content?.default_images?.[0] && (
-                            <CardPhoto rotation="-rotate-3 ">
-                                <img
-                                    src={content.default_images[0]}
-                                    alt="Mona"
-                                    className="h-full w-full object-cover"
-                                />
-                            </CardPhoto>
-                        )}
+
+                        <CardPhoto rotation="-rotate-3 ">
+                            <img
+                                src={
+                                    content?.default_images?.[0] ||
+                                    '/img/default.png'
+                                }
+                                alt="Mona"
+                                className="h-full w-full object-cover"
+                            />
+                        </CardPhoto>
+
                         <Tache className="absolute -bottom-10 -left-10 z-10 w-30 text-foreground" />
                     </div>
                     {/* TEXT */}
@@ -42,7 +45,7 @@ export default function About({ content }: { content: any }) {
                             className="w-full text-justify leading-relaxed text-foreground/80 md:max-w-xl"
                             style={{ whiteSpace: 'pre-wrap' }}
                         >
-                            {content?.description}
+                            {content?.description || 'Description'}
                         </p>
                         <img
                             src="/img/big_ligne.svg"
@@ -54,28 +57,34 @@ export default function About({ content }: { content: any }) {
                     <div className="flex justify-between gap-10">
                         <div className="relative md:hidden">
                             <Sticker className="absolute -top-4 left-8 z-50 w-20 -rotate-10 text-sticker-primary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8 sm:left-13 md:left-8 lg:left-13" />
-                            {content?.default_images?.[0] && (
-                                <CardPhoto rotation="-rotate-3 ">
-                                    <img
-                                        src={content.default_images[0]}
-                                        alt="Mona"
-                                        className="h-full w-full object-cover"
-                                    />
-                                </CardPhoto>
-                            )}
+
+                            <CardPhoto rotation="-rotate-3 ">
+                                <img
+                                    src={
+                                        content?.default_images?.[0] ||
+                                        '/img/default.png'
+                                    }
+                                    alt="Mona"
+                                    className="h-full w-full object-cover"
+                                />
+                            </CardPhoto>
+
                             <Tache className="absolute -bottom-10 -left-10 z-10 w-30 text-foreground" />
                         </div>
                         <div className="relative">
                             <StickerRayure className="absolute -top-4 left-8 z-50 w-20 -rotate-6 text-sticker-primary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8 sm:left-13 md:left-8 lg:left-13" />
-                            {content?.default_images?.[1] && (
-                                <CardPhoto rotation="rotate-2">
-                                    <img
-                                        src={content.default_images[1]}
-                                        alt="Lisa"
-                                        className="h-full w-full object-cover"
-                                    />
-                                </CardPhoto>
-                            )}
+
+                            <CardPhoto rotation="rotate-2">
+                                <img
+                                    src={
+                                        content?.default_images?.[1] ||
+                                        '/img/default.png'
+                                    }
+                                    alt="Lisa"
+                                    className="h-full w-full object-cover"
+                                />
+                            </CardPhoto>
+
                             <Tache className="absolute -top-10 -right-10 z-10 w-30 text-secondary" />
                         </div>
                     </div>
