@@ -79,7 +79,7 @@ export default function HeaderSettings({ initialData }: { initialData: any }) {
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div className="space-y-2">
                             <Label htmlFor="button1_label">
-                                Bouton 1 (Label)
+                                Bouton contact (Label)
                             </Label>
                             <Input
                                 id="button1_label"
@@ -95,7 +95,7 @@ export default function HeaderSettings({ initialData }: { initialData: any }) {
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="button2_label">
-                                Bouton 2 (Label)
+                                Bouton Atelier (Label)
                             </Label>
                             <Input
                                 id="button2_label"
