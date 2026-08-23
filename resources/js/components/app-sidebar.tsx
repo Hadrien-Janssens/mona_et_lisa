@@ -31,6 +31,7 @@ import { dashboard as adminDashboard } from '@/routes/admin';
 import { index as adminContentIndex } from '@/routes/admin/content';
 import { index as adminEvents } from '@/routes/admin/events';
 import { index as adminWorkshopIndex } from '@/routes/admin/workshops';
+import { edit as adminStripeEdit } from '@/routes/admin/stripe';
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
@@ -76,7 +77,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Stripe',
-        href: '#',
+        href: adminStripeEdit(),
         icon: CreditCard,
     },
     {

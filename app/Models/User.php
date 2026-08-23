@@ -14,8 +14,8 @@ use Laravel\Fortify\Contracts\PasskeyUser;
 use Laravel\Fortify\PasskeyAuthenticatable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 
-#[Fillable(['first_name', 'last_name', 'name', 'email', 'password', 'phone', 'birthdate', 'is_admin'])]
-#[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
+#[Fillable(['first_name', 'last_name', 'name', 'email', 'password', 'phone', 'birthdate', 'is_admin', 'stripe_public_key', 'stripe_secret_key', 'stripe_webhook_secret'])]
+#[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token', 'stripe_secret_key', 'stripe_webhook_secret'])]
 class User extends Authenticatable implements PasskeyUser
 {
     /** @use HasFactory<UserFactory> */
@@ -34,6 +34,8 @@ class User extends Authenticatable implements PasskeyUser
             'two_factor_confirmed_at' => 'datetime',
             'birthdate' => 'date',
             'is_admin' => 'boolean',
+            'stripe_secret_key' => 'encrypted',
+            'stripe_webhook_secret' => 'encrypted',
         ];
     }
 

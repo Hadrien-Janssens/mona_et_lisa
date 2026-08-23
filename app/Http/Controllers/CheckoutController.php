@@ -74,7 +74,12 @@ class CheckoutController extends Controller
                 ]);
 
                 // 4. Session Stripe Checkout
-                Stripe::setApiKey(config('services.stripe.secret'));
+                $adminUser = User::where('is_admin', true)->first();
+                $stripeSecret = app()->isLocal() || ! $adminUser || empty($adminUser->stripe_secret_key)
+                    ? $adminUser->stripe_secret_key
+                    : config('services.stripe.secret');
+
+                Stripe::setApiKey($stripeSecret);
 
                 $checkoutSession = StripeSession::create([
                     'line_items' => [[
@@ -182,17 +187,20 @@ class CheckoutController extends Controller
         try {
             DB::transaction(function () use ($booking) {
                 if ($booking->stripe_payment_intent_id) {
-                    Stripe::setApiKey(config('services.stripe.secret'));
+                    $adminUser = User::where('is_admin', true)->first();
+                    $stripeSecret = app()->isLocal() || ! $adminUser || empty($adminUser->stripe_secret_key)
+                        ? config('services.stripe.secret')
+                        : $adminUser->stripe_secret_key;
+
+                    Stripe::setApiKey($stripeSecret);
                     Refund::create([
                         'payment_intent' => $booking->stripe_payment_intent_id,
                     ]);
                 }
 
-
                 $booking->update([
                     'payment_status' => 'cancelled',
                 ]);
-
 
                 // TODO: Email confirmation
             });

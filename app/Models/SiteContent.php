@@ -13,4 +13,5 @@ class SiteContent extends Model
         return [
             'content' => 'array',
         ];
-    }}
+    }
+}

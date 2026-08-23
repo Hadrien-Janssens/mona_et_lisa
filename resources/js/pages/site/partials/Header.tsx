@@ -17,27 +17,26 @@ export default function Header({ content }: { content: any }) {
                 {/* LEFT  */}
                 <div className="relative z-10 flex flex-col items-center justify-center md:basis-2/5 md:items-start">
                     <h1 className="w-60 font-titre-lemon text-7xl sm:text-8xl md:w-30">
-                        {content?.title || 'Header Title'}
+                        {content?.title || 'Titre du header'}
                     </h1>
                     <img src="/img/big_ligne.svg" alt="" className="w-2/3" />
 
                     <p className="w-70 pt-5 pb-0 text-center md:w-90 md:pb-10 md:text-left">
-                        {content?.subtitle}
+                        {content?.subtitle || 'Sous-titre du header'}
                     </p>
                     {/* BUTTON DESKTOP  */}
                     <div className="hidden gap-5 md:flex">
-                        {content?.button1_label && (
-                            <a href="/#contact">
-                                <Button>{content.button1_label}</Button>
-                            </a>
-                        )}
-                        {content?.button2_label && (
-                            <a href="/#workshop">
-                                <Button variant={'primary'}>
-                                    {content.button2_label}
-                                </Button>
-                            </a>
-                        )}
+                        <a href="/#contact">
+                            <Button>
+                                {content.button1_label || 'Bouton 1'}
+                            </Button>
+                        </a>
+
+                        <a href="/#workshop">
+                            <Button variant={'primary'}>
+                                {content.button2_label || 'Bouton 2'}
+                            </Button>
+                        </a>
                     </div>
                 </div>
 
@@ -50,7 +49,10 @@ export default function Header({ content }: { content: any }) {
                             <StickerRayure className="absolute -top-4 left-8 z-50 w-20 -rotate-10 text-sticker-primary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8 sm:left-13 md:left-8 lg:left-13" />
                             <CardPhoto className="">
                                 <img
-                                    src={content?.images[0]}
+                                    src={
+                                        content?.images?.[0] ||
+                                        '/img/default.png'
+                                    }
                                     alt={`Header Image`}
                                     width="100"
                                     className="h-full w-full object-cover"
@@ -62,7 +64,10 @@ export default function Header({ content }: { content: any }) {
                             <Sticker className="absolute -top-4 left-8 z-50 w-20 -rotate-10 text-sticker-secondary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8 sm:left-13 md:left-8 lg:left-13" />
                             <CardPhoto>
                                 <img
-                                    src={content?.images[1]}
+                                    src={
+                                        content?.images?.[1] ||
+                                        '/img/default.png'
+                                    }
                                     alt={`Header Image`}
                                     width="100"
                                     className="h-full w-full object-cover"
@@ -74,7 +79,10 @@ export default function Header({ content }: { content: any }) {
                             <Sticker className="absolute -top-4 left-8 z-50 w-20 -rotate-10 text-sticker-primary transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-8 sm:left-13 md:left-8 lg:left-13" />
                             <CardPhoto>
                                 <img
-                                    src={content?.images[2]}
+                                    src={
+                                        content?.images?.[2] ||
+                                        '/img/default.png'
+                                    }
                                     alt={`Header Image`}
                                     width="100"
                                     className="h-full w-full object-cover"
@@ -84,18 +92,14 @@ export default function Header({ content }: { content: any }) {
                     </div>
                 </div>
                 <div className="relative -top-22 z-10 mb-10 flex gap-5 md:mb-0 md:hidden">
-                    {content?.button1_label && (
-                        <a href="/#contact">
-                            <Button>{content.button1_label}</Button>
-                        </a>
-                    )}
-                    {content?.button2_label && (
-                        <a href="/#workshop">
-                            <Button variant={'primary'}>
-                                {content.button2_label}
-                            </Button>
-                        </a>
-                    )}
+                    <a href="/#contact">
+                        <Button>{content.button1_label || 'button 1'}</Button>
+                    </a>
+                    <a href="/#workshop">
+                        <Button variant={'primary'}>
+                            {content.button2_label || 'button 1'}
+                        </Button>
+                    </a>
                 </div>
             </div>
             <img

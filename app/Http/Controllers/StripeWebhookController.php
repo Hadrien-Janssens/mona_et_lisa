@@ -22,7 +22,16 @@ class StripeWebhookController extends Controller
     {
         $payload = $request->getContent();
         $sigHeader = $request->header('stripe-signature');
-        $endpointSecret = config('services.stripe.webhook_secret');
+        
+        $adminUser = \App\Models\User::where('is_admin', true)->first();
+        
+        $endpointSecret = app()->isLocal() || ! $adminUser || empty($adminUser->stripe_webhook_secret)
+            ? config('services.stripe.webhook_secret')
+            : $adminUser->stripe_webhook_secret;
+
+        $stripeSecret = app()->isLocal() || ! $adminUser || empty($adminUser->stripe_secret_key)
+            ? config('services.stripe.secret')
+            : $adminUser->stripe_secret_key;
 
         try {
             if ($endpointSecret) {
@@ -45,7 +54,7 @@ class StripeWebhookController extends Controller
 
             if ($bookingId) {
                 try {
-                    DB::transaction(function () use ($bookingId, $paymentIntentId) {
+                    DB::transaction(function () use ($bookingId, $paymentIntentId, $stripeSecret) {
                         $booking = Booking::findOrFail($bookingId);
 
                         if ($booking->payment_status !== 'pending') {
@@ -61,7 +70,7 @@ class StripeWebhookController extends Controller
                                 'stripe_payment_intent_id' => $paymentIntentId,
                             ]);
 
-                            Stripe::setApiKey(config('services.stripe.secret'));
+                            Stripe::setApiKey($stripeSecret);
                             Refund::create([
                                 'payment_intent' => $paymentIntentId,
                             ]);
