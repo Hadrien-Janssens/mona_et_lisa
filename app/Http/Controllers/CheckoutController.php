@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CheckoutRequest;
+use App\Mail\BookingConfirmed;
+use App\Mail\CancelBooking;
 use App\Models\Booking;
 use App\Models\User;
 use App\Models\WorkshopSession;
@@ -11,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -37,6 +40,7 @@ class CheckoutController extends Controller
         $validated = $request->validated();
 
         try {
+
             $checkoutSessionUrl = DB::transaction(function () use ($validated, $session) {
                 // 1. Transaction & Verrou Pessimiste
                 $lockedSession = WorkshopSession::lockForUpdate()->find($session->id);
@@ -75,9 +79,12 @@ class CheckoutController extends Controller
 
                 // 4. Session Stripe Checkout
                 $adminUser = User::where('is_admin', true)->first();
-                $stripeSecret = app()->isLocal() || ! $adminUser || empty($adminUser->stripe_secret_key)
-                    ? $adminUser->stripe_secret_key
-                    : config('services.stripe.secret');
+
+                // TODO: stripe cli ou vrai api key selon app en local ou en production
+                $stripeSecret =  app()->isLocal() ||  ! $adminUser ||  empty($adminUser->stripe_secret_key)
+                    ? config('services.stripe.secret')
+                    : $adminUser->stripe_secret_key;
+                // $stripeSecret = config('services.stripe.secret');
 
                 Stripe::setApiKey($stripeSecret);
 
@@ -203,6 +210,8 @@ class CheckoutController extends Controller
                 ]);
 
                 // TODO: Email confirmation
+                Mail::to($booking->user->email)
+                    ->send(new CancelBooking($booking));
             });
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'Une erreur est survenue lors du remboursement : ' . $e->getMessage()]);

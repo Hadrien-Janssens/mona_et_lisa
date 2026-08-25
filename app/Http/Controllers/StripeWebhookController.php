@@ -20,12 +20,13 @@ class StripeWebhookController extends Controller
 {
     public function handle(Request $request)
     {
+
         $payload = $request->getContent();
         $sigHeader = $request->header('stripe-signature');
-        
+
         $adminUser = \App\Models\User::where('is_admin', true)->first();
-        
-        $endpointSecret = app()->isLocal() || ! $adminUser || empty($adminUser->stripe_webhook_secret)
+
+        $endpointSecret =  app()->isLocal() ||  ! $adminUser ||  empty($adminUser->stripe_webhook_secret)
             ? config('services.stripe.webhook_secret')
             : $adminUser->stripe_webhook_secret;
 
@@ -36,7 +37,9 @@ class StripeWebhookController extends Controller
         try {
             if ($endpointSecret) {
                 $event = Webhook::constructEvent(
-                    $payload, $sigHeader, $endpointSecret
+                    $payload,
+                    $sigHeader,
+                    $endpointSecret
                 );
             } else {
                 $event = Event::constructFrom(json_decode($payload, true));
@@ -90,7 +93,7 @@ class StripeWebhookController extends Controller
                         }
                     });
                 } catch (\Exception $e) {
-                    Log::error('Erreur webhook Stripe: '.$e->getMessage());
+                    Log::error('Erreur webhook Stripe: ' . $e->getMessage());
 
                     return response()->json(['error' => $e->getMessage()], 400);
                 }

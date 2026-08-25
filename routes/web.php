@@ -9,6 +9,10 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\StripeWebhookController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\ContentController;
+use App\Http\Controllers\Admin\StripeSettingsController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\UserBookingController;
 
 
 // ROUTE CONFIG
@@ -55,16 +59,15 @@ Route::get('/optimize', function () {
 
 Route::get('/', [SiteController::class, 'index'])->name('home');
 Route::get('/ateliers/{workshop:slug}', [SiteController::class, 'show'])->name('workshops.show');
-
 Route::get('/reserver/{session}', [CheckoutController::class, 'show'])->name('checkout.show');
 Route::post('/reserver/{session}', [CheckoutController::class, 'store'])->name('checkout.store');
 Route::get('/paiement-valide', [CheckoutController::class, 'success'])->name('checkout.success');
 Route::post('/paiement-valide/activer', [CheckoutController::class, 'activateAccount'])->name('checkout.activate');
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])->name('stripe.webhook');
 
-use App\Http\Controllers\Admin\ContentController;
-use App\Http\Controllers\Admin\StripeSettingsController;
-use App\Http\Controllers\UserBookingController;
+//MAIL CONTACT
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
+
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('booking', [UserBookingController::class, 'index'])->name('booking');
@@ -72,6 +75,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::middleware(['admin'])->group(function () {
         Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+
+
 
         // STRIPE
         Route::get('admin/stripe', [StripeSettingsController::class, 'edit'])->name('admin.stripe.edit');

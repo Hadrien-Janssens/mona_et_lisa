@@ -1,9 +1,9 @@
 <x-mail::message>
-    # Confirmation de votre réservation
+    # annulation OK
 
     Bonjour {{ $booking->user->first_name }},
 
-    Votre réservation pour l'atelier **{{ $booking->session->workshop->title }}** a bien été confirmée.
+    Votre annulation pour l'atelier **{{ $booking->session->workshop->title }}** a bien été confirmée.
 
     **Détails de votre session :**
     - Date et heure : {{ $booking->session->start_at->translatedFormat('l d F Y à H\hi') }}

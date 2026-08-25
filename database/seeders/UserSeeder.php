@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
             'first_name' => 'Mona &',
             'last_name' => 'Lisa',
             'name' => 'Mona & Lisa',
-            'email' => 'test@example.com',
+            'email' => 'hadrien.janssens7@gmail.com',
             'is_admin' => true,
         ]);
 
