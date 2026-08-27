@@ -33,7 +33,8 @@ Route::get('/fresh-db', function () {
         // Le paramètre --force est OBLIGATOIRE en production,
         // sinon Laravel bloque la commande par sécurité.
         \Illuminate\Support\Facades\Artisan::call('migrate:fresh', [
-            '--force' => true
+            '--force' => true,
+            '--seed' => true
         ]);
 
         $output = \Illuminate\Support\Facades\Artisan::output();

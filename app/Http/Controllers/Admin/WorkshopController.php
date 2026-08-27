@@ -18,6 +18,14 @@ class WorkshopController extends Controller
     public function index(): Response
     {
         $workshops = Workshop::query()
+            ->withCount([
+                'sessions as future_sessions_count' => function ($query) {
+                    $query->where('start_at', '>=', now());
+                },
+                'sessions as past_sessions_count' => function ($query) {
+                    $query->where('start_at', '<', now());
+                },
+            ])
             ->latest()
             ->get()
             ->map(function (Workshop $workshop) {
@@ -29,6 +37,8 @@ class WorkshopController extends Controller
                     'price' => $workshop->price / 100,
                     'duration_minutes' => $workshop->duration_minutes,
                     'is_active' => $workshop->is_active,
+                    'future_sessions_count' => $workshop->future_sessions_count,
+                    'past_sessions_count' => $workshop->past_sessions_count,
                 ];
             });
 
@@ -140,11 +150,34 @@ class WorkshopController extends Controller
     /**
      * Remove the specified workshop from storage.
      */
-    public function destroy(Workshop $workshop): RedirectResponse
+    public function destroy(Request $request, Workshop $workshop): RedirectResponse
     {
-        $workshop->delete();
+        $hasFutureSessions = $workshop->sessions()->where('start_at', '>=', now())->exists();
+        $hasPastSessions = $workshop->sessions()->where('start_at', '<', now())->exists();
 
-        return redirect()->route('admin.workshops.index')
-            ->with('success', 'Atelier supprimé avec succès.');
+        if ($hasFutureSessions) {
+            if ($request->boolean('force_cancel_future')) {
+                // Assuming sessions can be safely deleted.
+                // TODO: envoyer un mail et faire des remboursement
+                $workshop->sessions()->where('start_at', '>=', now())->delete();
+                $workshop->delete();
+
+                $message = $hasPastSessions
+                    ? 'Les événements futurs ont été annulés. L\'atelier a été archivé pour conserver l\'historique passé.'
+                    : 'Atelier et événements futurs supprimés avec succès.';
+
+                return redirect()->route('admin.workshops.index')->with('success', $message);
+            }
+
+            return redirect()->route('admin.workshops.index')
+                ->with('error', 'Cet atelier a des événements futurs programmés. Veuillez les annuler ou les supprimer avant de pouvoir supprimer l\'atelier.');
+        }
+
+        $workshop->delete();
+        $message = $hasPastSessions
+            ? 'Cet atelier possède un historique. Il a été archivé pour conserver les données passées.'
+            : 'Atelier supprimé avec succès.';
+
+        return redirect()->route('admin.workshops.index')->with('success', $message);
     }
 }

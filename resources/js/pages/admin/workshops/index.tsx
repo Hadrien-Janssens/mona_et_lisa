@@ -10,6 +10,15 @@ import {
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Edit, Trash, Plus, Check, X } from 'lucide-react';
+import { useState } from 'react';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from '@/components/ui/dialog';
 
 interface Workshop {
     id: number;
@@ -19,6 +28,8 @@ interface Workshop {
     price: number;
     duration_minutes: number;
     is_active: boolean;
+    future_sessions_count: number;
+    past_sessions_count: number;
 }
 
 interface IndexProps {
@@ -26,14 +37,41 @@ interface IndexProps {
 }
 
 export default function Index({ workshops }: IndexProps) {
-    const handleDelete = (workshop: Workshop) => {
-        if (
-            confirm(
-                `Êtes-vous sûr de vouloir supprimer l'atelier "${workshop.title}" ?`,
-            )
-        ) {
-            const routeDef = routes.destroy(workshop.id);
-            router.delete(routeDef.url);
+    const [workshopToDelete, setWorkshopToDelete] = useState<Workshop | null>(null);
+    const [deleteModalType, setDeleteModalType] = useState<'future' | 'past' | 'normal' | null>(null);
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    const handleDeleteClick = (workshop: Workshop) => {
+        setWorkshopToDelete(workshop);
+        if (workshop.future_sessions_count > 0) {
+            setDeleteModalType('future');
+        } else if (workshop.past_sessions_count > 0) {
+            setDeleteModalType('past');
+        } else {
+            setDeleteModalType('normal');
+        }
+    };
+
+    const confirmDelete = () => {
+        if (!workshopToDelete) return;
+        setIsDeleting(true);
+
+        const routeDef = routes.destroy(workshopToDelete.id);
+        const options = {
+            onFinish: () => {
+                setIsDeleting(false);
+                setWorkshopToDelete(null);
+                setDeleteModalType(null);
+            },
+        };
+
+        if (deleteModalType === 'future') {
+            router.delete(routeDef.url, {
+                ...options,
+                data: { force_cancel_future: true },
+            });
+        } else {
+            router.delete(routeDef.url, options);
         }
     };
 
@@ -176,7 +214,7 @@ export default function Index({ workshops }: IndexProps) {
                                                             size="icon"
                                                             className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive/80"
                                                             onClick={() =>
-                                                                handleDelete(
+                                                                handleDeleteClick(
                                                                     workshop,
                                                                 )
                                                             }
@@ -193,6 +231,71 @@ export default function Index({ workshops }: IndexProps) {
                         )}
                     </CardContent>
                 </Card>
+
+                <Dialog
+                    open={!!workshopToDelete}
+                    onOpenChange={(open) => {
+                        if (!open) {
+                            setWorkshopToDelete(null);
+                            setDeleteModalType(null);
+                        }
+                    }}
+                >
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>
+                                {deleteModalType === 'future'
+                                    ? 'Attention : Événements futurs liés'
+                                    : deleteModalType === 'past'
+                                    ? 'Archivage de l\'atelier'
+                                    : 'Confirmer la suppression'}
+                            </DialogTitle>
+                            <DialogDescription className="pt-4">
+                                {deleteModalType === 'future' && (
+                                    <>
+                                        Il y a <strong>{workshopToDelete?.future_sessions_count} événement(s) futur(s)</strong> lié(s) à l'atelier "{workshopToDelete?.title}". 
+                                        <br /><br />
+                                        Voulez-vous annuler ces événements et archiver l'atelier en une seule action ?
+                                    </>
+                                )}
+                                {deleteModalType === 'past' && (
+                                    <>
+                                        Cet atelier possède un historique de <strong>{workshopToDelete?.past_sessions_count} événement(s) passé(s)</strong>. 
+                                        <br /><br />
+                                        Il ne sera pas supprimé définitivement mais <strong>archivé</strong> pour conserver l'historique. Continuer ?
+                                    </>
+                                )}
+                                {deleteModalType === 'normal' && (
+                                    <>
+                                        Êtes-vous sûr de vouloir supprimer définitivement l'atelier "{workshopToDelete?.title}" ? Cette action est irréversible.
+                                    </>
+                                )}
+                            </DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter className="mt-4">
+                            <Button
+                                variant="outline"
+                                onClick={() => setWorkshopToDelete(null)}
+                                disabled={isDeleting}
+                            >
+                                Annuler
+                            </Button>
+                            <Button
+                                variant={deleteModalType === 'normal' ? 'destructive' : 'default'}
+                                onClick={confirmDelete}
+                                disabled={isDeleting}
+                            >
+                                {isDeleting
+                                    ? 'Traitement...'
+                                    : deleteModalType === 'future'
+                                    ? 'Annuler et archiver'
+                                    : deleteModalType === 'past'
+                                    ? 'Archiver l\'atelier'
+                                    : 'Supprimer définitivement'}
+                            </Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
             </div>
         </>
     );

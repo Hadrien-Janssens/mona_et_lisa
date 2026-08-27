@@ -43,7 +43,7 @@ class WorkshopSession extends Model
      */
     public function workshop(): BelongsTo
     {
-        return $this->belongsTo(Workshop::class);
+        return $this->belongsTo(Workshop::class)->withTrashed();
     }
 
     /**

@@ -167,8 +167,8 @@ const Nav = () => {
                                 )}
                         </div>
                     ))}
-                    <Link href={'/#horaire'}>
-                        <Button size={'sm'}>Réserver !</Button>
+                    <Link href={'/admin/dashboard'}>
+                        <Button size={'sm'}>Me connecter !</Button>
                     </Link>
                 </div>
 

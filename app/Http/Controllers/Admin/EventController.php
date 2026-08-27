@@ -19,7 +19,7 @@ class EventController extends Controller
 
         $query = WorkshopSession::with('workshop')
             ->withCount('bookings')
-            ->when($workshopId, fn ($q) => $q->where('workshop_id', $workshopId));
+            ->when($workshopId, fn($q) => $q->where('workshop_id', $workshopId));
 
         if ($tab === 'past') {
             $query->where('start_at', '<', now())->orderBy('start_at', 'desc');
