@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Bookings\CancelWorkshopSessionAction;
 use App\Http\Controllers\Controller;
 use App\Models\Workshop;
 use Illuminate\Http\RedirectResponse;
@@ -120,6 +121,8 @@ class WorkshopController extends Controller
                         'spots_left' => $session->spots_left,
                     ];
                 }),
+                'future_sessions_count' => $workshop->sessions->filter(fn ($s) => $s->start_at >= now())->count(),
+                'past_sessions_count' => $workshop->sessions->filter(fn ($s) => $s->start_at < now())->count(),
             ],
         ]);
     }
@@ -150,16 +153,22 @@ class WorkshopController extends Controller
     /**
      * Remove the specified workshop from storage.
      */
-    public function destroy(Request $request, Workshop $workshop): RedirectResponse
-    {
+    public function destroy(
+        Request $request,
+        Workshop $workshop,
+        CancelWorkshopSessionAction $cancelSessionAction
+    ): RedirectResponse {
         $hasFutureSessions = $workshop->sessions()->where('start_at', '>=', now())->exists();
         $hasPastSessions = $workshop->sessions()->where('start_at', '<', now())->exists();
 
         if ($hasFutureSessions) {
             if ($request->boolean('force_cancel_future')) {
-                // Assuming sessions can be safely deleted.
-                // TODO: envoyer un mail et faire des remboursement
-                $workshop->sessions()->where('start_at', '>=', now())->delete();
+                // Fetch and process each future session with our Action class
+                $futureSessions = $workshop->sessions()->where('start_at', '>=', now())->get();
+                foreach ($futureSessions as $session) {
+                    $cancelSessionAction->execute($session);
+                }
+
                 $workshop->delete();
 
                 $message = $hasPastSessions

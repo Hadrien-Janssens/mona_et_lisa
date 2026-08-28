@@ -20,10 +20,17 @@ class UserSeeder extends Seeder
             'first_name' => 'Mona &',
             'last_name' => 'Lisa',
             'name' => 'Mona & Lisa',
-            'email' => 'hadrien.janssens7@gmail.com',
+            'email' => 'test@example.com',
             'is_admin' => true,
         ]);
 
+        User::factory()->create([
+            'first_name' => 'test',
+            'last_name' => 'test',
+            'name' => 'test test',
+            'email' => 'hadrien.janssens7@gmail.com',
+            'is_admin' => false,
+        ]);
         // Créer d'autres utilisateurs pour les réservations fictives
         User::factory(10)->create();
     }

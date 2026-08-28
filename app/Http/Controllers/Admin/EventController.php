@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Bookings\CancelWorkshopSessionAction;
 use App\Http\Controllers\Controller;
 use App\Models\Workshop;
 use App\Models\WorkshopSession;
@@ -19,7 +20,7 @@ class EventController extends Controller
 
         $query = WorkshopSession::with('workshop')
             ->withCount('bookings')
-            ->when($workshopId, fn($q) => $q->where('workshop_id', $workshopId));
+            ->when($workshopId, fn ($q) => $q->where('workshop_id', $workshopId));
 
         if ($tab === 'past') {
             $query->where('start_at', '<', now())->orderBy('start_at', 'desc');
@@ -64,6 +65,9 @@ class EventController extends Controller
 
     public function edit(WorkshopSession $event): Response
     {
+        $event->load(['bookings' => function ($query) {
+            $query->with('user')->orderBy('created_at', 'desc');
+        }]);
         $workshops = Workshop::select('id', 'title')->get();
 
         return Inertia::render('admin/events/edit', [
@@ -85,10 +89,12 @@ class EventController extends Controller
         return redirect()->route('admin.events.index')->with('success', 'Événement mis à jour avec succès.');
     }
 
-    public function destroy(WorkshopSession $event): RedirectResponse
-    {
-        $event->delete();
+    public function destroy(
+        WorkshopSession $event,
+        CancelWorkshopSessionAction $cancelSessionAction
+    ): RedirectResponse {
+        $cancelSessionAction->execute($event);
 
-        return back()->with('success', 'Événement supprimé avec succès.');
+        return redirect()->route('admin.events.index')->with('success', 'Événement annulé et supprimé avec succès. Les remboursements ont été initiés le cas échéant.');
     }
 }

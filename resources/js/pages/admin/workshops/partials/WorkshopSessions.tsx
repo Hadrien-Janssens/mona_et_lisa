@@ -1,4 +1,4 @@
-import { useForm, router } from '@inertiajs/react';
+import { useForm, router, Link } from '@inertiajs/react';
 import workshopSessions from '@/routes/admin/workshops/sessions';
 import { Button } from '@/components/ui/button';
 import {
@@ -42,67 +42,11 @@ export default function WorkshopSessions({ workshop }: WorkshopSessionsProps) {
         max_participants: '10',
     });
 
-    const [editingSessionId, setEditingSessionId] = useState<number | null>(
-        null,
-    );
-    const {
-        data: editSessionData,
-        setData: setEditSessionData,
-        patch: patchSession,
-        processing: editSessionProcessing,
-        errors: editSessionErrors,
-        reset: resetEditSession,
-    } = useForm({
-        start_at: '',
-        max_participants: '',
-    });
-
     const handleSessionSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         postSession(workshopSessions.store(workshop.id).url, {
             onSuccess: () => resetSession(),
         });
-    };
-
-    const startEditingSession = (session: WorkshopSession) => {
-        setEditingSessionId(session.id);
-        const date = new Date(session.start_at);
-        const isoString = new Date(
-            date.getTime() - date.getTimezoneOffset() * 60000,
-        )
-            .toISOString()
-            .slice(0, 16);
-        setEditSessionData({
-            start_at: isoString,
-            max_participants: session.max_participants.toString(),
-        });
-    };
-
-    const handleEditSessionSubmit = (e: React.FormEvent, sessionId: number) => {
-        e.preventDefault();
-        patchSession(
-            workshopSessions.update({
-                workshop: workshop.id,
-                session: sessionId,
-            }).url,
-            {
-                onSuccess: () => {
-                    setEditingSessionId(null);
-                    resetEditSession();
-                },
-            },
-        );
-    };
-
-    const handleDeleteSession = (sessionId: number) => {
-        if (confirm('Êtes-vous sûr de vouloir supprimer ce créneau ?')) {
-            router.delete(
-                workshopSessions.destroy({
-                    workshop: workshop.id,
-                    session: sessionId,
-                }).url,
-            );
-        }
     };
 
     return (
@@ -190,161 +134,48 @@ export default function WorkshopSessions({ workshop }: WorkshopSessionsProps) {
                 ) : (
                     <div className="space-y-3">
                         {workshop.sessions.map((session) => (
-                            <div
+                            <Link
                                 key={session.id}
-                                className="flex flex-col justify-between gap-4 rounded-lg border border-sidebar-border bg-card p-4 md:flex-row md:items-center"
+                                href={`/admin/events/${session.id}/edit`}
+                                className="flex flex-col justify-between gap-4 rounded-lg border border-sidebar-border bg-card p-4 transition-colors hover:bg-muted/50 md:flex-row md:items-center"
                             >
-                                {editingSessionId === session.id ? (
-                                    <form
-                                        onSubmit={(e) =>
-                                            handleEditSessionSubmit(
-                                                e,
-                                                session.id,
-                                            )
-                                        }
-                                        className="flex flex-1 flex-col items-end gap-4 md:flex-row"
-                                    >
-                                        <div className="w-full flex-1 space-y-1 md:w-auto">
-                                            <Label
-                                                htmlFor={`edit_start_${session.id}`}
-                                                className="text-xs"
+                                <div className="flex flex-col">
+                                    <div className="flex items-center gap-2 font-medium text-foreground">
+                                        <Calendar className="h-4 w-4 text-muted-foreground" />
+                                        {new Date(
+                                            session.start_at,
+                                        ).toLocaleDateString('fr-FR', {
+                                            weekday: 'long',
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric',
+                                            hour: '2-digit',
+                                            minute: '2-digit',
+                                        })}
+                                    </div>
+                                    <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
+                                        <Users className="h-4 w-4" />
+                                        {session.booked_seats_count} /{' '}
+                                        {session.max_participants} participants
+                                        {session.spots_left === 0 ? (
+                                            <Badge
+                                                variant="destructive"
+                                                className="ml-2 py-0 text-[10px]"
                                             >
-                                                Date et heure
-                                            </Label>
-                                            <Input
-                                                id={`edit_start_${session.id}`}
-                                                type="datetime-local"
-                                                value={editSessionData.start_at}
-                                                onChange={(e) =>
-                                                    setEditSessionData(
-                                                        'start_at',
-                                                        e.target.value,
-                                                    )
-                                                }
-                                            />
-                                            <InputError
-                                                message={
-                                                    editSessionErrors.start_at
-                                                }
-                                            />
-                                        </div>
-                                        <div className="w-full space-y-1 md:w-32">
-                                            <Label
-                                                htmlFor={`edit_max_${session.id}`}
-                                                className="text-xs"
+                                                Complet
+                                            </Badge>
+                                        ) : (
+                                            <Badge
+                                                variant="secondary"
+                                                className="ml-2 py-0 text-[10px]"
                                             >
-                                                Max participants
-                                            </Label>
-                                            <Input
-                                                id={`edit_max_${session.id}`}
-                                                type="number"
-                                                min="1"
-                                                value={
-                                                    editSessionData.max_participants
-                                                }
-                                                onChange={(e) =>
-                                                    setEditSessionData(
-                                                        'max_participants',
-                                                        e.target.value,
-                                                    )
-                                                }
-                                            />
-                                            <InputError
-                                                message={
-                                                    editSessionErrors.max_participants
-                                                }
-                                            />
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <Button
-                                                type="submit"
-                                                size="sm"
-                                                disabled={editSessionProcessing}
-                                            >
-                                                <Check className="mr-1 h-4 w-4" />{' '}
-                                                Enregistrer
-                                            </Button>
-                                            <Button
-                                                type="button"
-                                                size="sm"
-                                                variant="outline"
-                                                onClick={() =>
-                                                    setEditingSessionId(null)
-                                                }
-                                            >
-                                                <X className="h-4 w-4" />
-                                            </Button>
-                                        </div>
-                                    </form>
-                                ) : (
-                                    <>
-                                        <div className="flex flex-col">
-                                            <div className="flex items-center gap-2 font-medium text-foreground">
-                                                <Calendar className="h-4 w-4 text-muted-foreground" />
-                                                {new Date(
-                                                    session.start_at,
-                                                ).toLocaleDateString('fr-FR', {
-                                                    weekday: 'long',
-                                                    year: 'numeric',
-                                                    month: 'long',
-                                                    day: 'numeric',
-                                                    hour: '2-digit',
-                                                    minute: '2-digit',
-                                                })}
-                                            </div>
-                                            <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
-                                                <Users className="h-4 w-4" />
-                                                {
-                                                    session.booked_seats_count
-                                                } / {session.max_participants}{' '}
-                                                participants
-                                                {session.spots_left === 0 ? (
-                                                    <Badge
-                                                        variant="destructive"
-                                                        className="ml-2 py-0 text-[10px]"
-                                                    >
-                                                        Complet
-                                                    </Badge>
-                                                ) : (
-                                                    <Badge
-                                                        variant="secondary"
-                                                        className="ml-2 py-0 text-[10px]"
-                                                    >
-                                                        {session.spots_left}{' '}
-                                                        places dispo.
-                                                    </Badge>
-                                                )}
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <Button
-                                                type="button"
-                                                variant="outline"
-                                                size="sm"
-                                                onClick={() =>
-                                                    startEditingSession(session)
-                                                }
-                                            >
-                                                <EditIcon className="mr-1.5 h-4 w-4" />
-                                                Modifier
-                                            </Button>
-                                            <Button
-                                                type="button"
-                                                variant="outline"
-                                                size="sm"
-                                                className="border-transparent text-destructive hover:bg-destructive/10 hover:text-destructive"
-                                                onClick={() =>
-                                                    handleDeleteSession(
-                                                        session.id,
-                                                    )
-                                                }
-                                            >
-                                                <Trash2 className="h-4 w-4" />
-                                            </Button>
-                                        </div>
-                                    </>
-                                )}
-                            </div>
+                                                {session.spots_left} places
+                                                dispo.
+                                            </Badge>
+                                        )}
+                                    </div>
+                                </div>
+                            </Link>
                         ))}
                     </div>
                 )}

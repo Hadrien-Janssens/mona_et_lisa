@@ -45,6 +45,6 @@ class Booking extends Model
      */
     public function session(): BelongsTo
     {
-        return $this->belongsTo(WorkshopSession::class, 'workshop_session_id');
+        return $this->belongsTo(WorkshopSession::class, 'workshop_session_id')->withTrashed();
     }
 }
