@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Bookings\RefundBookingAction;
 use App\Http\Requests\CheckoutRequest;
-use App\Mail\BookingConfirmed;
 use App\Mail\CancelBooking;
 use App\Models\Booking;
 use App\Models\User;
 use App\Models\WorkshopSession;
+use App\Services\StripeConfigService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -60,7 +61,7 @@ class CheckoutController extends Controller
                     [
                         'first_name' => $validated['first_name'],
                         'last_name' => $validated['last_name'],
-                        'name' => trim($validated['first_name'] . ' ' . $validated['last_name']),
+                        'name' => trim($validated['first_name'].' '.$validated['last_name']),
                         'phone' => $validated['phone'] ?? null,
                         'birthdate' => $validated['birthdate'] ?? null,
                         'password' => null,
@@ -78,13 +79,7 @@ class CheckoutController extends Controller
                 ]);
 
                 // 4. Session Stripe Checkout
-                $adminUser = User::where('is_admin', true)->first();
-
-                // TODO: stripe cli ou vrai api key selon app en local ou en production
-                $stripeSecret =  app()->isLocal() ||  ! $adminUser ||  empty($adminUser->stripe_secret_key)
-                    ? config('services.stripe.secret')
-                    : $adminUser->stripe_secret_key;
-                // $stripeSecret = config('services.stripe.secret');
+                $stripeSecret = app(StripeConfigService::class)->getSecretKey();
 
                 Stripe::setApiKey($stripeSecret);
 
@@ -93,14 +88,14 @@ class CheckoutController extends Controller
                         'price_data' => [
                             'currency' => 'eur',
                             'product_data' => [
-                                'name' => $workshop->title . ' - ' . $lockedSession->start_at->translatedFormat('d F Y à H:i'),
+                                'name' => $workshop->title.' - '.$lockedSession->start_at->translatedFormat('d F Y à H:i'),
                             ],
                             'unit_amount' => $workshop->price,
                         ],
                         'quantity' => (int) $validated['seats'],
                     ]],
                     'mode' => 'payment',
-                    'success_url' => route('checkout.success') . '?session_id={CHECKOUT_SESSION_ID}',
+                    'success_url' => route('checkout.success').'?session_id={CHECKOUT_SESSION_ID}',
                     'cancel_url' => route('workshops.show', $workshop->slug),
                     'customer_email' => $validated['email'],
                     'expires_at' => now()->addMinutes(30)->timestamp,
@@ -172,8 +167,11 @@ class CheckoutController extends Controller
     /**
      * Cancel a booking and refund.
      */
-    public function cancel(Request $request, Booking $booking): \Symfony\Component\HttpFoundation\Response
-    {
+    public function cancel(
+        Request $request,
+        Booking $booking,
+        RefundBookingAction $refundAction
+    ): \Symfony\Component\HttpFoundation\Response {
         // 1. Contrôle d'accès
         // dd($booking->user_id);
         if ($booking->user_id != $request->user()->id) {
@@ -192,29 +190,17 @@ class CheckoutController extends Controller
 
         // 4. Action
         try {
-            DB::transaction(function () use ($booking) {
-                if ($booking->stripe_payment_intent_id) {
-                    $adminUser = User::where('is_admin', true)->first();
-                    $stripeSecret = app()->isLocal() || ! $adminUser || empty($adminUser->stripe_secret_key)
-                        ? config('services.stripe.secret')
-                        : $adminUser->stripe_secret_key;
-
-                    Stripe::setApiKey($stripeSecret);
-                    Refund::create([
-                        'payment_intent' => $booking->stripe_payment_intent_id,
-                    ]);
+            DB::transaction(function () use ($booking, $refundAction) {
+                if (! $refundAction->execute($booking)) {
+                    throw new \Exception('Le remboursement a échoué. Veuillez contacter le support.');
                 }
-
-                $booking->update([
-                    'payment_status' => 'cancelled',
-                ]);
 
                 // TODO: Email confirmation
                 Mail::to($booking->user->email)
                     ->send(new CancelBooking($booking));
             });
         } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Une erreur est survenue lors du remboursement : ' . $e->getMessage()]);
+            return back()->withErrors(['error' => 'Une erreur est survenue lors du remboursement : '.$e->getMessage()]);
         }
 
         return back()->with('success', 'Votre réservation a été annulée et remboursée avec succès.');

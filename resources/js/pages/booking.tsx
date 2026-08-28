@@ -13,6 +13,7 @@ export default function Booking({ bookings }: { bookings: any[] }) {
             });
         }
     };
+    console.log(bookings);
 
     return (
         <>

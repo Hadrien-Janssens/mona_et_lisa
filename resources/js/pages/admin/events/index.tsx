@@ -16,7 +16,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { Edit, Trash, Plus, CalendarCheck } from 'lucide-react';
+import { Plus, CalendarCheck } from 'lucide-react';
 import { useState } from 'react';
 
 interface Workshop {
@@ -70,18 +70,6 @@ export default function Index({ events, workshops, filters }: IndexProps) {
             },
             { preserveState: true, preserveScroll: true },
         );
-    };
-
-    const handleDelete = (event: WorkshopSession) => {
-        if (
-            confirm(
-                `Êtes-vous sûr de vouloir supprimer cet événement ? Les réservations associées risquent d'être supprimées.`,
-            )
-        ) {
-            router.delete(routes.destroy.url(event.id), {
-                preserveScroll: true,
-            });
-        }
     };
 
     const formatDate = (dateString: string) => {
@@ -188,57 +176,25 @@ export default function Index({ events, workshops, filters }: IndexProps) {
                                             <th className="px-6 py-4 text-center font-medium">
                                                 Places (Réservé / Max)
                                             </th>
-                                            <th className="px-6 py-4 text-right font-medium">
-                                                Actions
-                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-sidebar-border">
                                         {events.data.map((event) => (
                                             <tr
                                                 key={event.id}
-                                                className="group transition-colors hover:bg-muted/30"
+                                                className="group transition-colors hover:bg-muted/30 cursor-pointer"
+                                                onClick={() => router.get(routes.edit.url(event.id))}
                                             >
                                                 <td className="flex items-center gap-2 px-6 py-4 font-medium text-foreground">
                                                     <CalendarCheck className="h-4 w-4 text-muted-foreground" />
                                                     {formatDate(event.start_at)}
                                                 </td>
                                                 <td className="px-6 py-4">
-                                                    {event.workshop.title}
+                                                    {event.workshop?.title || 'Atelier archivé'}
                                                 </td>
                                                 <td className="px-6 py-4 text-center">
                                                     {event.bookings_count} /{' '}
                                                     {event.max_participants}
-                                                </td>
-                                                <td className="px-6 py-4 text-right">
-                                                    <div className="flex items-center justify-end gap-2">
-                                                        <Button
-                                                            asChild
-                                                            variant="ghost"
-                                                            size="icon"
-                                                            className="h-8 w-8 text-muted-foreground hover:text-foreground"
-                                                        >
-                                                            <Link
-                                                                href={routes.edit.url(
-                                                                    event.id,
-                                                                )}
-                                                            >
-                                                                <Edit className="h-4 w-4" />
-                                                            </Link>
-                                                        </Button>
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="icon"
-                                                            className="h-8 w-8 text-destructive hover:bg-destructive/10 hover:text-destructive/80"
-                                                            onClick={() =>
-                                                                handleDelete(
-                                                                    event,
-                                                                )
-                                                            }
-                                                        >
-                                                            <Trash className="h-4 w-4" />
-                                                        </Button>
-                                                    </div>
                                                 </td>
                                             </tr>
                                         ))}
