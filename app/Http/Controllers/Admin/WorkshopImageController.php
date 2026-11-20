@@ -23,7 +23,6 @@ class WorkshopImageController extends Controller
 
         $path = $request->file('image')->store('workshops/images', 'public');
 
-        $isCover = ! $workshop->images()->exists();
         $maxOrder = $workshop->images()->max('sort_order') ?? -1;
 
         $tags = [];
@@ -46,7 +45,6 @@ class WorkshopImageController extends Controller
 
         $workshop->images()->create([
             'path' => $path,
-            'is_cover' => $isCover,
             'sort_order' => $maxOrder + 1,
             'tags' => $tags,
         ]);
@@ -61,14 +59,8 @@ class WorkshopImageController extends Controller
     {
         $request->validate([
             'tags' => 'nullable',
-            'is_cover' => 'nullable|boolean',
             'sort_order' => 'nullable|integer',
         ]);
-
-        if ($request->has('is_cover') && $request->input('is_cover')) {
-            $image->workshop->images()->where('id', '!=', $image->id)->update(['is_cover' => false]);
-            $image->is_cover = true;
-        }
 
         if ($request->has('tags')) {
             $rawTags = $request->input('tags');
@@ -100,21 +92,11 @@ class WorkshopImageController extends Controller
      */
     public function destroy(WorkshopImage $image): RedirectResponse
     {
-        $workshop = $image->workshop;
-        $wasCover = $image->is_cover;
-
         if (Storage::disk('public')->exists($image->path)) {
             Storage::disk('public')->delete($image->path);
         }
 
         $image->delete();
-
-        if ($wasCover) {
-            $nextCover = $workshop->images()->orderBy('sort_order')->first();
-            if ($nextCover) {
-                $nextCover->update(['is_cover' => true]);
-            }
-        }
 
         return redirect()->back()->with('success', 'Image supprimée avec succès.');
     }
@@ -137,5 +119,42 @@ class WorkshopImageController extends Controller
         }
 
         return redirect()->back()->with('success', 'Ordre des images mis à jour.');
+    }
+
+    /**
+     * Store (or replace) the card thumbnail of a workshop.
+     */
+    public function storeThumbnail(Request $request, Workshop $workshop): RedirectResponse
+    {
+        $request->validate([
+            'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+        ]);
+
+        $this->deleteThumbnailFile($workshop);
+
+        $workshop->update([
+            'card_thumbnail_path' => $request->file('thumbnail')->store('workshops/thumbnails', 'public'),
+        ]);
+
+        return redirect()->back()->with('success', 'Miniature de la carte mise à jour.');
+    }
+
+    /**
+     * Remove the card thumbnail of a workshop.
+     */
+    public function destroyThumbnail(Workshop $workshop): RedirectResponse
+    {
+        $this->deleteThumbnailFile($workshop);
+
+        $workshop->update(['card_thumbnail_path' => null]);
+
+        return redirect()->back()->with('success', 'Miniature de la carte supprimée.');
+    }
+
+    private function deleteThumbnailFile(Workshop $workshop): void
+    {
+        if ($workshop->card_thumbnail_path) {
+            Storage::disk('public')->delete($workshop->card_thumbnail_path);
+        }
     }
 }

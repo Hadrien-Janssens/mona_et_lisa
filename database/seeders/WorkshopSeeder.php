@@ -6,10 +6,18 @@ use App\Models\Workshop;
 use App\Models\WorkshopImage;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class WorkshopSeeder extends Seeder
 {
     use WithoutModelEvents;
+
+    /**
+     * Photos of database/seeders/images/workshops/gallery shared by every seeded workshop.
+     *
+     * @var list<string>
+     */
+    private const GALLERY_PHOTOS = ['photo1.jpg', 'photo2.jpg', 'photo3.jpg', 'photo4.jpg'];
 
     /**
      * Run the database seeds.
@@ -25,11 +33,6 @@ class WorkshopSeeder extends Seeder
                 'description' => "Rejoignez-nous pour un atelier immersif de 2 heures où vous apprendrez à façonner l'argile sur un tour de potier. Notre artisan vous guidera pas à pas depuis le centrage de la terre jusqu'au façonnage de vos premiers bols et tasses.",
                 'price' => 4500, // 45.00€
                 'duration_minutes' => 120,
-                'images' => [
-                    ['path' => 'workshops/images/poterie-1.jpg', 'is_cover' => true, 'tags' => ['tournage', 'argile']],
-                    ['path' => 'workshops/images/poterie-2.jpg', 'is_cover' => false, 'tags' => ['ambiance']],
-                    ['path' => 'workshops/images/poterie-3.jpg', 'is_cover' => false, 'tags' => ['modelage']],
-                ],
             ],
             [
                 'title' => 'Aquarelle',
@@ -38,10 +41,6 @@ class WorkshopSeeder extends Seeder
                 'description' => "Laissez libre cours à votre créativité lors de cet atelier d'aquarelle axé sur les motifs floraux et botaniques. Apprenez à mélanger les couleurs, à maîtriser l'eau sur le papier et à réaliser une composition harmonieuse.",
                 'price' => 3500, // 35.00€
                 'duration_minutes' => 90,
-                'images' => [
-                    ['path' => 'workshops/images/aquarelle-1.jpg', 'is_cover' => true, 'tags' => ['peinture', 'fleurs']],
-                    ['path' => 'workshops/images/aquarelle-2.jpg', 'is_cover' => false, 'tags' => ['ambiance']],
-                ],
             ],
             [
                 'title' => 'Duo',
@@ -50,10 +49,6 @@ class WorkshopSeeder extends Seeder
                 'description' => 'Dans cet atelier, vous apprendrez à manipuler la résine UV pour encapsuler de délicates fleurs séchées. Choisissez vos moules, vos fleurs et composez deux parures de bijoux personnalisées à emporter chez vous.',
                 'price' => 5500, // 55.00€
                 'duration_minutes' => 120,
-                'images' => [
-                    ['path' => 'workshops/images/bijoux-1.jpg', 'is_cover' => true, 'tags' => ['bijoux', 'resine']],
-                    ['path' => 'workshops/images/bijoux-2.jpg', 'is_cover' => false, 'tags' => ['ambiance']],
-                ],
             ],
             [
                 'title' => 'Peinture sur Céramique',
@@ -62,30 +57,30 @@ class WorkshopSeeder extends Seeder
                 'description' => 'Venez décorer votre propre pièce en céramique (déjà cuite) avec des peintures et glaçures professionnelles. Laissez parler votre imagination ! Vos pièces seront ensuite cuites dans notre four à 1000°C et prêtes à être récupérées une semaine plus tard.',
                 'price' => 3000, // 30.00€
                 'duration_minutes' => 90,
-                'images' => [
-                    ['path' => 'workshops/images/ceramique-1.jpg', 'is_cover' => true, 'tags' => ['ceramique', 'peinture']],
-                    ['path' => 'workshops/images/ceramique-2.jpg', 'is_cover' => false, 'tags' => ['decoration']],
-                ],
             ],
         ];
 
         // 3. Insérer les ateliers, leurs images et leurs sessions
         foreach ($workshopsData as $data) {
-            $images = $data['images'];
-            unset($data['images']);
-
             $workshop = Workshop::create($data);
 
-            // Insérer les images
-            foreach ($images as $index => $img) {
-                $this->ensureImageExists($img['path'], strtolower($workshop->title));
+            $workshop->update([
+                'card_thumbnail_path' => $this->copySeedImage(
+                    'workshops/thumbnails/photo1.png',
+                    'workshops/thumbnails/'.$workshop->slug.'.png',
+                ),
+            ]);
 
+            // Chaque atelier reçoit sa propre copie des photos de la galerie
+            foreach (self::GALLERY_PHOTOS as $index => $photo) {
                 WorkshopImage::create([
                     'workshop_id' => $workshop->id,
-                    'path' => $img['path'],
-                    'is_cover' => $img['is_cover'],
+                    'path' => $this->copySeedImage(
+                        'workshops/gallery/'.$photo,
+                        'workshops/images/'.$workshop->slug.'-'.$photo,
+                    ),
                     'sort_order' => $index,
-                    'tags' => $img['tags'],
+                    'tags' => [],
                 ]);
             }
 
@@ -106,46 +101,17 @@ class WorkshopSeeder extends Seeder
     }
 
     /**
-     * Ensure a placeholder image exists at the given path.
+     * Copy a versioned image from database/seeders/images to the public disk.
+     *
+     * @return string Path relative to the public disk.
      */
-    private function ensureImageExists(string $path, string $term): void
+    private function copySeedImage(string $sourceRelativePath, string $targetPath): string
     {
-        $fullPath = storage_path('app/public/'.$path);
+        Storage::disk('public')->put(
+            $targetPath,
+            file_get_contents(database_path('seeders/images/'.$sourceRelativePath)),
+        );
 
-        if (file_exists($fullPath)) {
-            return;
-        }
-
-        $dir = dirname($fullPath);
-        if (! is_dir($dir)) {
-            mkdir($dir, 0755, true);
-        }
-
-        try {
-            $url = 'https://loremflickr.com/800/600/'.urlencode($term);
-            $content = file_get_contents($url, false, stream_context_create([
-                'http' => ['timeout' => 5],
-            ]));
-            if ($content !== false) {
-                file_put_contents($fullPath, $content);
-
-                return;
-            }
-        } catch (\Throwable $e) {
-            // Silence exceptions and fall back
-        }
-
-        // Fallback: Create placeholder using GD
-        if (function_exists('imagecreatetruecolor')) {
-            $image = imagecreatetruecolor(800, 600);
-            $bgColor = imagecolorallocate($image, 230, 230, 230);
-            $textColor = imagecolorallocate($image, 100, 100, 100);
-            imagefill($image, 0, 0, $bgColor);
-            imagestring($image, 5, 300, 280, 'Placeholder: '.$term, $textColor);
-            imagejpeg($image, $fullPath);
-            imagedestroy($image);
-        } else {
-            file_put_contents($fullPath, '');
-        }
+        return $targetPath;
     }
 }

@@ -37,11 +37,7 @@ class ContentController extends Controller
             ['content' => []]
         );
 
-        $siteContent->update([
-            'content' => $validated['content'],
-        ]);
-
-        $contentData = $siteContent->content;
+        $contentData = array_merge($siteContent->content ?? [], $validated['content']);
 
         foreach ($request->allFiles() as $fileKey => $files) {
             if (is_array($files)) {
@@ -50,7 +46,17 @@ class ContentController extends Controller
                     $path = $file->store('content', 'public');
                     $uploadedFiles[$key] = '/storage/'.$path;
                 }
-                $contentData[$fileKey] = array_merge($contentData[$fileKey] ?? [], $uploadedFiles);
+
+                $existing = $contentData[$fileKey] ?? [];
+                if (is_array($existing)) {
+                    foreach ($uploadedFiles as $key => $filePath) {
+                        $existing[$key] = $filePath;
+                    }
+                    ksort($existing);
+                    $contentData[$fileKey] = $existing;
+                } else {
+                    $contentData[$fileKey] = $uploadedFiles;
+                }
             } else {
                 $path = $files->store('content', 'public');
                 $contentData[$fileKey] = '/storage/'.$path;

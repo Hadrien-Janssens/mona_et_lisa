@@ -1,19 +1,19 @@
 <?php
 
+use App\Http\Controllers\Admin\ContentController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\StripeSettingsController;
 use App\Http\Controllers\Admin\WorkshopController;
 use App\Http\Controllers\Admin\WorkshopImageController;
 use App\Http\Controllers\Admin\WorkshopSessionController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\StripeWebhookController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\ContentController;
-use App\Http\Controllers\Admin\StripeSettingsController;
-use App\Http\Controllers\ContactController;
 use App\Http\Controllers\UserBookingController;
-
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Route;
 
 // ROUTE CONFIG
 // lien symbolique
@@ -32,29 +32,30 @@ Route::get('/fresh-db', function () {
     try {
         // Le paramètre --force est OBLIGATOIRE en production,
         // sinon Laravel bloque la commande par sécurité.
-        \Illuminate\Support\Facades\Artisan::call('migrate:fresh', [
+        Artisan::call('migrate:fresh', [
             '--force' => true,
-            '--seed' => true
+            '--seed' => true,
         ]);
 
-        $output = \Illuminate\Support\Facades\Artisan::output();
-        return 'Base de données réinitialisée avec succès !<br><br><pre>' . $output . '</pre>';
-    } catch (\Exception $e) {
-        return 'Une erreur est survenue : ' . $e->getMessage();
+        $output = Artisan::output();
+
+        return 'Base de données réinitialisée avec succès !<br><br><pre>'.$output.'</pre>';
+    } catch (Exception $e) {
+        return 'Une erreur est survenue : '.$e->getMessage();
     }
 });
 
 Route::get('/optimize', function () {
     // 1. On vide tous les anciens caches
-    \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+    Artisan::call('optimize:clear');
 
     // 2. On recrée le cache avec le nouveau .env
-    \Illuminate\Support\Facades\Artisan::call('optimize');
+    Artisan::call('optimize');
 
-    $output = \Illuminate\Support\Facades\Artisan::output();
-    return 'Le cache est à jour !<br><br><pre>' . $output . '</pre>';
+    $output = Artisan::output();
+
+    return 'Le cache est à jour !<br><br><pre>'.$output.'</pre>';
 });
-
 
 // FIN DES ROUTES DE CONFIG
 
@@ -66,9 +67,8 @@ Route::get('/paiement-valide', [CheckoutController::class, 'success'])->name('ch
 Route::post('/paiement-valide/activer', [CheckoutController::class, 'activateAccount'])->name('checkout.activate');
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])->name('stripe.webhook');
 
-//MAIL CONTACT
+// MAIL CONTACT
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
-
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('booking', [UserBookingController::class, 'index'])->name('booking');
@@ -76,9 +76,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::middleware(['admin'])->group(function () {
         Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-
-
-
 
         // STRIPE
         Route::get('admin/stripe', [StripeSettingsController::class, 'edit'])->name('admin.stripe.edit');
@@ -92,6 +89,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('admin/content/{section}', [ContentController::class, 'update'])->name('admin.content.update');
 
         Route::post('admin/workshops/{workshop}/images', [WorkshopImageController::class, 'store'])->name('admin.workshops.images.store');
+        Route::post('admin/workshops/{workshop}/thumbnail', [WorkshopImageController::class, 'storeThumbnail'])->name('admin.workshops.thumbnail.store');
+        Route::delete('admin/workshops/{workshop}/thumbnail', [WorkshopImageController::class, 'destroyThumbnail'])->name('admin.workshops.thumbnail.destroy');
         Route::post('admin/workshops/{workshop}/images/reorder', [WorkshopImageController::class, 'reorder'])->name('admin.workshops.images.reorder');
         Route::patch('admin/workshop-images/{image}', [WorkshopImageController::class, 'update'])->name('admin.workshop-images.update');
         Route::delete('admin/workshop-images/{image}', [WorkshopImageController::class, 'destroy'])->name('admin.workshop-images.destroy');
@@ -102,4 +101,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 });
 
-require __DIR__ . '/settings.php';
+require __DIR__.'/settings.php';

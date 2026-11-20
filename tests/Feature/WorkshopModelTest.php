@@ -16,18 +16,17 @@ test('a workshop can be created and has properties', function () {
     expect($workshop->is_active)->toBeTrue();
 });
 
-test('a workshop has images and a cover image', function () {
+test('a workshop has ordered images and a card thumbnail with gallery fallback', function () {
     $workshop = Workshop::factory()->create();
 
     $image1 = WorkshopImage::factory()->create([
         'workshop_id' => $workshop->id,
-        'is_cover' => false,
         'sort_order' => 1,
     ]);
 
     $image2 = WorkshopImage::factory()->create([
         'workshop_id' => $workshop->id,
-        'is_cover' => true,
+        'path' => 'workshops/images/first.jpg',
         'sort_order' => 0,
     ]);
 
@@ -35,8 +34,11 @@ test('a workshop has images and a cover image', function () {
     // Should be ordered by sort_order
     expect($workshop->images->first()->id)->toBe($image2->id);
 
-    // coverImage relationship
-    expect($workshop->coverImage->id)->toBe($image2->id);
+    // Without a thumbnail, the first gallery image is used
+    expect($workshop->card_thumbnail_display_path)->toBe('workshops/images/first.jpg');
+
+    $workshop->update(['card_thumbnail_path' => 'workshops/thumbnails/thumb.jpg']);
+    expect($workshop->card_thumbnail_display_path)->toBe('workshops/thumbnails/thumb.jpg');
 });
 
 test('a workshop has sessions and calculates spots left', function () {

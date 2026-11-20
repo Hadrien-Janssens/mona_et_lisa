@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['workshop_id', 'path', 'sort_order', 'is_cover', 'tags'])]
+#[Fillable(['workshop_id', 'path', 'sort_order', 'tags'])]
 class WorkshopImage extends Model
 {
     /** @use HasFactory<WorkshopImageFactory> */
@@ -23,7 +23,6 @@ class WorkshopImage extends Model
     {
         return [
             'sort_order' => 'integer',
-            'is_cover' => 'boolean',
             'tags' => 'array',
         ];
     }

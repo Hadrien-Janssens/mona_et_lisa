@@ -1,16 +1,4 @@
 import { useForm, router, Link } from '@inertiajs/react';
-import workshopSessions from '@/routes/admin/workshops/sessions';
-import { Button } from '@/components/ui/button';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import InputError from '@/components/input-error';
 import {
     Loader2,
     Plus,
@@ -21,9 +9,22 @@ import {
     Users,
     Edit as EditIcon,
 } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import { useState } from 'react';
-import { Workshop, WorkshopSession } from '@/types';
+import InputError from '@/components/input-error';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import workshopSessions from '@/routes/admin/workshops/sessions';
+import type { Workshop } from '@/types';
+import { WorkshopSession } from '@/types';
 
 interface WorkshopSessionsProps {
     workshop: Workshop;

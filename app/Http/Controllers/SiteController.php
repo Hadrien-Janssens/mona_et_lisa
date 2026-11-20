@@ -13,8 +13,9 @@ class SiteController extends Controller
     {
         $workshops = Workshop::query()
             ->where('is_active', true)
-            ->with(['coverImage'])
-            ->get();
+            ->with(['images'])
+            ->get()
+            ->each->append('card_thumbnail_display_path');
 
         return Inertia::render('site/App', [
             'workshops' => $workshops,

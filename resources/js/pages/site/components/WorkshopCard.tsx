@@ -45,9 +45,9 @@ const WorkshopCard = ({ workshop, idx }: { workshop: any; idx: number }) => {
             {renderSticker()}
             <Badge className="absolute top-3 right-3">Duo</Badge>
             <div className="flex gap-5">
-                {workshop.cover_image && (
+                {workshop.card_thumbnail_display_path && (
                     <img
-                        src={`/storage/${workshop.cover_image.path}`}
+                        src={`/storage/${workshop.card_thumbnail_display_path}`}
                         alt={workshop.title}
                         className="mb-4 h-15 w-15 rounded-xl border border-primary object-cover"
                     />

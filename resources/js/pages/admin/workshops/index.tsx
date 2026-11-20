@@ -1,5 +1,6 @@
 import { Head, Link, router } from '@inertiajs/react';
-import * as routes from '@/routes/admin/workshops';
+import { Plus, Check, X } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
     Card,
@@ -8,8 +9,7 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Plus, Check, X } from 'lucide-react';
+import * as routes from '@/routes/admin/workshops';
 
 interface Workshop {
     id: number;
@@ -93,8 +93,14 @@ export default function Index({ workshops }: IndexProps) {
                                         {workshops.map((workshop) => (
                                             <tr
                                                 key={workshop.id}
-                                                className="group transition-colors hover:bg-muted/30 cursor-pointer"
-                                                onClick={() => router.get(routes.edit.url(workshop.id))}
+                                                className="group cursor-pointer transition-colors hover:bg-muted/30"
+                                                onClick={() =>
+                                                    router.get(
+                                                        routes.edit.url(
+                                                            workshop.id,
+                                                        ),
+                                                    )
+                                                }
                                             >
                                                 <td className="px-6 py-4">
                                                     <div className="font-semibold text-foreground transition-colors group-hover:text-primary">
@@ -119,9 +125,11 @@ export default function Index({ workshops }: IndexProps) {
                                                         const m =
                                                             workshop.duration_minutes %
                                                             60;
+
                                                         if (h > 0) {
                                                             return `${h}h${m > 0 ? m.toString().padStart(2, '0') : ''}`;
                                                         }
+
                                                         return `${m} min`;
                                                     })()}
                                                 </td>

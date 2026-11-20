@@ -1,5 +1,6 @@
 import { Head, Link, useForm } from '@inertiajs/react';
-import * as routes from '@/routes/admin/workshops';
+import { ArrowLeft, Loader2 } from 'lucide-react';
+import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import {
     Card,
@@ -17,8 +18,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import InputError from '@/components/input-error';
-import { ArrowLeft, Loader2 } from 'lucide-react';
+import * as routes from '@/routes/admin/workshops';
 
 export default function Create() {
     const { data, setData, post, processing, errors, transform } = useForm({

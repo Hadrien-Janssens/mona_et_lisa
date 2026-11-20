@@ -99,6 +99,8 @@ class WorkshopController extends Controller
                 'title' => $workshop->title,
                 'description' => $workshop->description,
                 'summary' => $workshop->summary,
+                'card_thumbnail_path' => $workshop->card_thumbnail_path,
+                'card_thumbnail_url' => $workshop->card_thumbnail_path ? Storage::url($workshop->card_thumbnail_path) : null,
                 'price' => $workshop->price / 100,
                 'duration_minutes' => $workshop->duration_minutes,
                 'is_active' => $workshop->is_active,
@@ -108,7 +110,6 @@ class WorkshopController extends Controller
                         'path' => $image->path,
                         'url' => Storage::url($image->path),
                         'sort_order' => $image->sort_order,
-                        'is_cover' => $image->is_cover,
                         'tags' => $image->tags ?? [],
                     ];
                 }),

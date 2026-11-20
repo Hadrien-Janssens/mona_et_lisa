@@ -22,7 +22,6 @@ class WorkshopImageFactory extends Factory
             'workshop_id' => Workshop::factory(),
             'path' => 'images/workshops/placeholder.jpg',
             'sort_order' => 0,
-            'is_cover' => false,
         ];
     }
 }
