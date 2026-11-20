@@ -1,15 +1,15 @@
 import { Head } from '@inertiajs/react';
-import { useState } from 'react';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Image, LayoutTemplate, MapPin, Palette, Settings } from 'lucide-react';
-import HeaderSettings from './partials/HeaderSettings';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { index as adminContentIndex } from '@/routes/admin/content';
 import AboutSettings from './partials/AboutSettings';
-import WorkshopSettings from './partials/WorkshopSettings';
-import ScheduleSettings from './partials/ScheduleSettings';
 import ContactSettings from './partials/ContactSettings';
 import FooterSettings from './partials/FooterSettings';
-import { index as adminContentIndex } from '@/routes/admin/content';
+import HeaderSettings from './partials/HeaderSettings';
+import ScheduleSettings from './partials/ScheduleSettings';
+import WorkshopSettings from './partials/WorkshopSettings';
 
 interface IndexProps {
     contents: {
@@ -37,8 +37,8 @@ export default function Index({ contents }: IndexProps) {
     return (
         <>
             <Head title="Gestion du Contenu" />
-            <div className="flex h-full flex-1 flex-col gap-6 p-6">
-                <div>
+            <div className="flex h-[calc(100svh-4rem)] flex-col gap-6 overflow-hidden p-6 md:h-[calc(100svh-5rem)]">
+                <div className="shrink-0">
                     <h1 className="text-2xl font-bold tracking-tight">
                         Gestion du Contenu
                     </h1>
@@ -48,26 +48,31 @@ export default function Index({ contents }: IndexProps) {
                     </p>
                 </div>
 
-                <div className="flex flex-col gap-6 md:flex-row">
+                {/* Conteneur parent en ligne : items-stretch étire les deux colonnes à la même hauteur */}
+                <div className="flex min-h-0 flex-1 flex-col items-stretch gap-6 overflow-hidden md:flex-row">
                     {/* Vertical Tabs Navigation */}
-                    <Card className="flex h-fit w-full shrink-0 flex-col gap-1 border-sidebar-border/70 p-2 shadow-sm md:w-64">
-                        {TABS.map((tab) => (
-                            <Button
-                                key={tab.id}
-                                variant={
-                                    activeTab === tab.id ? 'secondary' : 'ghost'
-                                }
-                                className={`w-full justify-start ${activeTab === tab.id ? 'bg-secondary font-medium' : 'font-normal'}`}
-                                onClick={() => setActiveTab(tab.id)}
-                            >
-                                <tab.icon className="mr-2 h-4 w-4" />
-                                {tab.label}
-                            </Button>
-                        ))}
+                    <Card className="flex shrink-0 flex-col gap-1 overflow-y-auto border-sidebar-border/70 p-2 shadow-sm">
+                        <div className="flex flex-col gap-1">
+                            {TABS.map((tab) => (
+                                <Button
+                                    key={tab.id}
+                                    variant={
+                                        activeTab === tab.id
+                                            ? 'secondary'
+                                            : 'ghost'
+                                    }
+                                    className={`w-full justify-start ${activeTab === tab.id ? 'bg-secondary font-medium' : 'font-normal'}`}
+                                    onClick={() => setActiveTab(tab.id)}
+                                >
+                                    <tab.icon className="mr-2 h-4 w-4 shrink-0" />
+                                    <span>{tab.label}</span>
+                                </Button>
+                            ))}
+                        </div>
                     </Card>
 
                     {/* Tab Content Area */}
-                    <div className="flex-1">
+                    <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto pr-2 [&>*]:flex-1">
                         {activeTab === 'header' && (
                             <HeaderSettings initialData={contents.header} />
                         )}
@@ -97,7 +102,7 @@ Index.layout = {
     breadcrumbs: [
         {
             title: 'Contenu',
-            href: '/admin/content', // Will be replaced by route helper in breadcrumbs if configured
+            href: adminContentIndex().url,
         },
     ],
 };

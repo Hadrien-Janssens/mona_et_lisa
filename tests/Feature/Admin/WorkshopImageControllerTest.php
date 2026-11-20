@@ -15,7 +15,7 @@ test('guests cannot manage workshop images', function () {
     ])->assertRedirect(route('login'));
 
     $this->patch(route('admin.workshop-images.update', $image), [
-        'is_cover' => true,
+        'tags' => ['x'],
     ])->assertRedirect(route('login'));
 
     $this->delete(route('admin.workshop-images.destroy', $image))
@@ -34,7 +34,7 @@ test('non-admin users cannot manage workshop images', function () {
     ])->assertForbidden();
 
     $this->patch(route('admin.workshop-images.update', $image), [
-        'is_cover' => true,
+        'tags' => ['x'],
     ])->assertForbidden();
 
     $this->delete(route('admin.workshop-images.destroy', $image))
@@ -57,28 +57,20 @@ test('an admin can upload a workshop image with tags', function () {
 
     $image = $workshop->images()->first();
     expect($image)->not->toBeNull();
-    expect($image->is_cover)->toBeTrue(); // First image should automatically be cover
     expect($image->sort_order)->toBe(0);
     expect($image->tags)->toBe(['ambiance', 'poterie']);
 
     Storage::disk('public')->assertExists($image->path);
 });
 
-test('an admin can update tags and cover status of an image', function () {
+test('an admin can update tags of an image', function () {
     Storage::fake('public');
     $admin = User::factory()->admin()->create();
     $workshop = Workshop::factory()->create();
 
     $image1 = WorkshopImage::factory()->create([
         'workshop_id' => $workshop->id,
-        'is_cover' => true,
         'tags' => ['old'],
-    ]);
-
-    $image2 = WorkshopImage::factory()->create([
-        'workshop_id' => $workshop->id,
-        'is_cover' => false,
-        'tags' => [],
     ]);
 
     // Update tags on image1
@@ -89,33 +81,21 @@ test('an admin can update tags and cover status of an image', function () {
         ->assertRedirect();
 
     expect($image1->fresh()->tags)->toBe(['new', 'cool']);
-
-    // Set image2 as cover
-    $this->actingAs($admin)
-        ->patch(route('admin.workshop-images.update', $image2), [
-            'is_cover' => true,
-        ])
-        ->assertRedirect();
-
-    expect($image2->fresh()->is_cover)->toBeTrue();
-    expect($image1->fresh()->is_cover)->toBeFalse(); // Should have been unset
 });
 
-test('an admin can delete an image and cover gets promoted', function () {
+test('an admin can delete an image', function () {
     Storage::fake('public');
     $admin = User::factory()->admin()->create();
     $workshop = Workshop::factory()->create();
 
     $image1 = WorkshopImage::factory()->create([
         'workshop_id' => $workshop->id,
-        'is_cover' => true,
         'path' => 'workshops/images/img1.jpg',
         'sort_order' => 0,
     ]);
 
     $image2 = WorkshopImage::factory()->create([
         'workshop_id' => $workshop->id,
-        'is_cover' => false,
         'path' => 'workshops/images/img2.jpg',
         'sort_order' => 1,
     ]);
@@ -124,7 +104,7 @@ test('an admin can delete an image and cover gets promoted', function () {
     Storage::disk('public')->put($image1->path, 'contents');
     Storage::disk('public')->put($image2->path, 'contents');
 
-    // Delete cover image
+    // Delete image
     $this->actingAs($admin)
         ->delete(route('admin.workshop-images.destroy', $image1))
         ->assertRedirect();
@@ -132,9 +112,6 @@ test('an admin can delete an image and cover gets promoted', function () {
     // Verify image1 is deleted
     $this->assertDatabaseMissing('workshop_images', ['id' => $image1->id]);
     Storage::disk('public')->assertMissing($image1->path);
-
-    // Verify image2 is now cover
-    expect($image2->fresh()->is_cover)->toBeTrue();
 });
 
 test('an admin can reorder workshop images', function () {
@@ -162,4 +139,47 @@ test('an admin can reorder workshop images', function () {
 
     expect($image1->fresh()->sort_order)->toBe(1);
     expect($image2->fresh()->sort_order)->toBe(0);
+});
+
+test('an admin can set, replace and remove the card thumbnail', function () {
+    Storage::fake('public');
+    $admin = User::factory()->admin()->create();
+    $workshop = Workshop::factory()->create();
+
+    $this->actingAs($admin)
+        ->post(route('admin.workshops.thumbnail.store', $workshop), [
+            'thumbnail' => UploadedFile::fake()->image('thumb.jpg'),
+        ])
+        ->assertRedirect();
+
+    $firstPath = $workshop->fresh()->card_thumbnail_path;
+    Storage::disk('public')->assertExists($firstPath);
+    expect($workshop->images()->count())->toBe(0);
+
+    $this->actingAs($admin)
+        ->post(route('admin.workshops.thumbnail.store', $workshop), [
+            'thumbnail' => UploadedFile::fake()->image('thumb2.jpg'),
+        ])
+        ->assertRedirect();
+
+    Storage::disk('public')->assertMissing($firstPath);
+    $secondPath = $workshop->fresh()->card_thumbnail_path;
+    Storage::disk('public')->assertExists($secondPath);
+
+    $this->actingAs($admin)
+        ->delete(route('admin.workshops.thumbnail.destroy', $workshop))
+        ->assertRedirect();
+
+    expect($workshop->fresh()->card_thumbnail_path)->toBeNull();
+    Storage::disk('public')->assertMissing($secondPath);
+});
+
+test('non admins cannot manage the card thumbnail', function () {
+    $workshop = Workshop::factory()->create();
+
+    $this->actingAs(User::factory()->create())
+        ->post(route('admin.workshops.thumbnail.store', $workshop), [
+            'thumbnail' => UploadedFile::fake()->image('thumb.jpg'),
+        ])
+        ->assertForbidden();
 });

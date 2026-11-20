@@ -34,7 +34,7 @@ export default function WorkshopSettings({
 
     return (
         <form onSubmit={submit}>
-            <Card className="border-sidebar-border/70 shadow-sm">
+            <Card className="h-full border-sidebar-border/70 shadow-sm">
                 <CardHeader>
                     <CardTitle>Atelier (Workshop)</CardTitle>
                     <CardDescription>

@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import { Head, Link, router } from '@inertiajs/react';
 import { ArrowLeft, Trash } from 'lucide-react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -15,6 +15,7 @@ import type { Workshop } from '@/types';
 import EditWorkshopForm from './partials/EditWorkshopForm';
 import WorkshopGallery from './partials/WorkshopGallery';
 import WorkshopSessions from './partials/WorkshopSessions';
+import WorkshopThumbnail from './partials/WorkshopThumbnail';
 
 interface EditProps {
     workshop: Workshop & {
@@ -91,6 +92,7 @@ export default function Edit({ workshop }: EditProps) {
                 </div>
 
                 <EditWorkshopForm workshop={workshop} />
+                <WorkshopThumbnail workshop={workshop} />
                 <WorkshopGallery workshop={workshop} />
                 <WorkshopSessions workshop={workshop} />
             </div>

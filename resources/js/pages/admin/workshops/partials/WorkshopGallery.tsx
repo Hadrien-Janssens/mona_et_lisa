@@ -1,6 +1,18 @@
 import { useForm, router } from '@inertiajs/react';
-import * as imageRoutes from '@/routes/admin/workshop-images';
-import workshopImages from '@/routes/admin/workshops/images';
+import {
+    Loader2,
+    Plus,
+    Trash2,
+    Image as ImageIcon,
+    MoveLeft,
+    MoveRight,
+    Tag,
+    X,
+    Check,
+} from 'lucide-react';
+import { useState } from 'react';
+import InputError from '@/components/input-error';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
     Card,
@@ -11,22 +23,9 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import InputError from '@/components/input-error';
-import {
-    Loader2,
-    Plus,
-    Trash2,
-    Image as ImageIcon,
-    Star,
-    MoveLeft,
-    MoveRight,
-    Tag,
-    X,
-    Check,
-} from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { useState } from 'react';
-import { Workshop, WorkshopImage } from '@/types';
+import * as imageRoutes from '@/routes/admin/workshop-images';
+import workshopImages from '@/routes/admin/workshops/images';
+import type { Workshop, WorkshopImage } from '@/types';
 
 interface WorkshopGalleryProps {
     workshop: Workshop;
@@ -50,17 +49,25 @@ export default function WorkshopGallery({ workshop }: WorkshopGalleryProps) {
 
     const handleUploadSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!uploadData.image) return;
+
+        if (!uploadData.image) {
+            return;
+        }
 
         const routeDef = workshopImages.store(workshop.id);
         postUpload(routeDef.url, {
             forceFormData: true,
+            preserveScroll: true,
+            only: ['workshop'],
             onSuccess: () => {
                 resetUpload();
                 const fileInput = document.getElementById(
                     'image-upload-input',
                 ) as HTMLInputElement;
-                if (fileInput) fileInput.value = '';
+
+                if (fileInput) {
+                    fileInput.value = '';
+                }
             },
         });
     };
@@ -80,27 +87,32 @@ export default function WorkshopGallery({ workshop }: WorkshopGalleryProps) {
                     .filter(Boolean),
             },
             {
+                preserveScroll: true,
+                only: ['workshop'],
                 onSuccess: () => setEditingTagsId(null),
             },
         );
     };
 
-    const handleSetCover = (imageId: number) => {
-        router.patch(imageRoutes.update(imageId).url, {
-            is_cover: true,
-        });
-    };
-
     const handleDeleteImage = (imageId: number) => {
         if (confirm('Êtes-vous sûr de vouloir supprimer cette image ?')) {
-            router.delete(imageRoutes.destroy(imageId).url);
+            router.delete(imageRoutes.destroy(imageId).url, {
+                preserveScroll: true,
+                only: ['workshop'],
+            });
         }
     };
 
     const handleMove = (index: number, direction: 'up' | 'down') => {
         const imagesList = [...(workshop.images || [])];
-        if (direction === 'up' && index === 0) return;
-        if (direction === 'down' && index === imagesList.length - 1) return;
+
+        if (direction === 'up' && index === 0) {
+            return;
+        }
+
+        if (direction === 'down' && index === imagesList.length - 1) {
+            return;
+        }
 
         const targetIndex = direction === 'up' ? index - 1 : index + 1;
 
@@ -113,9 +125,16 @@ export default function WorkshopGallery({ workshop }: WorkshopGalleryProps) {
             sort_order: img.sort_order,
         }));
 
-        router.post(workshopImages.reorder(workshop.id).url, {
-            images: payload,
-        });
+        router.post(
+            workshopImages.reorder(workshop.id).url,
+            {
+                images: payload,
+            },
+            {
+                preserveScroll: true,
+                only: ['workshop'],
+            },
+        );
     };
 
     return (
@@ -124,8 +143,7 @@ export default function WorkshopGallery({ workshop }: WorkshopGalleryProps) {
                 <CardTitle>Galerie Photos</CardTitle>
                 <CardDescription>
                     Gérez les images d'illustration de cet atelier. Vous pouvez
-                    ajouter des tags à chaque image pour les trier et définir la
-                    photo de couverture.
+                    ajouter des tags à chaque image pour les trier.
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -209,11 +227,7 @@ export default function WorkshopGallery({ workshop }: WorkshopGalleryProps) {
                         {workshop.images.map((image, index) => (
                             <div
                                 key={image.id}
-                                className={`group relative flex flex-col overflow-hidden rounded-lg border bg-card transition-all duration-200 hover:shadow-md ${
-                                    image.is_cover
-                                        ? 'border-primary ring-1 ring-primary'
-                                        : 'border-sidebar-border'
-                                }`}
+                                className="group relative flex flex-col overflow-hidden rounded-lg border border-sidebar-border bg-card transition-all duration-200 hover:shadow-md"
                             >
                                 {/* Image Container */}
                                 <div className="relative aspect-video w-full overflow-hidden bg-muted">
@@ -222,11 +236,6 @@ export default function WorkshopGallery({ workshop }: WorkshopGalleryProps) {
                                         alt={`Image de ${workshop.title}`}
                                         className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                                     />
-                                    {image.is_cover && (
-                                        <div className="absolute top-2 left-2 rounded bg-primary px-2 py-0.5 text-[10px] font-semibold tracking-wider text-primary-foreground uppercase shadow">
-                                            Couverture
-                                        </div>
-                                    )}
                                 </div>
 
                                 {/* Info and action panel */}
@@ -336,22 +345,8 @@ export default function WorkshopGallery({ workshop }: WorkshopGalleryProps) {
                                             </Button>
                                         </div>
 
-                                        {/* Cover & Delete */}
+                                        {/* Delete */}
                                         <div className="flex items-center gap-2">
-                                            {!image.is_cover && (
-                                                <Button
-                                                    type="button"
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    className="h-7 w-7 text-muted-foreground hover:bg-amber-50 hover:text-amber-500 dark:hover:bg-amber-950/20"
-                                                    onClick={() =>
-                                                        handleSetCover(image.id)
-                                                    }
-                                                    title="Définir comme couverture"
-                                                >
-                                                    <Star className="h-4 w-4" />
-                                                </Button>
-                                            )}
                                             <Button
                                                 type="button"
                                                 variant="ghost"

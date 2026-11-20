@@ -30,7 +30,7 @@ export default function FooterSettings({ initialData }: { initialData: any }) {
 
     return (
         <form onSubmit={submit}>
-            <Card className="border-sidebar-border/70 shadow-sm">
+            <Card className="h-full border-sidebar-border/70 shadow-sm">
                 <CardHeader>
                     <CardTitle>Pied de page (Footer)</CardTitle>
                     <CardDescription>

@@ -3,7 +3,6 @@ export interface WorkshopImage {
     path: string;
     url: string;
     sort_order: number;
-    is_cover: boolean;
     tags: string[];
 }
 
@@ -20,6 +19,9 @@ export interface Workshop {
     title: string;
     description: string;
     summary: string | null;
+    card_thumbnail_path?: string | null;
+    card_thumbnail_url?: string | null;
+    card_thumbnail_display_path?: string | null;
     price: number;
     duration_minutes: number;
     is_active: boolean;

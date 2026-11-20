@@ -1,5 +1,6 @@
 import { Link, useForm } from '@inertiajs/react';
-import * as routes from '@/routes/admin/workshops';
+import { Loader2 } from 'lucide-react';
+import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import {
     Card,
@@ -17,9 +18,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import InputError from '@/components/input-error';
-import { Loader2 } from 'lucide-react';
-import { Workshop } from '@/types';
+import * as routes from '@/routes/admin/workshops';
+import type { Workshop } from '@/types';
 
 interface EditWorkshopFormProps {
     workshop: Workshop;

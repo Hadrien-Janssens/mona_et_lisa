@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Database\Factories\WorkshopFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-#[Fillable(['title', 'slug', 'description', 'summary', 'price', 'duration_minutes', 'is_active'])]
+#[Fillable(['title', 'slug', 'description', 'summary', 'card_thumbnail_path', 'price', 'duration_minutes', 'is_active'])]
 class Workshop extends Model
 {
     /** @use HasFactory<WorkshopFactory> */
@@ -51,12 +51,10 @@ class Workshop extends Model
     }
 
     /**
-     * Get the cover image for the workshop.
-     *
-     * @return HasOne<WorkshopImage, $this>
+     * Get the path of the card thumbnail, falling back to the first gallery image.
      */
-    public function coverImage(): HasOne
+    protected function cardThumbnailDisplayPath(): Attribute
     {
-        return $this->hasOne(WorkshopImage::class)->where('is_cover', true);
+        return Attribute::get(fn (): ?string => $this->card_thumbnail_path ?? $this->images->first()?->path);
     }
 }
